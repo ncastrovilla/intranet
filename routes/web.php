@@ -19,3 +19,13 @@ Route::get('/', function () {
 
 Route::get('/notas/ver', 'notasController@showa');
 Route::get('/notas/subir','notasController@showp');
+
+Route::get('/anotaciones','anotacionesController@showa');
+
+Route::get('/crear',function(){
+	return view('InsertModifyDeleteBD.profesor_create');
+});
+Route::get('/creara',function(){
+	return view('InsertModifyDeleteBD.alumno_create');
+});
+Route::post('/crear','IDMController@createp');
