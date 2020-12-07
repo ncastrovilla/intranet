@@ -14,5 +14,6 @@ class AnotacionesController extends Controller
 	public function showa(){
 		return view('anotaciones.ver_anotaciones');
 	}
+	
 }
 ?>

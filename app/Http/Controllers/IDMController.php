@@ -27,16 +27,5 @@ class IDMController extends Controller
 		
 		return view('InsertModifyDeleteBD.alumno_create')->with('success','Prueba correctamente realizada');
 	}
-	public function createp(Request $request){
-		$profesor = new Profesor();
-		$profesor->nombres = $request->input('nombres');
-		$profesor->apellido_paterno = $request->input('apellido_paterno');
-		$profesor->apellido_materno = $request->input('apellido_materno');
-		$profesor->rut = $request->input('rut');
-		$profesor->correo = $request->input('correo');
-		$profesor->save();
-
-		return view('InsertModifyDeleteBD.profesor_create')->with('success','Prueba correctamente realizada');
-	}
 }
 ?>

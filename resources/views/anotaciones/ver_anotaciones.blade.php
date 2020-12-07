@@ -25,8 +25,17 @@
 								<div class="box-body">
 									<div class="form-group">
 										<label for="curso">Seleccione el curso del alumno</label><br>
-										<button type="button" class="btn btn-info btn-sm btn-block" data-toggle="modal" data-target="#modal_notas" >Curso</button>
-										@include('notas.modal_notas')
+										<?php 
+											$id= DB::table('notas')
+												->select('nota')
+												->where('id','=','1')
+												->get();
+										?>
+										@foreach($id as $d)
+										<button type="button" class="btn btn-info btn-sm btn-block" data-toggle="modal" data-target="#modal_cursos">Curso</button>
+										@include('curso.modal_cursos')
+
+										@endforeach
 									</div>
 									<div class="form-group">
 										<label for="anotacion">Escriba la anotacion</label><br>
