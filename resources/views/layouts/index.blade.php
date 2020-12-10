@@ -35,7 +35,7 @@
     <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
       <i class="fas fa-bars"></i>
     </button>
-    <a class="navbar-brand mr-1" href="/intranet/public"><small style="font-size:14px">Enrique Molina Garmendia</small></a>
+    <a class="navbar-brand mr-1" href="/"><small style="font-size:14px">Enrique Molina Garmendia</small></a>
 
 
 
@@ -111,6 +111,18 @@
         <a class="nav-link" href="#">
           <i class="fas fa-fw fa-toggle-on"></i>
           <span>Calendario de Evaluaciones</span>
+        </a>
+      </li>
+      <li class="nav-item inactive">
+        <a class="nav-link" href="/profesores">
+          <i class="fas fa-chalkboard-teacher"></i>
+          <span>Profesores</span>
+        </a>
+      </li>
+      <li class="nav-item inactive">
+        <a class="nav-link" href="/alumnos">
+          <i class="fas fa-fw fa-toggle-on"></i>
+          <span>Alumnos</span>
         </a>
       </li>
 </ul>

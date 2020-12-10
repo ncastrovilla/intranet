@@ -1,13 +1,14 @@
 @extends('layouts.index')
 @section('title', 'Profesores')
 @section('contenido')
+
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
 
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
 
 <div class="row">
     <div class="col offset-md-1">
-      <h3 style="color:#2c6aa0">Profesores</h3>
+      <h3 style="color:#2c6aa0">Alumnos</h3>
     </div>
     <div class="offset-md-1">
     </div>
@@ -26,35 +27,39 @@
 										<thead>
 								        	<tr>
 								          		<th scope="col">Nombre</th>
-								          		<th scope="col">Apellido Paterno</th>
-								          		<th scope="col">Apellido Materno</th>
 								          		<th scope="col">Rut</th>
+								          		<th scope="col">Direccion</th>
 								          		<th scope="col">Correo</th>
+								          		<th scope="col">Curso</th>
 								          		<th scope="col">Modificar</th>
 								          		<th scope="col">Eliminar</th>
 								        	</tr>
 								        </thead>
-								      	@foreach($profesor as $p)
+								      	@foreach($alumno as $p)
 								      	<tbody>
 								      		<tr>
-								      			<td>{{$p->nombres_profesor}}</td>
-								      			<td>{{$p->apellido_paterno}}</td>
-								      			<td>{{$p->apellido_materno}}</td>
+								      			<td>{{$p->nombre}}</td>
 								      			<td>{{$p->rut}}</td>
+								      			<td>{{$p->direccion}}</td>
 								      			<td>{{$p->correo}}</td>
-								      			<td><a type="button" class="btn btn-info btn-sm btn-block " data-toggle="modal" data-target="#modal_edit-{{$p->id_profesor}}"><i class="fas fa-pen"></i></a></td>
-								      			<td><a type="button" class="btn btn-info btn-sm btn-block " data-toggle="modal" data-target="#modal_delete-{{$p->id_profesor}}"><i class="fas fa-trash"></i></a></td>
+								      			<td>{{$p->id_curso}}</td>
+								      			<td><form action="/alumnos/modificar" method="POST">
+								      					@csrf
+								      					<input type="text" name="llave_primaria" hidden value="{{$p->id}}">
+								      					<button type="submit"><i class="fas fa-pen"></i></button>
+								      				</form>
+								      			</td>
+								      			<td><form class="eliminar" action="/alumnos/eliminar" method="POST">
+								      					@csrf
+								      					<input type="text" name="llave_primaria" hidden value="{{$p->id}}">
+								      					<button onclick="return confirm('Estas seguro que quieres eliminar a {{$p->nombre}}');" type="submit"><i class="fas fa-trash"></i></button>
+								      				</form>
+								      			</td>
 								      		</tr>
 								      	</tbody>
-
-										@include('profesores.modal_edit')
-										@include('profesores.modal_delete')
 								      	@endforeach
 								    </table>
-								    <th scope="col">
-								    <a type="button" class="btn btn-info btn-sm btn-block " data-toggle="modal" data-target="#modal_create"><i class="fas fa-pen"></i></a>
-								    @include('profesores.modal_create')
-									</th>
+								    <button onclick="location.href='/crear'" type="button"><i class="fas fa-plus"></i></button>
 								</div>
 							</form>
 						</div>

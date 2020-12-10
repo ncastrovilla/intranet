@@ -10,9 +10,5 @@ class Curso extends Model
 
 	protected $filleable = ['nombre','codigo'];
 
-	public function asociacions(){
-		return $this->belongsToMany(Asociacions::class);
-	}
-
 }
 ?>

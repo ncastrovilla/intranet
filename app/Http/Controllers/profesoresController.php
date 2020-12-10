@@ -22,7 +22,7 @@ class ProfesoresController extends Controller
 		$profesor->correo = $request->input('correo');
 		$profesor->save();
 
-		return view('profesores.index')->with('success','Prueba correctamente realizada');
+		return Redirect('/profesores');
 	}
 	public function show(){
 		$profesor = DB::table('profesor')
@@ -39,54 +39,28 @@ class ProfesoresController extends Controller
 		return view('Profesores.modificar_profesores',compact('profesor'));
 		
 	}
-	public function delete(Request $request){
-		$id = $request->input('llave_primaria');
+	public function delete(Request $request, Profesor $profesor){
+		$id = $request->input('id');
 
-		DB::table('profesor')
-			->where('id','=',$id)
-			->delete();
+		$profesor = Profesor::find($id);
+		$profesor->delete();
 
 		return Redirect('/profesores');
 	}
 
-	public function update(Request $request){
+	public function update(Request $request, Profesor $profesor){
 
 		$id = $request->input('id');
 
-		if($request->input('nombrem')=='1'){
+		
 			
-			DB::table('profesor')
-				->where('id','=',$id)
-				->update(['nombres' => $request->input('nombres')]);
-		}
-		if($request->input('app')=='1'){
-			
-			DB::table('profesor')
-				->where('id','=',$id)
-				->update(['apellido_paterno' => $request->input('apellido_paterno')]);
-			
-		}
-		if($request->input('apm')=='1'){
-			
-			DB::table('profesor')
-				->where('id','=',$id)
-				->update(['apellido_materno' => $request->input('apellido_materno')]);
-			
-		}
-		if($request->input('rut')=='1'){
-			
-			DB::table('profesor')
-				->where('id','=',$id)
-				->update(['rut' => $request->input('rut')]);
-			
-		}
-		if($request->input('correo')=='1'){
-			
-			DB::table('profesor')
-				->where('id','=',$id)
-				->update(['correo' => $request->input('correo')]);
-			
-		}
+			$profesor = Profesor::find($id);
+			$profesor->nombres = $request->input('nombres');
+			$profesor->apellido_paterno = $request->input('apellido_paterno');
+			$profesor->apellido_materno = $request->input('apellido_materno');
+			$profesor->rut = $request->input('rut');
+			$profesor->correo = $request->input('correo');
+			$profesor->update();
 
 		return Redirect('/profesores');
 

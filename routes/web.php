@@ -28,7 +28,7 @@ Route::get('/crear',function(){
 Route::get('/creara',function(){
 	return view('InsertModifyDeleteBD.alumno_create');
 });
-Route::post('/crear','profesoresController@create');
+Route::post('/create','profesoresController@create');
 
 Route::get('/profesores','profesoresController@show');
 
@@ -37,3 +37,9 @@ Route::post('/modificar','profesoresController@modificar');
 Route::post('/update','profesoresController@update');
 
 Route::post('/eliminar','profesoresController@delete');
+
+Route::get('/alumnos','alumnosController@show');
+
+Route::post('/alumnos/modificar','alumnosController@modificar');
+
+Route::post('/alumnos/eliminar','alumnosController@delete');

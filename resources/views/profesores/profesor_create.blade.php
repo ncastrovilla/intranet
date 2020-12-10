@@ -21,7 +21,7 @@
 					<i class="fas fan-pen-square"></i>
 					<div class="card-body">
 						<div class="box box-primary">
-							<form role="form" action="/crear" method="POST" class="col offset-md-3">
+							<form role="form" action="/create" method="POST" class="col offset-md-3">
 								@csrf
 								<div class="box-body">
 									<div class="form-group">

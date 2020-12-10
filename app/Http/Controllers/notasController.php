@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Htpp\Request;
 use App\Notas;
+use App\Alumnos;
 use DB;
 use App\Comments;
 
@@ -12,9 +13,7 @@ use App\Comments;
 class NotasController extends Controller
 {
 	public function showa(){
-		$alumno = DB::table('alumnos')
-		->where('id','=','3')
-		->get();
+		$alumno = Alumnos::all();
 		return view('notas.ver_notas',compact('alumno'));
 	}
 	public function showp(){

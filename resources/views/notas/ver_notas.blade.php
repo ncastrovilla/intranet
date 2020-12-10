@@ -1,7 +1,7 @@
 @extends('layouts.index')
 @section('title', 'ver notas')
 @section('contenido')
- @include('notas.modal_notas')
+
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
 
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
@@ -28,17 +28,18 @@
                 <div class="box-body">
                   <div class="form-group">
                     <table class="table table-bordered">
-                      <thead>
+                      <tr>
                         <th scope="col">Nombres</th>
                         <th scope="col">rut</th>
                         <th scope="col">Nota</th>
-                      </thead>
+                      </tr>
                       @foreach($alumno as $a)
-                      <tbody>
-                        <td>{{$a->nombre}}</td>
-                        <td>{{$a->rut}}</td>
-                        <td><button type="button" class="btn btn-info btn-sm btn-block " data-toggle="modal" data-target="#modal_notas"><i class="fas fa-info-circle"></i></button></td>
-                      </tbody>
+                        <tr>
+                          <td>{{$a->nombre_alumnos}}</td>
+                          <td>{{$a->rut}}</td>
+                          <td><a type="button" class="btn btn-info btn-sm btn-block " data-toggle="modal" data-target="#modal_notas-{{$a->id_alumnos}}"><i class="fas fa-info-circle"></i></a></td>
+                        </tr>
+                        @include('notas.modal_notas')
                       @endforeach
                     </table>
                   </div>
@@ -48,7 +49,6 @@
           </div>
         </div>
       </div>
-      
     </div>
   </div>
 </div>

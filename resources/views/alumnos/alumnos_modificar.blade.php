@@ -1,5 +1,5 @@
 @extends('layouts.index')
-@section('title', 'modificar profesor')
+@section('title', 'modificar alumnos')
 @section('contenido')
 
 
@@ -22,46 +22,46 @@
 					<i class="fas fan-pen-square"></i>
 					<div class="card-body">
 						<div class="box box-primary">
-							<a href="/profesores"><i class="fas fa-arrow-left">Volver</i></a>
+							<a href="/alumnos"><i class="fas fa-arrow-left">Volver</i></a>
 							<form role="form" action="/update" method="POST" class="col offset-md-3">
 								@csrf
 								<div class="box-body">
-									@foreach($profesor as $p)
+									@foreach($alumno as $p)
 									<input type="text" name="id" hidden value="{{$p->id}}">
 									<div class="form-group">
 										<input type="checkbox" id="nombrem" name="nombrem" onclick="cambiarnombre(this)" value="1"> Cambiar Nombre
 									</div>
 									<div class="form-group">
-										<label for="nombre_profesor">Nombres del profesor</label><br>
-										<input type="text" id="nombres" name="nombres" value="{{$p->nombres}}" required disabled><br>
+										<label for="nombre_profesor">Nombres del alumno</label><br>
+										<input type="text" id="nombres" name="nombres" value="{{$p->nombre}}" required disabled><br>
 									</div>
 									<div class="form-group">
-										<input type="checkbox" id="app" name="app" onclick="cambiarapp(this)"> Cambiar apellido paterno
+										<input type="checkbox" id="rut" name="rut" onclick="cambiarapp(this)"> Cambiar rut
 									</div>
 									<div class="form-group">
-										<label for="ap_profesor">Apellido paterno del profesor</label><br>
-										<input type="text" id="apellido_paterno" name="apellido_paterno" value="{{$p->apellido_paterno}}"required disabled><br>
+										<label for="ap_profesor">Rut del alumno</label><br>
+										<input type="text" id="ru" name="ru" value="{{$p->rut}}"required disabled><br>
 									</div>
 									<div class="form-group">
-										<input type="checkbox" id="apm" name="apm" onclick="cambiarapm(this)"> Cambiar apellido materno
+										<input type="checkbox" id="dire" name="dire" onclick="cambiarapm(this)"> Cambiar Direccion
 									</div>
 									<div class="form-group">
-										<label for="ap_profesor">Apellido materno del profesor</label><br>
-										<input type="text" id="apellido_materno" name="apellido_materno" value="{{$p->apellido_materno}}"required disabled><br>
+										<label for="ap_profesor">Direccion del alumno</label><br>
+										<input type="text" id="direccion" name="direccion" value="{{$p->direccion}}"required disabled><br>
 									</div>
 									<div class="form-group">
-										<input type="checkbox" id="rut" name="rut" onclick="cambiarrut(this)"> Cambiar rut
+										<input type="checkbox" id="correo" name="correo" onclick="cambiarrut(this)"> Cambiar Correo
 									</div>
 									<div class="form-group">
-										<label for="rut_profesor">Rut del profesor</label><br>
-										<input type="text" id="ru" name="ru" required=""value="{{$p->rut}}" required disabled><br>
+										<label for="rut_profesor">Correo del alumno</label><br>
+										<input type="text" id="corre" name="corre" required=""value="{{$p->correo}}" required disabled><br>
 									</div>
 									<div class="form-group">
-										<input type="checkbox" id="correo" name="correo" onclick="cambiarcorreo(this)"> Cambiar correo
+										<input type="checkbox" id="cur" name="cur" onclick="cambiarcorreo(this)"> Cambiar curso
 									</div>
 									<div class="form-group">
-										<label for="rut_profesor">Correo del profesor</label><br>
-										<input type="email" id="corre" name="corre" required=""value="{{$p->correo}}" required disabled><br>
+										<label for="rut_profesor">Curso</label><br>
+										<input type="email" id="curso" name="curso" required=""value="{{$p->id_curso}}" required disabled><br>
 									</div>
 									<button type="submit">Enviar</button><br>
 									@endforeach
@@ -88,28 +88,28 @@
     }
 
     function cambiarapp(checkp){  
-    	var nombres = document.getElementById("apellido_paterno");
-    	nombres.disabled = checkp.checked ? false : true;
-    	if(!nombres.disabled){
-    		nombres.focus();
-    	}
-    }
-    function cambiarapm(checkp){  
-    	var nombres = document.getElementById("apellido_materno");
-    	nombres.disabled = checkp.checked ? false : true;
-    	if(!nombres.disabled){
-    		nombres.focus();
-    	}
-    }
-    function cambiarrut(checkp){  
     	var nombres = document.getElementById("ru");
     	nombres.disabled = checkp.checked ? false : true;
     	if(!nombres.disabled){
     		nombres.focus();
     	}
     }
-    function cambiarcorreo(checkp){  
+    function cambiarapm(checkp){  
+    	var nombres = document.getElementById("direccion");
+    	nombres.disabled = checkp.checked ? false : true;
+    	if(!nombres.disabled){
+    		nombres.focus();
+    	}
+    }
+    function cambiarrut(checkp){  
     	var nombres = document.getElementById("corre");
+    	nombres.disabled = checkp.checked ? false : true;
+    	if(!nombres.disabled){
+    		nombres.focus();
+    	}
+    }
+    function cambiarcorreo(checkp){  
+    	var nombres = document.getElementById("curso");
     	nombres.disabled = checkp.checked ? false : true;
     	if(!nombres.disabled){
     		nombres.focus();
