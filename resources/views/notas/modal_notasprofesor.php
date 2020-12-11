@@ -1,4 +1,4 @@
-<div class="modal fade bd-example-modal-lg" id="modal_notasprofesor-{{$a->nombre_asignatura}}" role="dialog">
+<div class="modal fade" id="modal_notasprofesor" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">

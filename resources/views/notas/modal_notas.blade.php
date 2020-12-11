@@ -1,4 +1,4 @@
-<div class="modal fade bd-example-modal-lg" id="modal_notas-{{$a->id_alumnos}}" role="dialog">
+<div class="modal fade bd-example-modal-lg" id="modal_notas-{{$a->id_curso}}-{{$a->id_asignatura}}" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">
@@ -15,17 +15,27 @@
                 <div class="box-body">
                   <div class="container">
                     <div class="row">
-                      <div class="col-md-4">Nota</div>
-                      <div class="col-md-4">Descripcion</div>
-                      <div class="col-md-4">Asignatura</div>
+                      <div class="col">Nombre alumno</div>
+                      <div class="col">Nota</div>
+                      <div class="col">Descripcion</div>
                     </div>
                   </div>
-                  @foreach($a->notas as $e)
+                  <?php
+
+                    $curso = DB::table('alumnos')
+                            ->join('notas','alumnos.id_alumnos','=','notas.id_alumno')
+                            ->select('alumnos.nombre_alumnos','notas.nota','notas.descripcion')
+                            ->where('alumnos.id_curso','=',$a->id_curso)
+                            ->where('notas.id_asignatura','=',$a->id_asignatura)
+                            ->get();
+
+                   ?>
+                  @foreach($curso as $e)
                   <div class="container">
-                    <div class="row align-items-start">
-                      <div class="col">{{$e->nota}}</div>
-                      <div class="col">{{$e->descripcion}}</div>
-                      <div class="col">{{$e->alumno->rut}}</div>
+                    <div class="row">
+                      <div class="col">{{$e->nombre_alumnos}}</div><br>
+                      <div class="col">{{$e->nota}}</div><br>
+                      <div class="col">{{$e->descripcion}}</div><br>
                       <div class="w-100"></div>
                     </div>
                   </div>

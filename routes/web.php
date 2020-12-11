@@ -18,6 +18,9 @@ Route::get('/', function () {
 });
 
 Route::get('/notas/ver', 'notasController@showa');
+
+Route::post('/notas/ver/curso','notasController@showp');
+
 Route::get('/notas/subir','notasController@showp');
 
 Route::get('/anotaciones','anotacionesController@showa');

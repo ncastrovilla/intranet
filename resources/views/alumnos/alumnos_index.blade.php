@@ -38,21 +38,21 @@
 								      	@foreach($alumno as $p)
 								      	<tbody>
 								      		<tr>
-								      			<td>{{$p->nombre}}</td>
+								      			<td>{{$p->nombre_alumnos}}</td>
 								      			<td>{{$p->rut}}</td>
 								      			<td>{{$p->direccion}}</td>
-								      			<td>{{$p->correo}}</td>
+								      			<td>{{$p->correo_alumnos}}</td>
 								      			<td>{{$p->id_curso}}</td>
 								      			<td><form action="/alumnos/modificar" method="POST">
 								      					@csrf
-								      					<input type="text" name="llave_primaria" hidden value="{{$p->id}}">
+								      					<input type="text" name="llave_primaria" hidden value="{{$p->id_alumnos}}">
 								      					<button type="submit"><i class="fas fa-pen"></i></button>
 								      				</form>
 								      			</td>
 								      			<td><form class="eliminar" action="/alumnos/eliminar" method="POST">
 								      					@csrf
-								      					<input type="text" name="llave_primaria" hidden value="{{$p->id}}">
-								      					<button onclick="return confirm('Estas seguro que quieres eliminar a {{$p->nombre}}');" type="submit"><i class="fas fa-trash"></i></button>
+								      					<input type="text" name="llave_primaria" hidden value="{{$p->id_alumnos}}">
+								      					<button onclick="return confirm('Estas seguro que quieres eliminar a {{$p->nombre_alumnos}}');" type="submit"><i class="fas fa-trash"></i></button>
 								      				</form>
 								      			</td>
 								      		</tr>

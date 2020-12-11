@@ -1,5 +1,5 @@
 @extends('layouts.index')
-@section('title', 'ver notas')
+@section('title', 'ver notas profesor')
 @section('contenido')
 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
@@ -29,17 +29,15 @@
                   <div class="form-group">
                     <table class="table table-bordered">
                       <tr>
-                        <th scope="col">Asignatura</th>
-                        <th scope="col">Grado</th>
-                        <th scope="col">Letra</th>
-                        <th scope="col">Ver</th>
+                        <th scope="col">Nombres</th>
+                        <th scope="col">rut</th>
+                        <th scope="col">Nota</th>
                       </tr>
                       @foreach($alumno as $a)
                         <tr>
-                          <td>{{$a->nombre_asignatura}}</td>
-                          <td>{{$a->grado}}</td>
-                          <td>{{$a->letra}}</td>
-                          <td><a type="button" class="btn btn-info btn-sm btn-block " data-toggle="modal" data-target="#modal_notas-{{$a->id_curso}}-{{$a->id_asignatura}}"><i class="fas fa-info-circle"></i></a></td>
+                          <td>{{$a->nombre_alumnos}}</td>
+                          <td>{{$a->rut}}</td>
+                          <td><a type="button" class="btn btn-info btn-sm btn-block " data-toggle="modal" data-target="#modal_notas-{{$a->id_alumnos}}"><i class="fas fa-info-circle"></i></a></td>
                         </tr>
                         @include('notas.modal_notas')
                       @endforeach
