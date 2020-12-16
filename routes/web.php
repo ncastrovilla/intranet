@@ -23,6 +23,8 @@ Route::get('/notas/ver/curso','notasController@showalumnos');
 
 Route::get('/notas/subir','notasController@showp');
 
+Route::post('/notas/upload','notasController@create');
+
 Route::get('/anotaciones','anotacionesController@showa');
 
 Route::get('/crear',function(){

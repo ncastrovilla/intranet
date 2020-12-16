@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use Illuminate\Htpp\Request;
+use Illuminate\Http\Request;
 use App\Notas;
 use App\Alumnos;
+use App\Http\Requests;
+use Illuminate\Support\Facades\Redirect;
 use DB;
 use App\Comments;
 
@@ -29,6 +31,20 @@ class NotasController extends Controller
 				->where('alumnos.id_alumnos','=','5')
 				->get();
 		return view('notas.ver_notasprofesor',compact('alumno'));
+	}
+
+	public function create(Request $request){
+			$nota = new Notas();
+			$nota->nota = $request->input('nota');
+			$nota->descripcion = $request->input('descripcion');
+			$nota->semestre = '2';
+			$nota->año = $request->input('año');
+			$nota->id_alumno = $request->input('id_alumnos');
+			$nota->id_curso = $request->input('id_curso');
+			$nota->id_profesor = $request->input('id_profesor');
+			$nota->id_asignatura = $request->input('id_asignatura');
+			$nota->save();
+		return Redirect('/notas/ver');
 	}
 }
 ?>

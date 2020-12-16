@@ -33,6 +33,7 @@
                         <th scope="col">Grado</th>
                         <th scope="col">Letra</th>
                         <th scope="col">Ver</th>
+                        <th scope="col">Subir</th>
                       </tr>
                       @foreach($alumno as $a)
                         <tr>
@@ -40,8 +41,10 @@
                           <td>{{$a->grado}}</td>
                           <td>{{$a->letra}}</td>
                           <td><a type="button" class="btn btn-info btn-sm btn-block " data-toggle="modal" data-target="#modal_notasprofesor-{{$a->id_curso}}-{{$a->id_asignatura}}"><i class="fas fa-info-circle"></i></a></td>
+                          <td><a type="button" class="btn btn-info btn-sm btn-block " data-toggle="modal" data-target="#modal_subirnotas-{{$a->id_curso}}-{{$a->id_asignatura}}"><i class="fas fa-upload"></i></a></td>
                         </tr>
                         @include('notas.modal_notasprofesor')
+                        @include('notas.modal_subirnotas')
                       @endforeach
                     </table>
                   </div>
