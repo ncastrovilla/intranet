@@ -19,7 +19,7 @@ Route::get('/', function () {
 
 Route::get('/notas/ver', 'notasController@showa');
 
-Route::post('/notas/ver/curso','notasController@showp');
+Route::get('/notas/ver/curso','notasController@showalumnos');
 
 Route::get('/notas/subir','notasController@showp');
 
@@ -46,3 +46,7 @@ Route::get('/alumnos','alumnosController@show');
 Route::post('/alumnos/modificar','alumnosController@modificar');
 
 Route::post('/alumnos/eliminar','alumnosController@delete');
+
+Route::get('/home',function(){
+	return view('welcome');
+});

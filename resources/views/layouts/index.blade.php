@@ -108,6 +108,12 @@
         </a>
       </li>
       <li class="nav-item inactive">
+        <a class="nav-link" href="/notas/ver/curso">
+          <i class="fas fa-fw fa-info-circle"></i>
+          <span>Notas Alumnos</span>
+        </a>
+      </li>
+      <li class="nav-item inactive">
         <a class="nav-link" href="#">
           <i class="fas fa-fw fa-toggle-on"></i>
           <span>Calendario de Evaluaciones</span>

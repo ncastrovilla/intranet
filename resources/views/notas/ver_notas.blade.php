@@ -39,9 +39,9 @@
                           <td>{{$a->nombre_asignatura}}</td>
                           <td>{{$a->grado}}</td>
                           <td>{{$a->letra}}</td>
-                          <td><a type="button" class="btn btn-info btn-sm btn-block " data-toggle="modal" data-target="#modal_notas-{{$a->id_curso}}-{{$a->id_asignatura}}"><i class="fas fa-info-circle"></i></a></td>
+                          <td><a type="button" class="btn btn-info btn-sm btn-block " data-toggle="modal" data-target="#modal_notasprofesor-{{$a->id_curso}}-{{$a->id_asignatura}}"><i class="fas fa-info-circle"></i></a></td>
                         </tr>
-                        @include('notas.modal_notas')
+                        @include('notas.modal_notasprofesor')
                       @endforeach
                     </table>
                   </div>

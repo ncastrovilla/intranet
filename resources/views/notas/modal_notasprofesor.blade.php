@@ -1,4 +1,4 @@
-<div class="modal fade bd-example-modal-lg" id="modal_notas-{{$a->id_alumnos}}-{{$a->id_asignatura}}" role="dialog">
+<div class="modal fade bd-example-modal-lg" id="modal_notasprofesor-{{$a->id_curso}}-{{$a->id_asignatura}}" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">
@@ -25,7 +25,7 @@
                     $curso = DB::table('alumnos')
                             ->join('notas','alumnos.id_alumnos','=','notas.id_alumno')
                             ->select('alumnos.nombre_alumnos','notas.nota','notas.descripcion')
-                            ->where('alumnos.id_alumnos','=',$a->id_alumnos)
+                            ->where('alumnos.id_curso','=',$a->id_curso)
                             ->where('notas.id_asignatura','=',$a->id_asignatura)
                             ->get();
 

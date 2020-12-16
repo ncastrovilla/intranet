@@ -30,14 +30,14 @@
                     <table class="table table-bordered">
                       <tr>
                         <th scope="col">Nombres</th>
-                        <th scope="col">rut</th>
+                        <th scope="col">Profesor</th>
                         <th scope="col">Nota</th>
                       </tr>
                       @foreach($alumno as $a)
                         <tr>
-                          <td>{{$a->nombre_alumnos}}</td>
-                          <td>{{$a->rut}}</td>
-                          <td><a type="button" class="btn btn-info btn-sm btn-block " data-toggle="modal" data-target="#modal_notas-{{$a->id_alumnos}}"><i class="fas fa-info-circle"></i></a></td>
+                          <td>{{$a->nombre_asignatura}}</td>
+                          <td>{{$a->nombres_profesor}}</td>
+                          <td><a type="button" class="btn btn-info btn-sm btn-block " data-toggle="modal" data-target="#modal_notas-{{$a->id_alumnos}}-{{$a->id_asignatura}}"><i class="fas fa-info-circle"></i></a></td>
                         </tr>
                         @include('notas.modal_notas')
                       @endforeach

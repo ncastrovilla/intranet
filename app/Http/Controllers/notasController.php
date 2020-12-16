@@ -21,9 +21,14 @@ class NotasController extends Controller
 				->get();
 		return view('notas.ver_notas',compact('alumno'));
 	}
-	public function showp(Request $request){
-		$id = $request->input('id_curso');
-		return view('notas.ver_notasprofesor');
+	public function showalumnos(){
+		$alumno = DB::table('alumnos')
+				->join('cuenta','alumnos.id_curso','=','cuenta.id_curso')
+				->join('asignatura','cuenta.id_asignatura','=','asignatura.id_asignatura')
+				->join('profesor','cuenta.id_profesor','=','profesor.id_profesor')
+				->where('alumnos.id_alumnos','=','5')
+				->get();
+		return view('notas.ver_notasprofesor',compact('alumno'));
 	}
 }
 ?>
