@@ -45,6 +45,31 @@ INSERT INTO `alumnos` (`id_alumnos`, `nombre_alumnos`, `rut`, `direccion`, `corr
 	(11, 'Colleen Langley', '16588693', 'Apartado núm.: 160, 5956 Donec Av.', 'Sed.malesuada.augue@nec.com', 2, NULL, NULL);
 /*!40000 ALTER TABLE `alumnos` ENABLE KEYS */;
 
+-- Volcando estructura para tabla intranet.anotaciones
+CREATE TABLE IF NOT EXISTS `anotaciones` (
+  `id_anotacion` int(11) NOT NULL AUTO_INCREMENT,
+  `id_alumno` int(11) NOT NULL,
+  `id_asignatura` int(11) NOT NULL,
+  `anotacion` varchar(200) NOT NULL DEFAULT '',
+  `fecha_anotacion` date NOT NULL,
+  `hora_anotacion` varchar(50) NOT NULL DEFAULT '',
+  `id_curso` int(11) NOT NULL,
+  `id_profesor` int(11) NOT NULL,
+  PRIMARY KEY (`id_anotacion`),
+  KEY `FK__alumnos` (`id_alumno`),
+  KEY `FK__asignatura` (`id_asignatura`),
+  KEY `FK__curso` (`id_curso`),
+  KEY `FK__profesor` (`id_profesor`),
+  CONSTRAINT `FK__alumnos` FOREIGN KEY (`id_alumno`) REFERENCES `alumnos` (`id_alumnos`),
+  CONSTRAINT `FK__asignatura` FOREIGN KEY (`id_asignatura`) REFERENCES `asignatura` (`id_asignatura`),
+  CONSTRAINT `FK__curso` FOREIGN KEY (`id_curso`) REFERENCES `curso` (`id_curso`),
+  CONSTRAINT `FK__profesor` FOREIGN KEY (`id_profesor`) REFERENCES `profesor` (`id_profesor`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Volcando datos para la tabla intranet.anotaciones: ~0 rows (aproximadamente)
+/*!40000 ALTER TABLE `anotaciones` DISABLE KEYS */;
+/*!40000 ALTER TABLE `anotaciones` ENABLE KEYS */;
+
 -- Volcando estructura para tabla intranet.asignatura
 CREATE TABLE IF NOT EXISTS `asignatura` (
   `id_asignatura` int(11) NOT NULL AUTO_INCREMENT,
@@ -132,6 +157,8 @@ CREATE TABLE IF NOT EXISTS `notas` (
   `id_asignatura` int(11) NOT NULL,
   `id_profesor` int(11) NOT NULL,
   `id_curso` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id_notas`),
   KEY `FK_notas_alumnos` (`id_alumno`),
   KEY `FK_notas_asignatura` (`id_asignatura`),
@@ -141,17 +168,31 @@ CREATE TABLE IF NOT EXISTS `notas` (
   CONSTRAINT `FK_notas_asignatura` FOREIGN KEY (`id_asignatura`) REFERENCES `asignatura` (`id_asignatura`),
   CONSTRAINT `FK_notas_curso` FOREIGN KEY (`id_curso`) REFERENCES `curso` (`id_curso`),
   CONSTRAINT `FK_notas_profesor` FOREIGN KEY (`id_profesor`) REFERENCES `profesor` (`id_profesor`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4;
 
--- Volcando datos para la tabla intranet.notas: ~5 rows (aproximadamente)
+-- Volcando datos para la tabla intranet.notas: ~18 rows (aproximadamente)
 /*!40000 ALTER TABLE `notas` DISABLE KEYS */;
-INSERT INTO `notas` (`id_notas`, `nota`, `descripcion`, `semestre`, `año`, `id_alumno`, `id_asignatura`, `id_profesor`, `id_curso`) VALUES
-	(1, '3.5', 'Prueba 1', '1', '2020', 3, 1, 2, 1),
-	(2, '5', 'Prueba 2', '1', '2020', 3, 1, 2, 1),
-	(3, '7', 'Prueba 1', '1', '2020', 4, 1, 2, 1),
-	(4, '5', 'Prueba 1', '1', '2020', 5, 1, 2, 2),
-	(5, '6', 'Prueba 1', '1', '2020', 7, 1, 2, 3),
-	(6, '7', 'Logaritmos', '2', '2020', 11, 1, 2, 2);
+INSERT INTO `notas` (`id_notas`, `nota`, `descripcion`, `semestre`, `año`, `id_alumno`, `id_asignatura`, `id_profesor`, `id_curso`, `created_at`, `updated_at`) VALUES
+	(1, '3.5', 'Prueba 1', '1', '2020', 3, 1, 2, 1, NULL, NULL),
+	(2, '5', 'Prueba 2', '1', '2020', 3, 1, 2, 1, NULL, NULL),
+	(3, '7', 'Prueba 1', '1', '2020', 4, 1, 2, 1, NULL, NULL),
+	(4, '5', 'Prueba 1', '1', '2020', 5, 1, 2, 2, NULL, NULL),
+	(5, '6', 'Prueba 1', '1', '2020', 7, 1, 2, 3, NULL, NULL),
+	(6, '7', 'Logaritmos', '2', '2020', 11, 1, 2, 2, NULL, NULL),
+	(7, '5', 'Pronombres', '2', '3434', 5, 2, 2, 2, '2020-12-18 03:34:14', '2020-12-18 03:34:14'),
+	(8, '6', 'Pronombres', '2', '3434', 6, 2, 2, 2, '2020-12-18 03:34:14', '2020-12-18 03:34:14'),
+	(9, '7', 'Pronombres', '2', '3434', 11, 2, 2, 2, '2020-12-18 03:34:14', '2020-12-18 03:34:14'),
+	(10, '2', 'Pronombres', '2', '2132', 7, 2, 2, 3, '2020-12-18 03:35:46', '2020-12-18 03:35:46'),
+	(11, '3', 'Pronombres', '2', '2132', 8, 2, 2, 3, '2020-12-18 03:35:46', '2020-12-18 03:35:46'),
+	(12, '34', 'Pronombres', '2', '3434', 9, 2, 2, 4, '2020-12-18 03:36:32', '2020-12-18 03:36:32'),
+	(13, '43', 'Pronombres', '2', '3434', 10, 2, 2, 4, '2020-12-18 03:36:32', '2020-12-18 03:36:32'),
+	(14, '4', 'prueba', '2', '2112', 5, 2, 2, 2, '2020-12-18 05:28:12', '2020-12-18 05:28:12'),
+	(15, '5', 'prueba', '2', '2112', 6, 2, 2, 2, '2020-12-18 05:28:12', '2020-12-18 05:28:12'),
+	(16, '6', 'prueba', '2', '2112', 11, 2, 2, 2, '2020-12-18 05:28:12', '2020-12-18 05:28:12'),
+	(17, '34', 'Prueba subir primera fila', '2', '3434', 9, 2, 2, 4, '2020-12-18 05:31:57', '2020-12-18 05:31:57'),
+	(18, '43', 'Prueba subir primera fila', '2', '3434', 10, 2, 2, 4, '2020-12-18 05:31:57', '2020-12-18 05:31:57'),
+	(19, '5', 'Prueba subir primera fila', '2', '3434', 3, 2, 2, 1, '2020-12-18 06:02:37', '2020-12-18 06:02:37'),
+	(20, '4', 'Prueba subir primera fila', '2', '3434', 4, 2, 2, 1, '2020-12-18 06:02:37', '2020-12-18 06:02:37');
 /*!40000 ALTER TABLE `notas` ENABLE KEYS */;
 
 -- Volcando estructura para tabla intranet.profesor
@@ -170,7 +211,7 @@ CREATE TABLE IF NOT EXISTS `profesor` (
 -- Volcando datos para la tabla intranet.profesor: ~4 rows (aproximadamente)
 /*!40000 ALTER TABLE `profesor` DISABLE KEYS */;
 INSERT INTO `profesor` (`id_profesor`, `nombres_profesor`, `apellido_paterno`, `apellido_materno`, `rut`, `correo`, `created_at`, `updated_at`) VALUES
-	(1, 'Raul Antonio', 'Cisternas', 'Valencia', '87518932', 'rcisternas@gmail.com', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+	(1, 'Raul Antonio', 'Cisternas', 'Valencia', '87518932', 'rcisternas@gmail.com', '0000-00-00 00:00:00', '2020-12-18 06:02:01'),
 	(2, 'Maria Fernanda', 'Vazquez', 'Moraga', '181112', 'mariaVM@gmail.co', '0000-00-00 00:00:00', '2020-12-08 02:34:40'),
 	(3, 'Roberto Eliecer', 'Castro', 'Figueroa', '93109619', 'robertoecastrof@gmail.com', '0000-00-00 00:00:00', '2020-12-08 23:43:09'),
 	(4, 'Cecilia Beatriz', 'Villa', 'Jimenez', '133085718', 'ceciliavillajimenez@gmail.com', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),

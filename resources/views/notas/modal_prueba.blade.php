@@ -1,4 +1,4 @@
-<div class="modal fade bd-example-modal-lg" id="modal_notasprofesor-{{$a->id_curso}}-{{$a->id_asignatura}}" role="dialog">
+<div class="modal fade bd-example-modal-lg" id="modal_prueba" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">
@@ -15,33 +15,19 @@
                 <div class="box-body">
                   <div class="container">
                     <div class="row">
-                      <div class="col">Alumno</div>
+                      <div class="col">Nombre alumno</div>
                       <div class="col">Nota</div>
                       <div class="col">Descripcion</div>
-                      <div class="col">Ver</div><br>
                     </div>
                   </div>
-                  <?php
-
-                    $curso = DB::table('alumnos')
-                            ->join('notas','alumnos.id_alumnos','=','notas.id_alumno')
-                            ->select('alumnos.nombre_alumnos','notas.nota','notas.descripcion')
-                            ->where('alumnos.id_curso','=',$a->id_curso)
-                            ->where('notas.id_asignatura','=',$a->id_asignatura)
-                            ->get();
-
-                   ?>
-                  @foreach($curso as $e)
                   <div class="container">
                     <div class="row">
-                      <div class="col">{{$e->nombre_alumnos}}</div><br>
-                      <div class="col">{{$e->nota}}</div><br>
-                      <div class="col">{{$e->descripcion}}</div><br>
-                      <div class="col"><a type="button" class="btn btn-info btn-sm btn-block " data-toggle="modal" data-target="#modal_prueba"><i class="fas fa-info-circle"></i></a></div>
+                      <div class="col"></div><br>
+                      <div class="col"></div><br>
+                      <div class="col"></div><br>
+                      <div class="w-100"></div>
                     </div>
                   </div>
-                  @include('notas.modal_prueba')
-                  @endforeach
                 </div>
               </div>
               <div class="modal-footer">

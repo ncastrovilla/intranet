@@ -17,6 +17,8 @@ Route::get('/', function () {
     return view('layouts.index');
 });
 
+Route::post('/notas','notasController@notasasignatura');
+
 Route::get('/notas/ver', 'notasController@showa');
 
 Route::get('/notas/ver/curso','notasController@showalumnos');

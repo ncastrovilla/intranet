@@ -23,28 +23,41 @@
         <div class="card-header">
           <i class="fas fan-pen-square"></i>
           <div class="card-body">
-            <div class="box box-primary">
+            <div class="table-responsive">
+              <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                <div class="row">
+                  <div class="col-sm-12 col-md-6">
+                    <div class="dataTables_length" id="dataTable_length">
+                      </br>
+                    </div>
+                  </div>
+                </div>
               <form role="form">
                 <div class="box-body">
-                  <div class="form-group">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                      <thead>
                       <tr>
-                        <th scope="col">Nombres</th>
+                        <th scope="col">Asignatura</th>
                         <th scope="col">Profesor</th>
                         <th scope="col">Nota</th>
                       </tr>
+                      </thead>
                       @foreach($alumno as $a)
+                      <tbody>
+                        <tr role="row" class="odd"> 
                         <tr>
                           <td>{{$a->nombre_asignatura}}</td>
-                          <td>{{$a->nombres_profesor}}</td>
+                          <td>{{$a->nombres_profesor}} {{$a->apellido_paterno}}</td>
                           <td><a type="button" class="btn btn-info btn-sm btn-block " data-toggle="modal" data-target="#modal_notas-{{$a->id_alumnos}}-{{$a->id_asignatura}}"><i class="fas fa-info-circle"></i></a></td>
                         </tr>
+                        </tr>
+                      </tbody>
                         @include('notas.modal_notas')
                       @endforeach
                     </table>
-                  </div>
                 </div>
               </form>
+            </div>
             </div>
           </div>
         </div>

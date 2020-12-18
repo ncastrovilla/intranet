@@ -23,6 +23,19 @@ class NotasController extends Controller
 				->get();
 		return view('notas.ver_notas',compact('alumno'));
 	}
+	public function notasasignatura(Request $request){
+
+		$curso = $request->input('id_curso');
+		$asignatura = $request->input('id_asignatura');
+
+		$parciales = DB::table('notas')
+				   ->select('descripcion','created_at','id_curso','id_asignatura','id_profesor')
+                   ->distinct()
+				   ->where('id_curso','=',$curso)
+				   ->where('id_asignatura','=',$asignatura)
+				   ->get();
+		return view('notas.notas_profesor',compact('parciales'));
+	}
 	public function showalumnos(){
 		$alumno = DB::table('alumnos')
 				->join('cuenta','alumnos.id_curso','=','cuenta.id_curso')

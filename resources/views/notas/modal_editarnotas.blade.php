@@ -27,12 +27,13 @@
                       <?php 
                         $descripcion = DB::table('notas')
                                       ->select('descripcion')
+                                      ->distinct()
                                       ->where('id_curso','=',$a->id_curso)
                                       ->where('id_asignatura','=',$a->id_asignatura)
                                       ->get();
                       ?>
                       @foreach($descripcion as $d)
-                      <option>{{$d->descripcion}}</option>
+                      <option value="{{$d->descripcion}}">{{$d->descripcion}}</option>
                       @endforeach
                     </select>
                       <input class="form-control" name="id_curso" type="hidden" value="{{$a->id_curso}}">

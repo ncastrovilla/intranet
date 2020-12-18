@@ -24,7 +24,6 @@
           <i class="fas fan-pen-square"></i>
           <div class="card-body">
             <div class="box box-primary">
-              <form role="form">
                 <div class="box-body">
                   <div class="form-group">
                     <table class="table table-bordered">
@@ -32,8 +31,8 @@
                         <th scope="col">Asignatura</th>
                         <th scope="col">Grado</th>
                         <th scope="col">Letra</th>
-                        <th scope="col">Ver</th>
-                        <th scope="col">Subir</th>
+                        <th scope="col">Notas</th>
+                        <th scope="col">Anotaciones</th>
                         <th scope="col">Modificar</th>
                       </tr>
                       @foreach($alumno as $a)
@@ -41,7 +40,14 @@
                           <td>{{$a->nombre_asignatura}}</td>
                           <td>{{$a->grado}}</td>
                           <td>{{$a->letra}}</td>
-                          <td><a type="button" class="btn btn-info btn-sm btn-block " data-toggle="modal" data-target="#modal_notasprofesor-{{$a->id_curso}}-{{$a->id_asignatura}}"><i class="fas fa-info-circle"></i></a></td>
+                          <td>
+                            <form action="/notas" method="post">
+                              @csrf
+                              <input type="text" name="id_curso" value="{{$a->id_curso}}" hidden>
+                              <input type="text" name="id_asignatura" value="{{$a->id_asignatura}}" hidden>
+                              <button type="submit" class="btn btn-info btn-sm btn-block "><i class="fas fa-info-circle"></i></button>
+                            </form>
+                          </td>
                           <td><a type="button" class="btn btn-info btn-sm btn-block " data-toggle="modal" data-target="#modal_subirnotas-{{$a->id_curso}}-{{$a->id_asignatura}}"><i class="fas fa-upload"></i></a></td>
                           <td><a type="button" class="btn btn-info btn-sm btn-block " data-toggle="modal" data-target="#modal_editarnotas-{{$a->id_curso}}-{{$a->id_asignatura}}"><i class="fas fa-upload"></i></a></td>
                         </tr>
@@ -52,7 +58,6 @@
                     </table>
                   </div>
                 </div>
-              </form>
             </div>
           </div>
         </div>
