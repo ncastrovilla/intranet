@@ -19,7 +19,7 @@ class NotasController extends Controller
 				->join('asignatura','cuenta.id_asignatura','=','asignatura.id_asignatura')
 				->join('curso','cuenta.id_curso','=','curso.id_curso')
 				->select('cuenta.id_curso','cuenta.id_profesor','asignatura.nombre_asignatura','cuenta.id_asignatura','curso.grado','curso.letra')
-				->where('cuenta.id_profesor','=','1')
+				->where('cuenta.id_profesor','=','2')
 				->get();
 		return view('notas.ver_notas',compact('alumno'));
 	}
@@ -34,16 +34,22 @@ class NotasController extends Controller
 	}
 
 	public function create(Request $request){
+			$alumnos = DB::table('alumnos')
+					   ->where('id_curso','=',$request->input('id_curso'))
+					   ->get();
+
+			foreach ($alumnos as $alumno) {
 			$nota = new Notas();
-			$nota->nota = $request->input('nota');
+			$nota->nota = $request->input($alumno->id_alumnos);
 			$nota->descripcion = $request->input('descripcion');
 			$nota->semestre = '2';
 			$nota->año = $request->input('año');
-			$nota->id_alumno = $request->input('id_alumnos');
+			$nota->id_alumno = $alumno->id_alumnos;
 			$nota->id_curso = $request->input('id_curso');
 			$nota->id_profesor = $request->input('id_profesor');
 			$nota->id_asignatura = $request->input('id_asignatura');
 			$nota->save();
+			}
 		return Redirect('/notas/ver');
 	}
 }

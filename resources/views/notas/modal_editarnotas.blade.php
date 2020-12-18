@@ -1,4 +1,4 @@
-<div class="modal fade bd-example-modal-lg" id="modal_subirnotas-{{$a->id_curso}}-{{$a->id_asignatura}}" role="dialog">
+<div class="modal fade bd-example-modal-lg" id="modal_editarnotas-{{$a->id_curso}}-{{$a->id_asignatura}}" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">
@@ -23,7 +23,18 @@
               <div class="modal-body">
                   <div class="box-body">
                     <label>Descripcion de la Nota</label>
-                    <input class="form-control" type="text" name="descripcion" placeholder="Descripcion"><br>
+                    <select>
+                      <?php 
+                        $descripcion = DB::table('notas')
+                                      ->select('descripcion')
+                                      ->where('id_curso','=',$a->id_curso)
+                                      ->where('id_asignatura','=',$a->id_asignatura)
+                                      ->get();
+                      ?>
+                      @foreach($descripcion as $d)
+                      <option>{{$d->descripcion}}</option>
+                      @endforeach
+                    </select>
                       <input class="form-control" name="id_curso" type="hidden" value="{{$a->id_curso}}">
                       <input class="form-control" name="id_asignatura" type="hidden" value="{{$a->id_asignatura}}">
                       <input class="form-control" name="id_profesor" type="hidden" value="{{$a->id_profesor}}">
