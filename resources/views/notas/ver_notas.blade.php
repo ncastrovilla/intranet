@@ -11,7 +11,7 @@
 <body>
 <div class="row">
     <div class="col offset-md-1">
-      <h3 style="color:#2c6aa0">Notas</h3>
+      <h3 style="color:#2c6aa0">Cursos</h3>
     </div>
     <div class="offset-md-1">
     </div>
@@ -48,12 +48,17 @@
                               <button type="submit" class="btn btn-info btn-sm btn-block "><i class="fas fa-info-circle"></i></button>
                             </form>
                           </td>
-                          <td><a type="button" class="btn btn-info btn-sm btn-block " data-toggle="modal" data-target="#modal_subirnotas-{{$a->id_curso}}-{{$a->id_asignatura}}"><i class="fas fa-upload"></i></a></td>
+                          <td>
+                            <form action="/anotaciones" method="post">
+                              @csrf
+                              <input type="text" name="id_curso" value="{{$a->id_curso}}" hidden>
+                              <input type="text" name="id_asignatura" value="{{$a->id_asignatura}}" hidden>
+                              <button type="submit" class="btn btn-info btn-sm btn-block"><i class="fas fa-book"></i></button>
+                            </form>
+                          </td>
                           <td><a type="button" class="btn btn-info btn-sm btn-block " data-toggle="modal" data-target="#modal_editarnotas-{{$a->id_curso}}-{{$a->id_asignatura}}"><i class="fas fa-upload"></i></a></td>
                         </tr>
-                        @include('notas.modal_notasprofesor')
                         @include('notas.modal_subirnotas')
-                        @include('notas.modal_editarnotas')
                       @endforeach
                     </table>
                   </div>

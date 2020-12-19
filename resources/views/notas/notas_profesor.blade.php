@@ -21,6 +21,7 @@
     <div class="col offset-md-1">
       <div class="card mb-3">
         <div class="card-header">
+      <a type="button" class="btn btn-info btn-sm" href="/notas/ver"><i class="fas fa-arrow-left"></i></a>
           <i class="fas fan-pen-square"></i>
           <div class="card-body">
             <div class="box box-primary">
@@ -37,11 +38,13 @@
                         <tr>
                           <td>{{$a->descripcion}}</td>
                           <td>{{date("d-m-Y", strtotime($a->created_at))}}</td>
-                          <td>{{$a->id_asignatura}}</td>
-                          <td></td>
+                          <td><a type="button" class="btn btn-info btn-sm btn-block " data-toggle="modal" data-target="#modal_notasprofesor-{{$a->id_curso}}-{{$a->id_asignatura}}-{{$a->descripcion}}"><i class="fas fa-info-circle"></i></a></td></td>
+                          <td><a type="button" class="btn btn-info btn-sm btn-block " data-toggle="modal" data-target="#modal_editarnotas-{{$a->id_curso}}-{{$a->id_asignatura}}-{{$a->descripcion}}"><i class="fas fa-info-circle"></i></a></td></td>
                           <td></td>
                           <td></td>
                         </tr>
+                        @include('notas.modal_notasprofesor')
+                        @include('notas.modal_editarnotas')
                       @endforeach
                     </table>
                   </div>

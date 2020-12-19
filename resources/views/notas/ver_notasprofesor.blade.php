@@ -32,7 +32,6 @@
                     </div>
                   </div>
                 </div>
-              <form role="form">
                 <div class="box-body">
                     <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
                       <thead>
@@ -56,7 +55,6 @@
                       @endforeach
                     </table>
                 </div>
-              </form>
             </div>
             </div>
           </div>

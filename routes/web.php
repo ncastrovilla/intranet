@@ -27,7 +27,9 @@ Route::get('/notas/subir','notasController@showp');
 
 Route::post('/notas/upload','notasController@create');
 
-Route::get('/anotaciones','anotacionesController@showa');
+Route::post('/notas/update','notasController@update');
+
+Route::post('/anotaciones','anotacionesController@showp');
 
 Route::get('/crear',function(){
 	return view('profesores.profesor_create');
