@@ -29,14 +29,18 @@ Route::post('/notas/upload','notasController@create');
 
 Route::post('/notas/update','notasController@update');
 
-Route::post('/anotaciones','anotacionesController@showp');
+Route::get('/anotaciones','anotacionesController@index');
 
-Route::get('/crear',function(){
-	return view('profesores.profesor_create');
-});
-Route::get('/creara',function(){
-	return view('InsertModifyDeleteBD.alumno_create');
-});
+Route::get('/calendario','calendarioController@index');
+
+Route::post('/calendario/curso','calendarioController@evaluacion');
+
+Route::post('calendario/create','calendarioController@create');
+
+Route::post('/calendario/update','calendarioController@update');
+
+Route::post('/calendario/delete','calendarioController@delete');
+
 Route::post('/create','profesoresController@create');
 
 Route::get('/profesores','profesoresController@show');

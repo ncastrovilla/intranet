@@ -114,7 +114,7 @@
         </a>
       </li>
       <li class="nav-item inactive">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="/calendario">
           <i class="fas fa-fw fa-toggle-on"></i>
           <span>Calendario de Evaluaciones</span>
         </a>

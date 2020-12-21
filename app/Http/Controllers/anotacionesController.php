@@ -22,6 +22,17 @@ class AnotacionesController extends Controller
 
 		return view('anotaciones.ver_anotaciones',compact('alumnos','id_curso','id_asignatura'));
 	}
+
+	public function index(){
+		$cursos = DB::table('cuenta')
+				->join('asignatura','cuenta.id_asignatura','=','asignatura.id_asignatura')
+				->join('curso','cuenta.id_curso','=','curso.id_curso')
+				->select('cuenta.id_curso','cuenta.id_profesor','asignatura.nombre_asignatura','cuenta.id_asignatura','curso.grado','curso.letra')
+				->where('cuenta.id_profesor','=','2')
+				->get();
+
+		return view('anotaciones.anotaciones_profesor',compact('cursos'));
+	}
 	
 }
 ?>
