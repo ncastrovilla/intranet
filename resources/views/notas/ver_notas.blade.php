@@ -28,11 +28,10 @@
                   <div class="form-group">
                     <table class="table table-bordered">
                       <tr>
-                        <th scope="col">Asignatura</th>
-                        <th scope="col">Grado</th>
-                        <th scope="col">Letra</th>
-                        <th scope="col">Notas</th>
-                        <th scope="col">Anotaciones</th>
+                        <th scope="col" style="text-align: center;">Asignatura</th>
+                        <th scope="col" style="text-align: center;">Grado</th>
+                        <th scope="col" style="text-align: center;">Letra</th>
+                        <th scope="col" style="text-align: center;">Notas</th>
                       </tr>
                       @foreach($alumno as $a)
                         <tr>
@@ -45,15 +44,8 @@
                               <input type="text" name="id_curso" value="{{$a->id_curso}}" hidden>
                               <input type="text" name="id_asignatura" value="{{$a->id_asignatura}}" hidden>
                               <button type="submit" class="btn btn-info btn-sm btn-block "><i class="fas fa-info-circle"></i></button>
-                            </form>
+                            </form> 
                           </td>
-                          <td>
-                            <form action="/anotaciones" method="post">
-                              @csrf
-                              <input type="text" name="id_curso" value="{{$a->id_curso}}" hidden>
-                              <input type="text" name="id_asignatura" value="{{$a->id_asignatura}}" hidden>
-                              <button type="submit" class="btn btn-info btn-sm btn-block"><i class="fas fa-book"></i></button>
-                            </form>
                         </tr>
                       @endforeach
                     </table>

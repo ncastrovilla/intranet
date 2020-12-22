@@ -43,23 +43,18 @@
 								      			<td>{{$p->direccion}}</td>
 								      			<td>{{$p->correo_alumnos}}</td>
 								      			<td>{{$p->id_curso}}</td>
-								      			<td><form action="/alumnos/modificar" method="POST">
-								      					@csrf
-								      					<input type="text" name="llave_primaria" hidden value="{{$p->id_alumnos}}">
-								      					<button type="submit"><i class="fas fa-pen"></i></button>
-								      				</form>
+								      			<td><a type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modal_updatealumnos-{{$p->id_alumnos}}"><i class="fas fa-pen-square" style="color: white;"></i></a>
 								      			</td>
-								      			<td><form class="eliminar" action="/alumnos/eliminar" method="POST">
-								      					@csrf
-								      					<input type="text" name="llave_primaria" hidden value="{{$p->id_alumnos}}">
-								      					<button onclick="return confirm('Estas seguro que quieres eliminar a {{$p->nombre_alumnos}}');" type="submit"><i class="fas fa-trash"></i></button>
-								      				</form>
+								      			<td><a type="button" class="btn btn-warning btn-lg" data-toggle="modal" data-target="#modal_deletealumnos-{{$p->id_alumnos}}"><i class="fas fa-trash" ></i></a>
 								      			</td>
 								      		</tr>
 								      	</tbody>
+								      	@include('alumnos.modal_updatealumnos')
+								      	@include('alumnos.modal_deletealumnos')
 								      	@endforeach
 								    </table>
-								    <button onclick="location.href='/crear'" type="button"><i class="fas fa-plus"></i></button>
+								    <a type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modal_createalumnos"><i class="fas fa-save" style="color: white;"></i></a>
+								    @include('alumnos.modal_createalumnos')
 								</div>
 							</form>
 						</div>

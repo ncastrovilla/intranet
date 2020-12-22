@@ -25,16 +25,21 @@ class NotasController extends Controller
 	}
 	public function notasasignatura(Request $request){
 
-		$curso = $request->input('id_curso');
+		$cursos = $request->input('id_curso');
 		$asignatura = $request->input('id_asignatura');
 
 		$parciales = DB::table('notas')
 				   ->select('descripcion','created_at','id_curso','id_asignatura','id_profesor')
                    ->distinct()
-				   ->where('id_curso','=',$curso)
+				   ->where('id_curso','=',$cursos)
 				   ->where('id_asignatura','=',$asignatura)
 				   ->get();
-		return view('notas.notas_profesor',compact('parciales'));
+
+		$nombre_curso = DB::table('curso')
+						->where('id_curso','=',$cursos)
+						->get();
+
+		return view('notas.notas_profesor',compact('parciales','nombre_curso','cursos','asignatura'));
 	}
 	public function showalumnos(){
 		$alumno = DB::table('alumnos')
@@ -55,8 +60,11 @@ class NotasController extends Controller
 			$nota = new Notas();
 			$nota->nota = $request->input($alumno->id_alumnos);
 			$nota->descripcion = $request->input('descripcion');
-			$nota->semestre = '2';
-			$nota->año = $request->input('año');
+			if(DATE('m')>='8')
+				$nota->semestre = '2';
+			else
+				$nota->semestre = '1';
+			$nota->año = DATE('Y');
 			$nota->id_alumno = $alumno->id_alumnos;
 			$nota->id_curso = $request->input('id_curso');
 			$nota->id_profesor = $request->input('id_profesor');

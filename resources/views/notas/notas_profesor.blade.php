@@ -11,7 +11,9 @@
 <body>
 <div class="row">
     <div class="col offset-md-1">
-      <h3 style="color:#2c6aa0">Notas</h3>
+      @foreach($nombre_curso as $curso)
+      <h3 style="color:#2c6aa0">Notas {{$curso->grado.' '.$curso->letra}}</h3>
+      @endforeach
     </div>
     <div class="offset-md-1">
     </div>
@@ -47,6 +49,8 @@
                         @include('notas.modal_editarnotas')
                       @endforeach
                     </table>
+                    <a type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal_subirnotas-{{$cursos}}-{{$asignatura}}"><i class="fas fa-plus-circle" style="color: white;"></i></a>
+                    @include('notas.modal_subirnotas')
                   </div>
                 </div>
             </div>

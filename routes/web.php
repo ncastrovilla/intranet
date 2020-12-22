@@ -53,9 +53,11 @@ Route::post('/eliminar','profesoresController@delete');
 
 Route::get('/alumnos','alumnosController@show');
 
-Route::post('/alumnos/modificar','alumnosController@modificar');
+Route::post('/alumnos/create','alumnosController@create');
 
-Route::post('/alumnos/eliminar','alumnosController@delete');
+Route::post('/alumnos/update','alumnosController@update');
+
+Route::post('/alumnos/delete','alumnosController@delete');
 
 Route::get('/home',function(){
 	return view('welcome');

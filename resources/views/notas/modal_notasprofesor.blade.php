@@ -14,10 +14,10 @@
               <div class="modal-body">
                 <div class="box-body">
                   <div class="container">
-                    <div class="row">
-                      <div class="col">Alumno</div>
-                      <div class="col">Nota</div>
-                      <div class="col">Descripcion</div>
+                    <div class="row" style="border: 5px groove; text-align: center;">
+                      <div class="col" style="border: 3px groove; text-align: center;">Alumno</div>
+                      <div class="col" style="border: 3px groove; text-align: center;">Nota</div>
+                      <div class="col" style="border: 3px groove; ">Hola</div>
                     </div>
                   </div>
                   <?php
@@ -33,10 +33,10 @@
                    ?>
                   @foreach($curso as $e)
                   <div class="container">
-                    <div class="row">
-                      <div class="col">{{$e->nombre_alumnos}}</div><br>
-                      <div class="col">{{$e->nota}}</div><br>
-                      <div class="col">{{$e->descripcion}}</div><br>
+                    <div class="row" style="border: 5px groove; text-align: center;">
+                      <div class="col" style="border: 3px groove; text-align: center;">{{$e->nombre_alumnos}}</div><br>
+                      <div class="col" style="border: 3px groove; text-align: center;">{{$e->nota}}</div><br>
+                      <div class="col" style="border: 3px groove; text-align: center;">{{$e->descripcion}}</div><br>
                     </div>
                   </div>
                   @include('notas.modal_prueba')

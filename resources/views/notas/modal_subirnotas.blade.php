@@ -1,10 +1,10 @@
-<div class="modal fade bd-example-modal-lg" id="modal_subirnotas-{{$a->id_curso}}-{{$a->id_asignatura}}" role="dialog">
+<div class="modal fade bd-example-modal-lg" id="modal_subirnotas-{{$cursos}}-{{$asignatura}}" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
               <h4 class="modal-title" align="center">
-                    Subir nueva nota al curso {{ $a->grado.' '.$a->letra }}
+                    Subir nueva nota al curso
                 </h4>
                 <button type="button" class="close" data-dismiss="modal"  
                 aria-label="Close">
@@ -17,33 +17,31 @@
               <?php 
                   $alumnos = DB::table('alumnos')
                             ->select('id_alumnos','nombre_alumnos')
-                            ->where('id_curso','=',$a->id_curso)
+                            ->where('id_curso','=',$cursos)
                             ->get();
                ?>
               <div class="modal-body">
                   <div class="box-body">
                     <label>Descripcion de la Nota</label>
                     <input class="form-control" type="text" name="descripcion" placeholder="Descripcion"><br>
-                      <input class="form-control" name="id_curso" type="hidden" value="{{$a->id_curso}}">
-                      <input class="form-control" name="id_asignatura" type="hidden" value="{{$a->id_asignatura}}">
-                      <input class="form-control" name="id_profesor" type="hidden" value="{{$a->id_profesor}}">
+                      <input class="form-control" name="id_curso" type="hidden" value="{{$cursos}}">
+                      <input class="form-control" name="id_asignatura" type="hidden" value="{{$asignatura}}">
+                      <?php 
+                        $profesor_id = DB::table('cuenta')
+                                      ->select('id_profesor')
+                                      ->where('id_curso','=',$cursos)
+                                      ->where('id_asignatura','=',$asignatura)
+                                      ->get();
+                      ?>
+                      @foreach ($profesor_id as $id_profesor)
+                      <input type="text" name="id_profesor" value="{{$id_profesor->id_profesor}}" hidden>
+                      @endforeach
                       @foreach($alumnos as $b)
                       <div class="form-group">
                         <label for="exampleInputEmail1">{{$b->nombre_alumnos}}</label>
-                        <input size="4" name="{{$b->id_alumnos}}" type="text" placeholder="Nota">
+                        <input size="1" name="{{$b->id_alumnos}}" type="text" placeholder="Nota">
                       </div>
                       @endforeach
-                      <div class="form-group">
-                        <label>Semestre</label>
-                        <select name="semestre" required>
-                            <option selected hidden>Seleccione</option>
-                            <option value="1">Primer Semestre</option>
-                            <option value="2">Segundo Semestre</option>
-                        </select>
-                        <label>Año</label>
-                        <input type="text" name="año" size="4" placeholder="Año">
-                      </div>
-                      </input>
                   </div>
               </div>
               <div class="modal-footer">
