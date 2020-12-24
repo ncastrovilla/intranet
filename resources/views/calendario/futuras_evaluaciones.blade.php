@@ -49,7 +49,8 @@
                         @include('calendario.modal_deleteevaluacion')
                       @endforeach
                     </table>
-                    <a type="button" class="btn btn-primary btn-sm " data-toggle="modal" data-target="#modal_crearevaluacion-{{$evaluacion->id_curso}}-{{$evaluacion->id_asignatura}}-{{$evaluacion->id_profesor}}"><i class="fas fa-plus-circle" style="color: white;"></i></a>
+                    <a type="button" class="btn btn-primary btn-sm " data-toggle="modal" data-target="#modal_crearevaluacion-{{$curso}}-{{$asignatura}}-{{$profesor}}"><i class="fas fa-plus-circle" style="color: white;"></i></a>
+                    @include('calendario.modal_crearevaluacion')
                   </div>
                 </div>
             </div>

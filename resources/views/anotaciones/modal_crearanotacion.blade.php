@@ -1,36 +1,37 @@
-<div class="modal fade bd-example-modal-lg" id="modal_crearevaluacion-{{$curso}}-{{$asignatura}}-{{$profesor}}" role="dialog">
+<div class="modal fade bd-example-modal-lg" id="modal_crearanotacion-{{$id_curso}}-{{$id_asignatura}}-{{$alumno->id_alumnos}}" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
+              <?php 
+                  $nombrea = DB::table('alumnos')
+                            ->select('nombre_alumnos')
+                            ->where('id_alumnos','=',$alumno->id_alumnos)
+                            ->get();
+               ?>
+              @foreach($nombrea as $nombre)
               <h4 class="modal-title" align="center">
-                    Agendar Evaluacion
+                    Nueva anotacion a {{$nombre->nombre_alumnos}}
                 </h4>
+              @endforeach
                 <button type="button" class="close" data-dismiss="modal"  
                 aria-label="Close">
                      <span aria-hidden="true"><i class="fa fa-times" aria-hidden="true"></i></span>
                 </button>
             </div>
-            <form action="/calendario/create" method="POST">
+            <form action="/anotaciones/create" method="POST">
               @csrf
               <div class="modal-body">
                   <div class="box-body">
                           <div class="form-group">
+                            <input type="text" name="id_curso" value="{{$id_curso}}" hidden>
+                            <input type="text" name="id_asignatura" value="{{$id_asignatura}}" hidden>
+                            <input type="text" name="id_alumnos" value="{{$alumno->id_alumnos}}" hidden>
                               <label for="exampleInputEmail1">
-                                  Fecha evaluacion
+                                  Anotacion
                               </label>
-                              <input class="form-control" name="fecha" type="date" required>
-                              </input>
+                              <textarea class="form-control" name="anotacion" required></textarea>
                           </div>
-                          <div class="form-group">
-                              <label for="exampleInputEmail1">
-                                  Descripcion Evaluacion
-                              </label>
-                              <input class="form-control" name="descripcion_evaluacion" type="text" required>
-                          </div>
-                          <input type="text" name="id_curso" value="{{$curso}}" hidden>
-                          <input type="text" name="id_asignatura" value="{{$asignatura}}" hidden>
-                          <input type="text" name="id_profesor" value="{{$profesor}}" hidden>
                       </input>
                   </div>
               </div>

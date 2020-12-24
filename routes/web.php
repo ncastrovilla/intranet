@@ -31,6 +31,8 @@ Route::post('/notas/update','notasController@update');
 
 Route::get('/anotaciones','anotacionesController@index');
 
+Route::get('/calendario/alumnos','calendarioController@indexalumnos');
+
 Route::get('/calendario','calendarioController@index');
 
 Route::post('/calendario/curso','calendarioController@evaluacion');

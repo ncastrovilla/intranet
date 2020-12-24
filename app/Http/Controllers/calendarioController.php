@@ -17,11 +17,27 @@ class CalendarioController extends Controller
 				->join('asignatura','cuenta.id_asignatura','=','asignatura.id_asignatura')
 				->join('curso','cuenta.id_curso','=','curso.id_curso')
 				->select('cuenta.id_curso','cuenta.id_profesor','asignatura.nombre_asignatura','cuenta.id_asignatura','curso.grado','curso.letra')
-				->where('cuenta.id_profesor','=','3')
+				->where('cuenta.id_profesor','=','1')
 				->get();
 
 		return view('calendario.calendario_profesor',compact('cursos'));
 
+	}
+
+	public function indexalumnos(){
+		$date = date('Y-m-d');
+		$fechas = DB::table('calendario')
+				->join('alumnos','alumnos.id_curso','=','calendario.id_curso')
+				->join('asignatura','asignatura.id_asignatura','=','calendario.id_asignatura')
+				->join('profesor','profesor.id_profesor','=','calendario.id_profesor')
+				->select('asignatura.nombre_asignatura','calendario.fecha_evaluacion','calendario.descripcion_evaluacion','profesor.nombres_profesor','profesor.apellido_paterno')
+				->where('alumnos.id_alumnos','=','3')
+				->wheredate('calendario.fecha_evaluacion','>=',$date)
+				->orderBY('calendario.fecha_evaluacion')
+				->get();
+
+				//echo date("d-m-Y");
+		return view('calendario.calendario_alumnos',compact('fechas'));
 	}
 
 	public function evaluacion(Request $request){
@@ -31,11 +47,15 @@ class CalendarioController extends Controller
 						->where('id_profesor','=',$request->input('id_profesor'))
 						->get();
 
-		 if ($evaluaciones == '[]') {
-		 	echo "que miray sapo qlo";
-		 }else{
-		 	return view('calendario.futuras_evaluaciones',compact('evaluaciones'));
-		 }
+		$curso = $request->input('id_curso');
+		$asignatura = $request->input('id_asignatura');
+		$profesor = $request->input('id_profesor');
+
+		 //if ($evaluaciones == '[]') {
+		 	//echo "que miray sapo qlo";
+		 //}else{
+		 	return view('calendario.futuras_evaluaciones',compact('evaluaciones','curso','asignatura','profesor'));
+		 //}
 		
 	}
 
