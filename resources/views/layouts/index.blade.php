@@ -109,8 +109,14 @@
       </li>
       <li class="nav-item inactive">
         <a class="nav-link" href="/calendario">
-          <i class="fas fa-fw fa-toggle-on"></i>
+          <i class="fas fa-fw fa-calendar-alt"></i>
           <span>Calendario de Evaluaciones</span>
+        </a>
+      </li>
+      <li class="nav-item inactive">
+        <a class="nav-link" href="/asistencia">
+          <i class="fas fa-fw fa-toggle-on"></i>
+          <span>Asistencia</span>
         </a>
       </li>
       <li class="nav-item inactive">
@@ -121,8 +127,14 @@
       </li>
       <li class="nav-item inactive">
         <a class="nav-link" href="/calendario/alumnos">
-          <i class="fas fa-fw fa-toggle-on"></i>
+          <i class="fas fa-fw fa-calendar-alt"></i>
           <span>Calendario de Evaluaciones Alumnos</span>
+        </a>
+      </li>
+      <li class="nav-item inactive">
+        <a class="nav-link" href="/asistencia/alumno">
+          <i class="fas fa-fw fa-toggle-on"></i>
+          <span>Asistencia Alumnos</span>
         </a>
       </li>
       <li class="nav-item inactive">

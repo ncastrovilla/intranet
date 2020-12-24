@@ -40,8 +40,8 @@
                         <tr>
                           <td>{{$a->descripcion}}</td>
                           <td>{{date("d-m-Y", strtotime($a->created_at))}}</td>
-                          <td><a type="button" class="btn btn-info btn-sm btn-block " data-toggle="modal" data-target="#modal_notasprofesor-{{$a->id_curso}}-{{$a->id_asignatura}}-{{$a->descripcion}}"><i class="fas fa-info-circle"></i></a></td></td>
-                          <td><a type="button" class="btn btn-info btn-sm btn-block " data-toggle="modal" data-target="#modal_editarnotas-{{$a->id_curso}}-{{$a->id_asignatura}}-{{$a->descripcion}}"><i class="fas fa-info-circle"></i></a></td></td>
+                          <td><a type="button" class="btn btn-info btn-sm btn-block " data-toggle="modal" data-target="#modal_notasprofesor-{{$a->id_notas}}"><i class="fas fa-info-circle"></i></a></td></td>
+                          <td><a type="button" class="btn btn-info btn-sm btn-block " data-toggle="modal" data-target="#modal_editarnotas-{{$a->id_notas}}"><i class="fas fa-info-circle"></i></a></td></td>
                           <td></td>
                           <td></td>
                         </tr>

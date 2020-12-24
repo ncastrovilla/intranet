@@ -1,4 +1,4 @@
-<div class="modal fade bd-example-modal-lg" id="modal_editarnotas-{{$a->id_curso}}-{{$a->id_asignatura}}-{{$a->descripcion}}" role="dialog">
+<div class="modal fade bd-example-modal-lg" id="modal_editarnotas-{{$a->id_notas}}" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">
@@ -31,10 +31,7 @@
                       <?php 
                           $descripcion = DB::table('notas')
                                       ->select('nota')
-                                      ->where('id_alumno','=',$b->id_alumnos)
-                                      ->where('descripcion','=',$a->descripcion)
-                                      ->where('id_curso','=',$a->id_curso)
-                                      ->where('id_asignatura','=',$a->id_asignatura)
+                                      ->where('id_notas','=',$a->id_notas)
                                       ->get();
 
                       ?>
@@ -45,17 +42,6 @@
                         @endforeach
                       </div>
                       @endforeach
-                      <div class="form-group">
-                        <label>Semestre</label>
-                        <select name="semestre" required>
-                            <option selected hidden>Seleccione</option>
-                            <option value="1">Primer Semestre</option>
-                            <option value="2">Segundo Semestre</option>
-                        </select>
-                        <label>Año</label>
-                        <input type="text" name="año" size="4" placeholder="Año">
-                      </div>
-                      </input>
                   </div>
               </div>
               <div class="modal-footer">

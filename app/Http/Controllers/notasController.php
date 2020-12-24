@@ -29,7 +29,7 @@ class NotasController extends Controller
 		$asignatura = $request->input('id_asignatura');
 
 		$parciales = DB::table('notas')
-				   ->select('descripcion','created_at','id_curso','id_asignatura','id_profesor')
+				   ->select('id_notas','descripcion','created_at','id_curso','id_asignatura','id_profesor')
                    ->distinct()
 				   ->where('id_curso','=',$cursos)
 				   ->where('id_asignatura','=',$asignatura)
@@ -46,18 +46,33 @@ class NotasController extends Controller
 				->join('cuenta','alumnos.id_curso','=','cuenta.id_curso')
 				->join('asignatura','cuenta.id_asignatura','=','asignatura.id_asignatura')
 				->join('profesor','cuenta.id_profesor','=','profesor.id_profesor')
-				->where('alumnos.id_alumnos','=','5')
+				->where('alumnos.id_alumnos','=','3')
 				->get();
 		return view('notas.ver_notasprofesor',compact('alumno'));
 	}
 
 	public function create(Request $request){
+
+		$asistencias = DB::table('notas')
+						->orderBy('id_notas','desc')
+						->first();
+		
+		if($asistencias==""){
+			$id_asistencias = "1";
+		}else{
+			$id_asistencias = ++$asistencias->id_notas;
+		}
+
+		echo $id_asistencias;
+		
+
 			$alumnos = DB::table('alumnos')
 					   ->where('id_curso','=',$request->input('id_curso'))
 					   ->get();
 
 			foreach ($alumnos as $alumno) {
 			$nota = new Notas();
+			$nota->id_notas = $id_asistencias;
 			$nota->nota = $request->input($alumno->id_alumnos);
 			$nota->descripcion = $request->input('descripcion');
 			if(DATE('m')>='8')

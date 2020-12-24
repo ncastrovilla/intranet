@@ -1,4 +1,4 @@
-<div class="modal fade bd-example-modal-lg" id="modal_notasprofesor-{{$a->id_curso}}-{{$a->id_asignatura}}-{{$a->descripcion}}" role="dialog">
+<div class="modal fade bd-example-modal-lg" id="modal_notasprofesor-{{$a->id_notas}}" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">
@@ -25,9 +25,7 @@
                     $curso = DB::table('alumnos')
                             ->join('notas','alumnos.id_alumnos','=','notas.id_alumno')
                             ->select('alumnos.nombre_alumnos','notas.nota','notas.descripcion')
-                            ->where('alumnos.id_curso','=',$a->id_curso)
-                            ->where('notas.id_asignatura','=',$a->id_asignatura)
-                            ->where('notas.descripcion','=',$a->descripcion)
+                            ->where('notas.id_notas','=',$a->id_notas)
                             ->get();
 
                    ?>
@@ -39,7 +37,6 @@
                       <div class="col" style="border: 3px groove; text-align: center;">{{$e->descripcion}}</div><br>
                     </div>
                   </div>
-                  @include('notas.modal_prueba')
                   @endforeach
                 </div>
               </div>

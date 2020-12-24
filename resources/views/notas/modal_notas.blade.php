@@ -14,14 +14,15 @@
               <div class="modal-body">
                 <div class="box-body">
                   <div class="container">
-                    <div class="row">
-                      <div class="col">Nombre alumno</div>
-                      <div class="col">Nota</div>
-                      <div class="col">Descripcion</div>
+                    <div class="row" style="border: 5px groove;">
+                      <div class="col" style="border: 3px groove;">Nombre alumno</div>
+                      <div class="col" style="border: 3px groove;">Nota</div>
+                      <div class="col" style="border: 3px groove;">Descripcion</div>
                     </div>
                   </div>
                   <?php
-
+                    $suma = 0;
+                    $notas = 0;
                     $curso = DB::table('alumnos')
                             ->join('notas','alumnos.id_alumnos','=','notas.id_alumno')
                             ->select('alumnos.nombre_alumnos','notas.nota','notas.descripcion')
@@ -31,15 +32,30 @@
 
                    ?>
                   @foreach($curso as $e)
+                  <?php 
+                      $suma += $e->nota;
+                      ++$notas;
+                  ?>
                   <div class="container">
-                    <div class="row">
-                      <div class="col">{{$e->nombre_alumnos}}</div><br>
-                      <div class="col">{{$e->nota}}</div><br>
-                      <div class="col">{{$e->descripcion}}</div><br>
+                    <div class="row" style="border: 5px groove;">
+                      <div class="col" style="border: 3px groove;">{{$e->nombre_alumnos}}</div><br>
+                      <div class="col" style="border: 3px groove;">{{$e->nota}}</div><br>
+                      <div class="col" style="border: 3px groove;">{{$e->descripcion}}</div><br>
                       <div class="w-100"></div>
                     </div>
                   </div>
                   @endforeach
+                  <div class="container">
+                    <div class="row" style="border: 3px solid;">
+                      <div class="col"></div>
+                      <div class="col" style="border: 3px solid;">Promedio Semestral</div>
+                      @if($suma==0 OR $notas==0)
+                      <div class="col" style="border: 3px solid;">0</div>
+                      @else
+                      <div class="col" style="border: 3px solid;">{{$suma/$notas}}</div>
+                      @endif
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="modal-footer">

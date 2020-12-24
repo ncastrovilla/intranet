@@ -36,7 +36,7 @@
                         <tr>
                           <td>{{$fecha->nombre_asignatura}}</td>
                           <td>{{$fecha->nombres_profesor.' '.$fecha->apellido_paterno}}</td>
-                          <td>{{$fecha->fecha_evaluacion}}</td>
+                          <td>{{date("d-m-Y", strtotime($fecha->fecha_evaluacion))}}</td>
                           <td>{{$fecha->descripcion_evaluacion}}</td>
                         </tr>
                       @endforeach
