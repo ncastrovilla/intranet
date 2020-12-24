@@ -61,6 +61,10 @@ Route::post('/alumnos/update','alumnosController@update');
 
 Route::post('/alumnos/delete','alumnosController@delete');
 
-Route::get('/home',function(){
-	return view('welcome');
-});
+Route::get('/asistencia','asistenciaController@indexprofesor');
+
+Route::get('/asistencia/alumno','asistenciaController@indexalumno');
+
+Route::post('/asistencia/curso','asistenciaController@asistenciaasignatura');
+
+Route::post('/asistencia/create','asistenciaController@create');
