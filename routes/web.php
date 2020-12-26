@@ -68,3 +68,15 @@ Route::get('/asistencia/alumno','asistenciaController@indexalumno');
 Route::post('/asistencia/curso','asistenciaController@asistenciaasignatura');
 
 Route::post('/asistencia/create','asistenciaController@create');
+
+Route::post('/asistencia/update','asistenciaController@update');
+
+Route::get('/pdf',function(){
+	return view('prueba');
+});
+
+Route::get('/pdfnotas','pdfController@index');
+
+Route::post('/certificado','pdfController@alumnoregular');
+
+Route::get('/certificado/notas','pdfController@notasalumno');

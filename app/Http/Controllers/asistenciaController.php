@@ -40,11 +40,12 @@ class AsistenciaController extends Controller
 		$asignatura = $request->input('id_asignatura');
 		$profesor = $request->input('id_profesor');
 		$asistencias = DB::table('asistencia')
-				   ->select('id_asistencia','fecha_asistencia')
+				   ->select('id_asistencia','fecha_asistencia','id_curso')
                    ->distinct()
 				   ->where('id_curso','=',$id_curso)
 				   ->where('id_asignatura','=',$asignatura)
 				   ->where('id_profesor','=',$profesor)
+				   ->orderBy('fecha_asistencia')
 				   ->get();
 
 		$nombre_curso = DB::table('curso')
@@ -76,7 +77,12 @@ class AsistenciaController extends Controller
 			$asistencia->id_asistencia = $id_asistencias;
 			$asistencia->id_alumnos = $alumno->id_alumnos;
 			$asistencia->fecha_asistencia = $request->input('fecha');
-			$asistencia->presente_asistencia = $request->input($alumno->id_alumnos);
+			if($request->input($alumno->id_alumnos)=='on'){
+				$asistencia->presente_asistencia = "Si";	
+			}else{
+				$asistencia->presente_asistencia = "No";
+			}
+			
 			$asistencia->id_curso = $id_curso;
 			$asistencia->id_asignatura = $request->input('id_asignatura');
 			$asistencia->id_profesor = $request->input('id_profesor');
@@ -84,8 +90,34 @@ class AsistenciaController extends Controller
 		}
 
 		return Redirect('/asistencia');
+	}
 
-		
+	public function update(Request $request,Asistencia $asistencia){
+			$id_asistencia = $request->input('id_asistencia');
+			$id_curso = $request->input('id_curso');
+
+			$alumnos = DB::table('alumnos')
+					   ->where('id_curso','=',$id_curso)
+					   ->get();
+
+			foreach ($alumnos as $alumno) {
+
+				
+				
+				if($request->input($alumno->id_alumnos)=='on'){
+				$asistencias = DB::table('asistencia')
+							  ->where('id_asistencia','=',$id_asistencia)
+							  ->where('id_alumnos','=',$alumno->id_alumnos)
+							  ->update(['presente_asistencia' => "Si"]);
+				}else{
+					$asistencias = DB::table('asistencia')
+							  ->where('id_asistencia','=',$id_asistencia)
+							  ->where('id_alumnos','=',$alumno->id_alumnos)
+							  ->update(['presente_asistencia' => "No"]);
+				
+			}
+		}
+		return Redirect('/asistencia');
 
 	}
 }

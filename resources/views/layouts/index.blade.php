@@ -154,9 +154,6 @@
 
     <div id="content-wrapper">
       <!-- CODIGO ACA-->
-
-
-
       @yield('contenido')
 
 

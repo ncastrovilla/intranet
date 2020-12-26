@@ -95,18 +95,14 @@ class NotasController extends Controller
 			$descripcion = $request->input('descripcion');
 
 			$alumnos = DB::table('alumnos')
-					   ->where('id_curso','=',$request->input('id_curso'))
 					   ->get();
 
 			foreach ($alumnos as $alumno) {
-				$buscar = ['descripcion'=>$descripcion,'id_curso'=>$id_curso,'id_asignatura'=>$id_asignatura,'id_alumno'=>$alumno->id_alumnos];
-				$notas = Notas::where($buscar)->get();
-				foreach ($notas as $n ) {
-					$id_nota = $n->id_notas;
-				}
-				$nota = Notas::find($id_nota);
-				$nota->nota = $request->input($alumno->id_alumnos);
-				$nota->update();
+				$id_notas = $request->input('id_notas');
+				$nota = DB::table('notas')
+						->where('id_notas','=',$id_notas)
+						->where('id_alumno','=',$alumno->id_alumnos)
+						->update(['nota'=> $request->input($alumno->id_alumnos)]);
 			}
 		return Redirect('/notas/ver');
 	}
