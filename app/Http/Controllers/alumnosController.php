@@ -15,10 +15,12 @@ class AlumnosController extends Controller
 {
 	public function create(Request $request){
 		$alumno = new Alumnos();
-		$alumno->nombre = $request->input('nombres');
+		$alumno->nombre_alumnos = $request->input('nombres');
+		$alumno->apellido_paterno = $request->input('apellido_paterno');
+		$alumno->apellido_materno = $request->input('apellido_materno');
 		$alumno->rut = $request->input('rut');
 		$alumno->direccion = $request->input('direccion');
-		$alumno->correo = $request->input('correo');
+		$alumno->correo_alumnos = $request->input('correo');
 		$alumno->id_curso = $request->input('id_curso');
 		$alumno->save();
 
@@ -29,64 +31,28 @@ class AlumnosController extends Controller
 					->get();
 		return view('alumnos.alumnos_index',compact('alumno'));
 	}
-	public function modificar(Request $request){
-		$id = $request->input('llave_primaria');
 
-		$alumno = DB::table('alumnos')
-					->where('id','=',$request->input('llave_primaria'))
-					->get();
-		
-		return view('alumnos.alumnos_modificar',compact('alumno'));
-		
-	}
-	public function delete(Request $request){
-		$id = $request->input('llave_primaria');
+	public function delete(Request $request, Alumnos $alumnos){
+		$id = $request->input('id');
 
-		DB::table('alumnos')
-			->where('id','=',$id)
-			->delete();
+		$alumnos = Alumnos::find($id);
+		$alumnos->delete();
 
 		return Redirect('/alumnos');
 	}
 
-	public function update(Request $request){
+	public function update(Request $request, Alumnos $alumnos){
 
 		$id = $request->input('id');
 
-		if($request->input('nombrem')=='1'){
-			
-			DB::table('alumnos')
-				->where('id','=',$id)
-				->update(['nombres' => $request->input('nombres')]);
-		}
-		if($request->input('app')=='on'){
-			
-			DB::table('alumnos')
-				->where('id','=',$id)
-				->update(['apellido_paterno' => $request->input('apellido_paterno')]);
-			
-		}
-		if($request->input('apm')=='on'){
-			
-			DB::table('alumnos')
-				->where('id','=',$id)
-				->update(['apellido_materno' => $request->input('apellido_materno')]);
-			
-		}
-		if($request->input('rut')=='on'){
-			
-			DB::table('alumnos')
-				->where('id','=',$id)
-				->update(['rut' => $request->input('ru')]);
-			
-		}
-		if($request->input('correo')=='on'){
-			
-			DB::table('alumnos')
-				->where('id','=',$id)
-				->update(['correo' => $request->input('corre')]);
-			
-		}
+		$alumnos = Alumnos::find($id);
+		$alumnos->nombre_alumnos = $request->input('nombres');
+		$alumnos->apellido_paterno = $request->input('apellido_paterno');
+		$alumnos->apellido_materno = $request->input('apellido_materno');
+		$alumnos->rut = $request->input('rut');
+		$alumnos->correo_alumnos = $request->input('correo');
+		$alumnos->direccion = $request->input('direccion');
+		$alumnos->update();
 
 		return Redirect('/alumnos');
 

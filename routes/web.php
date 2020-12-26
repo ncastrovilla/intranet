@@ -17,20 +17,32 @@ Route::get('/', function () {
     return view('layouts.index');
 });
 
+Route::post('/notas','notasController@notasasignatura');
+
 Route::get('/notas/ver', 'notasController@showa');
 
-Route::post('/notas/ver/curso','notasController@showp');
+Route::get('/notas/ver/curso','notasController@showalumnos');
 
 Route::get('/notas/subir','notasController@showp');
 
-Route::get('/anotaciones','anotacionesController@showa');
+Route::post('/notas/upload','notasController@create');
 
-Route::get('/crear',function(){
-	return view('profesores.profesor_create');
-});
-Route::get('/creara',function(){
-	return view('InsertModifyDeleteBD.alumno_create');
-});
+Route::post('/notas/update','notasController@update');
+
+Route::get('/anotaciones','anotacionesController@index');
+
+Route::get('/calendario/alumnos','calendarioController@indexalumnos');
+
+Route::get('/calendario','calendarioController@index');
+
+Route::post('/calendario/curso','calendarioController@evaluacion');
+
+Route::post('calendario/create','calendarioController@create');
+
+Route::post('/calendario/update','calendarioController@update');
+
+Route::post('/calendario/delete','calendarioController@delete');
+
 Route::post('/create','profesoresController@create');
 
 Route::get('/profesores','profesoresController@show');
@@ -43,6 +55,16 @@ Route::post('/eliminar','profesoresController@delete');
 
 Route::get('/alumnos','alumnosController@show');
 
-Route::post('/alumnos/modificar','alumnosController@modificar');
+Route::post('/alumnos/create','alumnosController@create');
 
-Route::post('/alumnos/eliminar','alumnosController@delete');
+Route::post('/alumnos/update','alumnosController@update');
+
+Route::post('/alumnos/delete','alumnosController@delete');
+
+Route::get('/asistencia','asistenciaController@indexprofesor');
+
+Route::get('/asistencia/alumno','asistenciaController@indexalumno');
+
+Route::post('/asistencia/curso','asistenciaController@asistenciaasignatura');
+
+Route::post('/asistencia/create','asistenciaController@create');

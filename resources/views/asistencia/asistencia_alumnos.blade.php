@@ -11,7 +11,7 @@
 <body>
 <div class="row">
     <div class="col offset-md-1">
-      <h3 style="color:#2c6aa0">Notas</h3>
+      <h3 style="color:#2c6aa0">Asistencia</h3>
     </div>
     <div class="offset-md-1">
     </div>
@@ -47,11 +47,11 @@
                         <tr>
                           <td>{{$a->nombre_asignatura}}</td>
                           <td>{{$a->nombres_profesor}} {{$a->apellido_paterno}}</td>
-                          <td><a type="button" class="btn btn-info btn-sm btn-block " data-toggle="modal" data-target="#modal_notas-{{$a->id_alumnos}}-{{$a->id_asignatura}}"><i class="fas fa-info-circle"></i></a></td>
+                          <td><a type="button" class="btn btn-info btn-sm btn-block " data-toggle="modal" data-target="#modal_verasistencia_alumnos-{{$a->id_alumnos}}-{{$a->id_asignatura}}"><i class="fas fa-info-circle"></i></a></td>
                         </tr>
                         </tr>
                       </tbody>
-                        @include('notas.modal_notas')
+                        @include('asistencia.modal_verasistencia_alumnos')
                       @endforeach
                     </table>
                 </div>

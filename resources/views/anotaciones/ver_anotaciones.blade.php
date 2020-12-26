@@ -18,31 +18,38 @@
 		<div class="col offset-md-1">
 			<div class="card mb-3">
 				<div class="card-header">
-					<i class="fas fan-pen-square"></i>
+      				<a type="button" class="btn btn-info btn-sm" href="/notas/ver"><i class="fas fa-arrow-left"></i></a>
 					<div class="card-body">
 						<div class="box box-primary">
-							<form role="form">
-								<div class="box-body">
-									<div class="form-group">
-										<label for="curso">Seleccione el curso del alumno</label><br>
-										<?php 
-											$id= DB::table('notas')
-												->select('nota')
-												->where('id','=','1')
-												->get();
-										?>
-										@foreach($id as $d)
-										<button type="button" class="btn btn-info btn-sm btn-block" data-toggle="modal" data-target="#modal_cursos">Curso</button>
-										@include('curso.modal_cursos')
-
-										@endforeach
-									</div>
-									<div class="form-group">
-										<label for="anotacion">Escriba la anotacion</label><br>
-										<textarea name="anotaciones" rows="5" cols="40"></textarea>
-									</div>
+							<div class="box-body">
+								<div class="form-group">
+                    				<table class="table table-bordered">
+                      					<tr>
+                      						<th scope="col">Alumnos</th>
+					                        <th scope="col">Grado</th>
+					                        <th scope="col">Letra</th>
+					                        <th scope="col">Notas</th>
+					                        <th scope="col">Anotaciones</th>
+					                        <th scope="col">Modificar</th>
+					                    </tr>
+                      					@foreach($alumnos as $alumno)
+                        				<tr>
+                          					<td>{{$alumno->nombre_alumnos}}</td>
+                          					<td></td>
+                          					<td></td>
+                          					<td></td>
+					                        <td>
+					                        	<a type="button" class="btn btn-info btn-sm btn-block " data-toggle="modal" data-target="#modal_anotacionesprofesor-{{$id_curso}}-{{$id_asignatura}}-{{$alumno->id_alumnos}}"><i class="fas fa-info"></i></a>
+					                        </td>
+					                        <td>
+					                        	<a type="button" class="btn btn-info btn-sm btn-block " data-toggle="modal" data-target="#"><i class="fas fa-upload"></i></a>
+					                        </td>
+					                        </tr>
+					                        @include('anotaciones.modal_anotacionesprofesor')
+                      @endforeach
+                    </table>
+                  </div>
 								</div>
-							</form>
 						</div>
 					</div>
 				</div>

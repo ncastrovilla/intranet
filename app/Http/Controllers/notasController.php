@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use Illuminate\Htpp\Request;
+use Illuminate\Http\Request;
 use App\Notas;
 use App\Alumnos;
+use App\Http\Requests;
+use Illuminate\Support\Facades\Redirect;
 use DB;
 use App\Comments;
 
@@ -17,13 +19,96 @@ class NotasController extends Controller
 				->join('asignatura','cuenta.id_asignatura','=','asignatura.id_asignatura')
 				->join('curso','cuenta.id_curso','=','curso.id_curso')
 				->select('cuenta.id_curso','cuenta.id_profesor','asignatura.nombre_asignatura','cuenta.id_asignatura','curso.grado','curso.letra')
-				->where('cuenta.id_profesor','=','1')
+				->where('cuenta.id_profesor','=','2')
 				->get();
 		return view('notas.ver_notas',compact('alumno'));
 	}
-	public function showp(Request $request){
-		$id = $request->input('id_curso');
-		return view('notas.ver_notasprofesor');
+	public function notasasignatura(Request $request){
+
+		$cursos = $request->input('id_curso');
+		$asignatura = $request->input('id_asignatura');
+
+		$parciales = DB::table('notas')
+				   ->select('id_notas','descripcion','created_at','id_curso','id_asignatura','id_profesor')
+                   ->distinct()
+				   ->where('id_curso','=',$cursos)
+				   ->where('id_asignatura','=',$asignatura)
+				   ->get();
+
+		$nombre_curso = DB::table('curso')
+						->where('id_curso','=',$cursos)
+						->get();
+
+		return view('notas.notas_profesor',compact('parciales','nombre_curso','cursos','asignatura'));
+	}
+	public function showalumnos(){
+		$alumno = DB::table('alumnos')
+				->join('cuenta','alumnos.id_curso','=','cuenta.id_curso')
+				->join('asignatura','cuenta.id_asignatura','=','asignatura.id_asignatura')
+				->join('profesor','cuenta.id_profesor','=','profesor.id_profesor')
+				->where('alumnos.id_alumnos','=','3')
+				->get();
+		return view('notas.ver_notasprofesor',compact('alumno'));
+	}
+
+	public function create(Request $request){
+
+		$asistencias = DB::table('notas')
+						->orderBy('id_notas','desc')
+						->first();
+		
+		if($asistencias==""){
+			$id_asistencias = "1";
+		}else{
+			$id_asistencias = ++$asistencias->id_notas;
+		}
+
+		echo $id_asistencias;
+		
+
+			$alumnos = DB::table('alumnos')
+					   ->where('id_curso','=',$request->input('id_curso'))
+					   ->get();
+
+			foreach ($alumnos as $alumno) {
+			$nota = new Notas();
+			$nota->id_notas = $id_asistencias;
+			$nota->nota = $request->input($alumno->id_alumnos);
+			$nota->descripcion = $request->input('descripcion');
+			if(DATE('m')>='8')
+				$nota->semestre = '2';
+			else
+				$nota->semestre = '1';
+			$nota->año = DATE('Y');
+			$nota->id_alumno = $alumno->id_alumnos;
+			$nota->id_curso = $request->input('id_curso');
+			$nota->id_profesor = $request->input('id_profesor');
+			$nota->id_asignatura = $request->input('id_asignatura');
+			$nota->save();
+			}
+		return Redirect('/notas/ver');
+	}
+
+	public function update(Request $request, Notas $nota){
+			$id_curso = $request->input('id_curso');
+			$id_asignatura = $request->input('id_asignatura');
+			$descripcion = $request->input('descripcion');
+
+			$alumnos = DB::table('alumnos')
+					   ->where('id_curso','=',$request->input('id_curso'))
+					   ->get();
+
+			foreach ($alumnos as $alumno) {
+				$buscar = ['descripcion'=>$descripcion,'id_curso'=>$id_curso,'id_asignatura'=>$id_asignatura,'id_alumno'=>$alumno->id_alumnos];
+				$notas = Notas::where($buscar)->get();
+				foreach ($notas as $n ) {
+					$id_nota = $n->id_notas;
+				}
+				$nota = Notas::find($id_nota);
+				$nota->nota = $request->input($alumno->id_alumnos);
+				$nota->update();
+			}
+		return Redirect('/notas/ver');
 	}
 }
 ?>

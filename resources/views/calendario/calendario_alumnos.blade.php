@@ -1,5 +1,5 @@
 @extends('layouts.index')
-@section('title', 'ver notas')
+@section('title', 'calendario profesor')
 @section('contenido')
 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
@@ -11,7 +11,7 @@
 <body>
 <div class="row">
     <div class="col offset-md-1">
-      <h3 style="color:#2c6aa0">Cursos</h3>
+      <h3 style="color:#2c6aa0">Evaluaciones Futuras</h3>
     </div>
     <div class="offset-md-1">
     </div>
@@ -21,31 +21,23 @@
     <div class="col offset-md-1">
       <div class="card mb-3">
         <div class="card-header">
-          <i class="fas fan-pen-square"></i>
           <div class="card-body">
             <div class="box box-primary">
                 <div class="box-body">
                   <div class="form-group">
                     <table class="table table-bordered">
                       <tr>
-                        <th scope="col" style="text-align: center;">Asignatura</th>
-                        <th scope="col" style="text-align: center;">Grado</th>
-                        <th scope="col" style="text-align: center;">Letra</th>
-                        <th scope="col" style="text-align: center;">Notas</th>
+                        <th scope="col">Asignatura</th>
+                        <th scope="col">Profesor</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Tema</th>
                       </tr>
-                      @foreach($alumno as $a)
+                      @foreach($fechas as $fecha)
                         <tr>
-                          <td>{{$a->nombre_asignatura}}</td>
-                          <td>{{$a->grado}}</td>
-                          <td>{{$a->letra}}</td>
-                          <td>
-                            <form action="/notas" method="post">
-                              @csrf
-                              <input type="text" name="id_curso" value="{{$a->id_curso}}" hidden>
-                              <input type="text" name="id_asignatura" value="{{$a->id_asignatura}}" hidden>
-                              <button type="submit" class="btn btn-info btn-sm btn-block "><i class="fas fa-info-circle"></i></button>
-                            </form> 
-                          </td>
+                          <td>{{$fecha->nombre_asignatura}}</td>
+                          <td>{{$fecha->nombres_profesor.' '.$fecha->apellido_paterno}}</td>
+                          <td>{{date("d-m-Y", strtotime($fecha->fecha_evaluacion))}}</td>
+                          <td>{{$fecha->descripcion_evaluacion}}</td>
                         </tr>
                       @endforeach
                     </table>

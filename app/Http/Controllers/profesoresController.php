@@ -15,7 +15,7 @@ class ProfesoresController extends Controller
 {
 	public function create(Request $request){
 		$profesor = new Profesor();
-		$profesor->nombres = $request->input('nombres');
+		$profesor->nombres_profesor = $request->input('nombres');
 		$profesor->apellido_paterno = $request->input('apellido_paterno');
 		$profesor->apellido_materno = $request->input('apellido_materno');
 		$profesor->rut = $request->input('rut');
@@ -33,7 +33,7 @@ class ProfesoresController extends Controller
 		$id = $request->input('llave_primaria');
 
 		$profesor = DB::table('profesor')
-					->where('profesor.id','=',$request->input('llave_primaria'))
+					->where('profesor.id_profesor','=',$request->input('llave_primaria'))
 					->get();
 		
 		return view('Profesores.modificar_profesores',compact('profesor'));
@@ -55,7 +55,7 @@ class ProfesoresController extends Controller
 		
 			
 			$profesor = Profesor::find($id);
-			$profesor->nombres = $request->input('nombres');
+			$profesor->nombres_profesor = $request->input('nombres');
 			$profesor->apellido_paterno = $request->input('apellido_paterno');
 			$profesor->apellido_materno = $request->input('apellido_materno');
 			$profesor->rut = $request->input('rut');

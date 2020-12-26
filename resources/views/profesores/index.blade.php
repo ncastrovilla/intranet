@@ -20,7 +20,6 @@
 					<i class="fas fan-pen-square"></i>
 					<div class="card-body">
 						<div class="box box-primary">
-							<form role="form">
 								<div class="box-body">
 									<table class="table table-bordered">
 										<thead>
@@ -34,8 +33,8 @@
 								          		<th scope="col">Eliminar</th>
 								        	</tr>
 								        </thead>
+								        <tbody>
 								      	@foreach($profesor as $p)
-								      	<tbody>
 								      		<tr>
 								      			<td>{{$p->nombres_profesor}}</td>
 								      			<td>{{$p->apellido_paterno}}</td>
@@ -45,18 +44,14 @@
 								      			<td><a type="button" class="btn btn-info btn-sm btn-block " data-toggle="modal" data-target="#modal_edit-{{$p->id_profesor}}"><i class="fas fa-pen"></i></a></td>
 								      			<td><a type="button" class="btn btn-info btn-sm btn-block " data-toggle="modal" data-target="#modal_delete-{{$p->id_profesor}}"><i class="fas fa-trash"></i></a></td>
 								      		</tr>
+								      		@include('profesores.modal_edit')
+											@include('profesores.modal_delete')
+								      		@endforeach
 								      	</tbody>
-
-										@include('profesores.modal_edit')
-										@include('profesores.modal_delete')
-								      	@endforeach
 								    </table>
-								    <th scope="col">
-								    <a type="button" class="btn btn-info btn-sm btn-block " data-toggle="modal" data-target="#modal_create"><i class="fas fa-pen"></i></a>
+								    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modal_create"><i class="fas fa-plus"></i></a></button>
 								    @include('profesores.modal_create')
-									</th>
 								</div>
-							</form>
 						</div>
 					</div>
 				</div>

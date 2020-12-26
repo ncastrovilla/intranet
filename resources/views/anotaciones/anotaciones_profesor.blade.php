@@ -1,5 +1,5 @@
 @extends('layouts.index')
-@section('title', 'ver notas')
+@section('title', 'calendario profesor')
 @section('contenido')
 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
@@ -28,23 +28,21 @@
                   <div class="form-group">
                     <table class="table table-bordered">
                       <tr>
-                        <th scope="col" style="text-align: center;">Asignatura</th>
-                        <th scope="col" style="text-align: center;">Grado</th>
-                        <th scope="col" style="text-align: center;">Letra</th>
-                        <th scope="col" style="text-align: center;">Notas</th>
+                        <th scope="col">Asignatura</th>
+                        <th scope="col">Grado</th>
+                        <th scope="col">Letra</th>
+                        <th scope="col">Ver</th>
+                        <th scope="col">Modificar</th>
+                        <th scope="col">Eliminar</th>
                       </tr>
-                      @foreach($alumno as $a)
+                      @foreach($cursos as $curso)
                         <tr>
-                          <td>{{$a->nombre_asignatura}}</td>
-                          <td>{{$a->grado}}</td>
-                          <td>{{$a->letra}}</td>
+                          <td>{{$curso->nombre_asignatura}}</td>
+                          <td>{{$curso->grado}}</td>
+                          <td>{{$curso->letra}}</td>
                           <td>
-                            <form action="/notas" method="post">
-                              @csrf
-                              <input type="text" name="id_curso" value="{{$a->id_curso}}" hidden>
-                              <input type="text" name="id_asignatura" value="{{$a->id_asignatura}}" hidden>
-                              <button type="submit" class="btn btn-info btn-sm btn-block "><i class="fas fa-info-circle"></i></button>
-                            </form> 
+                          </td>
+                          <td>
                           </td>
                         </tr>
                       @endforeach
