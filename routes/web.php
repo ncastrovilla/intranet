@@ -77,6 +77,8 @@ Route::get('/pdf',function(){
 
 Route::get('/pdfnotas','pdfController@index');
 
+Route::get('/certificado/notas','pdfController@indexnotasa');
+
 Route::post('/certificado','pdfController@alumnoregular');
 
-Route::get('/certificado/notas','pdfController@notasalumno');
+Route::post('/certificado/notas/alumno','pdfController@notasalumno');

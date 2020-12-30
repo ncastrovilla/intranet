@@ -27,13 +27,27 @@ class PDFController extends Controller{
 		return view('certificados.prueba2',compact('alumno'));
 	}
 
-	public function notasalumno(){
-		$alumno = Alumnos::all()->where('id_curso',1);
-		foreach($alumno as $a){
-		$curso = Curso::all()->where('id_curso',$a->id_curso);
-		}
-		$pdf = PDF::loadview('certificados.certificado_notaalumno',compact('alumno','curso'));
+	public function indexnotasa(){
+		$alumno = Alumnos::all()->where('id_alumnos',3);
+		return view('certificados.sacar_certificadonotas_alumno',compact('alumno'));
+	}
+
+	public function notasalumno(Request $request){
+		$semestre=$request->input('semestre'); 
+		$alumno = Alumnos::where('id_alumnos',$request->input('id'))->first();
+		$curso = Curso::where('id_curso',$alumno->id_curso)->first();
+		$asignatura = DB::table('cuenta')
+					  ->where('id_curso','=',$alumno->id_curso)
+					  ->get();
+
+
+
+		$pdf = PDF::loadview('certificados.certificado_notaalumno',compact('alumno','curso','asignatura','semestre'));
 		return $pdf->stream();
+			
+	}
+
+	public function notasasignaturas(){
 
 	}
 }

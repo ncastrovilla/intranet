@@ -3,8 +3,12 @@
 @section('title', 'Certificados')  
 
 @section('contenido')
+
+<?php 
+    use App\Curso;
+?>
 <!-- INDEX NOTAS -->
-<section class="content-header" style="background-color: skyblue;">
+<section class="content-header" >
     <h1>
         Solicitud de Certificado
     </h1>
@@ -26,7 +30,7 @@
                     </h3>
                 </div>
                 <!-- /.box-header -->
-                <form action="/certificado" method="post" target="_blank">
+                <form action="/certificado/notas/alumno" method="post" target="_blank">
                 <div class="col-md-12">
                     <div class="row">
                             </br>
@@ -54,7 +58,8 @@
                             <div class="col-xs-12 col-lg-6">
                                 <div class="form-group">
                                     <label class="col-sm-2 col-xs-12" style="color:#2c6aa0;font-family:calibri">Curso</label>
-                                    <label class="col-sm-9 col-xs-12" style="color:#393939;font-family:calibri">Alumno nomas po</label>
+                                    <?php $curso = Curso::where('id_curso',$a->id_curso)->first(); ?>
+                                    <label class="col-sm-9 col-xs-12" style="color:#393939;font-family:calibri">{{$curso->grado.' '.$curso->letra}}</label>
                                 </div>
                             </div>
                                                            
@@ -100,12 +105,25 @@
                                     <div class="col-sm-9 col-xs-12">
                                         <select class="form-control" name="tipo" required>
                                             <option value="" hidden>-- Seleccione --</option>
-                                            <option value="1">Alumno Regular</option>
+                                            <option value="1">Concentracion de notas</option>
                                           </select>
                                     </div>
                                 </div>
                             </div>
-                            <input class="hidden" name="rut" type="text" value="{{$a->id_alumnos}}" hidden>
+
+                            <div class="col-xs-12 col-lg-6">
+                                <div class="form-group">
+                                    <label class="col-sm-3 col-xs-12" style="color:#2c6aa0;font-family:calibri; font-size: 25px;">Semestre</label>
+                                    <div class="col-sm-9 col-xs-12">
+                                        <select class="form-control" name="semestre" required>
+                                            <option value="" hidden>-- Seleccione --</option>
+                                            <option value="1">Primer</option>
+                                            <option value="2">Segundo</option>
+                                          </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <input class="hidden" name="id" type="text" value="{{$a->id_alumnos}}" hidden>
                             @endforeach
                                         
                     </div>
