@@ -75,10 +75,12 @@ Route::get('/pdf',function(){
 	return view('prueba');
 });
 
-Route::get('/pdfnotas','pdfController@index');
+Route::get('/certificado/alumnoregular','pdfController@index');
 
 Route::get('/certificado/notas','pdfController@indexnotasa');
 
 Route::post('/certificado','pdfController@alumnoregular');
 
 Route::post('/certificado/notas/alumno','pdfController@notasalumno');
+
+Route::post('/certificado/notas/curso','pdfController@notasasignaturas');

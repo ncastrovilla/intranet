@@ -24,7 +24,7 @@ class PDFController extends Controller{
 
 	public function index(){
 		$alumno = Alumnos::all()->where('id_alumnos',3);
-		return view('certificados.prueba2',compact('alumno'));
+		return view('certificados.sacar_certificadoalumnoregular',compact('alumno'));
 	}
 
 	public function indexnotasa(){
@@ -47,8 +47,12 @@ class PDFController extends Controller{
 			
 	}
 
-	public function notasasignaturas(){
-
+	public function notasasignaturas(Request $request){
+		$asignatura = $request->input('id_asignatura');
+		$curso = $request->input('id_curso');
+		
+		$pdf = PDF::loadview('certificados.certificado_notascurso',compact('asignatura','curso'));
+		return $pdf->stream();
 	}
 }
 

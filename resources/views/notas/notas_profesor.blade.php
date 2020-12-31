@@ -2,6 +2,10 @@
 @section('title', 'Notas Profesor')
 @section('contenido')
 
+<?php use App\Asignatura;
+      $nombre = Asignatura::where('id_asignatura',$asignatura)->first();
+ ?>
+
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
 
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
@@ -12,7 +16,7 @@
 <div class="row">
     <div class="col offset-md-1">
       @foreach($nombre_curso as $curso)
-      <h3 style="color:#2c6aa0">Notas {{$curso->grado.' '.$curso->letra}}</h3>
+      <h3 style="color:#2c6aa0">Notas {{$nombre->nombre_asignatura.' '.$curso->grado.' '.$curso->letra}}</h3>
       @endforeach
     </div>
     <div class="offset-md-1">
@@ -51,6 +55,14 @@
                     </table>
                     <a type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal_subirnotas-{{$cursos}}-{{$asignatura}}"><i class="fas fa-plus-circle" style="color: white;"></i></a>
                     @include('notas.modal_subirnotas')
+                  </div>
+                  <div class="form-group">
+                    <form action="/certificado/notas/curso" method="post" target="_blank">
+                      @csrf
+                      <input type="text" name="id_curso" value="{{$cursos}}" hidden>
+                      <input type="text" name="id_asignatura" value="{{$asignatura}}" hidden>
+                      <button type="submit" class="btn btn-info btn-sm"><i class="fas fa-file" style="color: white;"></i></button>
+                    </form>
                   </div>
                 </div>
             </div>

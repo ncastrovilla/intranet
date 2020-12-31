@@ -9,7 +9,7 @@
   <link rel="shortcut icon" type="image/png" href="/images/descarga.png"/>
 
 
-  <title>Intranet EMG</title>
+  <title>Intranet EMG </title>
 
 <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
 
@@ -81,6 +81,7 @@
 
       <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
         <a class="dropdown-item" href="/misdatos">Mis datos</a>
+        <a class="dropdown-item" href="/">Cerrar Sesion</a>
         <div class="dropdown-divider"></div>
       </div>
     </div>
@@ -93,6 +94,9 @@
   <div id="wrapper">
 
     <!-- Sidebar -->
+     <aside class="main-sidebar">
+                <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
 
     <ul class="sidebar navbar-nav">
       <li class="nav-item inactive">
@@ -120,6 +124,12 @@
         </a>
       </li>
       <li class="nav-item inactive">
+        <a class="nav-link" href="">
+          <i class="fas fa-fw fa-info-circle"></i>
+          <span>Certificados Profesor</span>
+        </a>
+      </li>
+      <li class="nav-item inactive">
         <a class="nav-link" href="/notas/ver/curso">
           <i class="fas fa-fw fa-info-circle"></i>
           <span>Notas Alumnos</span>
@@ -138,6 +148,18 @@
         </a>
       </li>
       <li class="nav-item inactive">
+        <a class="nav-link" href="/certificado/alumnoregular">
+          <i class="fas fa-fw fa-info-circle"></i>
+          <span>Cert. Alumno Regular</span>
+        </a>
+      </li>
+      <li class="nav-item inactive">
+        <a class="nav-link" href="/certificado/notas">
+          <i class="fas fa-fw fa-info-circle"></i>
+          <span>Cert. Notas</span>
+        </a>
+      </li>
+      <li class="nav-item inactive">
         <a class="nav-link" href="/profesores">
           <i class="fas fa-chalkboard-teacher"></i>
           <span>Profesores</span>
@@ -151,7 +173,8 @@
       </li>
 </ul>
     </ul>
-
+</section>
+</aside>
     <div id="content-wrapper">
       <!-- CODIGO ACA-->
       @yield('contenido')
