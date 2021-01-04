@@ -36,7 +36,11 @@
                       <div class="form-group">
                         <label for="exampleInputEmail1">{{$b->nombre_alumnos}}</label>
                         @foreach($descripcion as $d)
+                        @if($d->nota!="")
                         <input size="4" name="{{$b->id_alumnos}}" type="text" value="{{$d->nota}}">
+                        @else
+                        <input size="4" type="text" name="{{$b->id_alumnos}}">
+                        @endif
                         @endforeach
                       </div>
                       @endforeach

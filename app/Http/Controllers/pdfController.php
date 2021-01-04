@@ -14,7 +14,7 @@ use App\Comments;
 class PDFController extends Controller{
 	
 	public function alumnoregular(Request $request){
-		$alumno = Alumnos::all()->where('id_alumnos',$request->input('rut'));
+		$alumno = Alumnos::all()->where('rut',auth()->user()->rut);
 		foreach ($alumno as $a ) {
 		$curso = Curso::all()->where('id_curso',$a->id_curso);
 		}
@@ -23,18 +23,18 @@ class PDFController extends Controller{
 	}
 
 	public function index(){
-		$alumno = Alumnos::all()->where('id_alumnos',3);
+		$alumno = Alumnos::all()->where('rut',auth()->user()->rut);
 		return view('certificados.sacar_certificadoalumnoregular',compact('alumno'));
 	}
 
 	public function indexnotasa(){
-		$alumno = Alumnos::all()->where('id_alumnos',3);
+		$alumno = Alumnos::all()->where('rut',auth()->user()->rut);
 		return view('certificados.sacar_certificadonotas_alumno',compact('alumno'));
 	}
 
 	public function notasalumno(Request $request){
 		$semestre=$request->input('semestre'); 
-		$alumno = Alumnos::where('id_alumnos',$request->input('id'))->first();
+		$alumno = Alumnos::where('rut',auth()->user()->rut)->first();
 		$curso = Curso::where('id_curso',$alumno->id_curso)->first();
 		$asignatura = DB::table('cuenta')
 					  ->where('id_curso','=',$alumno->id_curso)

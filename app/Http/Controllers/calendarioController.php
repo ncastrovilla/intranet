@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Calendario;
+use App\Alumnos;
+use App\Profesor;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use DB;
@@ -13,11 +15,12 @@ use App\Comments;
 class CalendarioController extends Controller
 {
 	public function index(){
+		$profesor = Profesor::where('rut',auth()->user()->rut)->first();
 		$cursos = DB::table('cuenta')
 				->join('asignatura','cuenta.id_asignatura','=','asignatura.id_asignatura')
 				->join('curso','cuenta.id_curso','=','curso.id_curso')
 				->select('cuenta.id_curso','cuenta.id_profesor','asignatura.nombre_asignatura','cuenta.id_asignatura','curso.grado','curso.letra')
-				->where('cuenta.id_profesor','=','1')
+				->where('cuenta.id_profesor','=',$profesor->id_profesor)
 				->get();
 
 		return view('calendario.calendario_profesor',compact('cursos'));
@@ -25,13 +28,14 @@ class CalendarioController extends Controller
 	}
 
 	public function indexalumnos(){
+		$alumno = Alumnos::where('rut',auth()->user()->rut)->first();
 		$date = date('Y-m-d');
 		$fechas = DB::table('calendario')
 				->join('alumnos','alumnos.id_curso','=','calendario.id_curso')
 				->join('asignatura','asignatura.id_asignatura','=','calendario.id_asignatura')
 				->join('profesor','profesor.id_profesor','=','calendario.id_profesor')
 				->select('asignatura.nombre_asignatura','calendario.fecha_evaluacion','calendario.descripcion_evaluacion','profesor.nombres_profesor','profesor.apellido_paterno')
-				->where('alumnos.id_alumnos','=','3')
+				->where('alumnos.id_alumnos','=',$alumno->id_alumnos)
 				->wheredate('calendario.fecha_evaluacion','>=',$date)
 				->orderBY('calendario.fecha_evaluacion')
 				->get();

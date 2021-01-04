@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Profesor;
+use App\Alumnos;
 use Illuminate\Http\Request;
 use App\Asistencia;
 use App\Http\Requests;
@@ -14,22 +16,24 @@ use App\Comments;
 class AsistenciaController extends Controller
 {
 	public function indexprofesor(){
+		$profesor = Profesor::where('rut',auth()->user()->rut)->first();
 		$cursos = DB::table('cuenta')
 				->join('asignatura','cuenta.id_asignatura','=','asignatura.id_asignatura')
 				->join('curso','cuenta.id_curso','=','curso.id_curso')
 				->select('cuenta.id_curso','cuenta.id_profesor','asignatura.nombre_asignatura','cuenta.id_asignatura','curso.grado','curso.letra')
-				->where('cuenta.id_profesor','=','3')
+				->where('cuenta.id_profesor','=',$profesor->id_profesor)
 				->get();
 
 		return view('asistencia.asistencia_profesor',compact('cursos'));
 	}
 
 	public function indexalumno(){
+		$id = Alumnos::where('rut',auth()->user()->rut)->first();
 		$alumno = DB::table('alumnos')
 				->join('cuenta','alumnos.id_curso','=','cuenta.id_curso')
 				->join('asignatura','cuenta.id_asignatura','=','asignatura.id_asignatura')
 				->join('profesor','cuenta.id_profesor','=','profesor.id_profesor')
-				->where('alumnos.id_alumnos','=','3')
+				->where('alumnos.id_alumnos','=',$id->id_alumnos)
 				->get();
 				
 		return view('asistencia.asistencia_alumnos',compact('alumno'));

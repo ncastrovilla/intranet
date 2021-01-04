@@ -105,8 +105,7 @@ use App\Notas;
                  $faltantes = Notas::where('id_alumno','=',$alumno->id_alumnos)->where('año',date('Y'))->where('semestre',$semestre)->where('id_asignatura',$asignaturas->id_asignatura)->count();
                                         ?>
 
-                                        @for($i=1; $i<11-$faltantes; $i++)
-                                            
+                                        @for($i=$faltantes; $i<11; $i++)
                                             <td></td>
                                         @endfor
                 @if($faltantes==0)

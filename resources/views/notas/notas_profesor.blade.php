@@ -35,19 +35,23 @@
                   <div class="form-group">
                     <table class="table table-bordered">
                       <tr>
+                        <thead>
                         <th scope="col">Descripcion de la nota</th>
                         <th scope="col">Fecha</th>
                         <th scope="col">Ver</th>
                         <th scope="col">Modificar</th>
+                        </thead>
                       </tr>
                       @foreach($parciales as $a)
                         <tr>
+                          <thead>
                           <td>{{$a->descripcion}}</td>
                           <td>{{date("d-m-Y", strtotime($a->created_at))}}</td>
                           <td><a type="button" class="btn btn-info btn-sm btn-block " data-toggle="modal" data-target="#modal_notasprofesor-{{$a->id_notas}}"><i class="fas fa-info-circle"></i></a></td></td>
                           <td><a type="button" class="btn btn-info btn-sm btn-block " data-toggle="modal" data-target="#modal_editarnotas-{{$a->id_notas}}"><i class="fas fa-info-circle"></i></a></td></td>
                           <td></td>
                           <td></td>
+                          </thead>
                         </tr>
                         @include('notas.modal_notasprofesor')
                         @include('notas.modal_editarnotas')
