@@ -31,6 +31,8 @@
 								          		<th scope="col">Correo</th>
 								          		<th scope="col">Modificar</th>
 								          		<th scope="col">Eliminar</th>
+								          		<th>Ver asignaturas</th>
+								          		<th scope="col">Asignar asigatura</th>
 								        	</tr>
 								        </thead>
 								        <tbody>
@@ -41,15 +43,19 @@
 								      			<td>{{$p->apellido_materno}}</td>
 								      			<td>{{$p->rut}}</td>
 								      			<td>{{$p->correo}}</td>
-								      			<td><a type="button" class="btn btn-info btn-sm btn-block " data-toggle="modal" data-target="#modal_edit-{{$p->id_profesor}}"><i class="fas fa-pen"></i></a></td>
-								      			<td><a type="button" class="btn btn-info btn-sm btn-block " data-toggle="modal" data-target="#modal_delete-{{$p->id_profesor}}"><i class="fas fa-trash"></i></a></td>
+								      			<td><a type="button" class="btn btn-primary btn-sm btn-block " data-toggle="modal" data-target="#modal_edit-{{$p->id_profesor}}"><i class="fas fa-pen"></i></a></td>
+								      			<td><a type="button" class="btn btn-danger btn-sm btn-block " data-toggle="modal" data-target="#modal_delete-{{$p->id_profesor}}"><i class="fas fa-trash"></i></a></td>
+								      			<td><a type="button" class="btn btn-danger btn-sm btn-block " data-toggle="modal" data-target="#modal_verasignaturas-{{$p->id_profesor}}"><i class="fas fa-trash"></i></a></td>
+								      			<td><a type="button" class="btn btn-info btn-sm btn-block " data-toggle="modal" data-target="#modal_asignarasignatura-{{$p->id_profesor}}"><i class="fas fa-book"></i></a></td>
 								      		</tr>
+								      		@include('profesores.modal_asignarasignatura')
+								      		@include('profesores.modal_verasignaturas')
 								      		@include('profesores.modal_edit')
 											@include('profesores.modal_delete')
 								      		@endforeach
 								      	</tbody>
 								    </table>
-								    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modal_create"><i class="fas fa-plus"></i></a></button>
+								    <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#modal_create"><i class="fas fa-plus"></i></a></button>
 								    @include('profesores.modal_create')
 								</div>
 						</div>

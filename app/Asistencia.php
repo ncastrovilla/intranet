@@ -13,5 +13,7 @@ class Asistencia extends Model
 	protected $filleable = ['fecha_asistencia','presente_asistencia','id_curso','id_asignatura','id_profesor'];
 
 	public $incrementing = false;
+
+	public $keyType = 'string';
 }
 ?>

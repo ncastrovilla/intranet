@@ -9,7 +9,7 @@
   <link rel="shortcut icon" type="image/png" href="/images/descarga.png"/>
 
 
-  <title>Intranet EMG</title>
+  <title>Intranet EMG </title>
 
 <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
 
@@ -40,11 +40,10 @@
 
 
     <!-- Navbar Search -->
-    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-    </form>
+    
 
     <!-- Navbar -->
-    <ul class="navbar-nav ml-auto ml-md-0">
+    <ul class="navbar-nav ml-auto ml-md-20">
 
       <li class="nav-item dropdown no-arrow mx-1">
         <div class="container-fluid" style="background-color: red;padding-top:10pt;padding-bottom:10pt;">
@@ -77,10 +76,15 @@
       <div class="container-fluid" style="background-color: red;padding-top:5pt;padding-bottom:5pt;">
       <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i class="fas fa-user-circle fa-fw"></i>
+        {{auth()->user()->name}}
       </a>
 
       <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-        <a class="dropdown-item" href="/misdatos">Mis datos</a>
+        <a class="dropdown-item" href="/misdatos">Mis Datos</a>
+        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{ __('Cerrar Sesion') }}</a>
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+        @csrf
+        </form>
         <div class="dropdown-divider"></div>
       </div>
     </div>
@@ -93,6 +97,9 @@
   <div id="wrapper">
 
     <!-- Sidebar -->
+     <aside class="main-sidebar">
+                <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
 
     <ul class="sidebar navbar-nav">
       <li class="nav-item inactive">
@@ -101,6 +108,7 @@
           <span>Inicio</span>
         </a>
       </li>
+      @if(auth()->user()->rol==2)
       <li class="nav-item inactive">
         <a class="nav-link" href="/notas/ver">
           <i class="fas fa-fw fa-info-circle"></i>
@@ -120,6 +128,14 @@
         </a>
       </li>
       <li class="nav-item inactive">
+        <a class="nav-link" href="/">
+          <i class="fas fa-fw fa-info-circle"></i>
+          <span>Certificados Profesor</span>
+        </a>
+      </li>
+      @endif
+      @if(auth()->user()->rol==3)
+      <li class="nav-item inactive">
         <a class="nav-link" href="/notas/ver/curso">
           <i class="fas fa-fw fa-info-circle"></i>
           <span>Notas Alumnos</span>
@@ -138,6 +154,20 @@
         </a>
       </li>
       <li class="nav-item inactive">
+        <a class="nav-link" href="/certificado/alumnoregular">
+          <i class="fas fa-fw fa-info-circle"></i>
+          <span>Cert. Alumno Regular</span>
+        </a>
+      </li>
+      <li class="nav-item inactive">
+        <a class="nav-link" href="/certificado/notas">
+          <i class="fas fa-fw fa-info-circle"></i>
+          <span>Cert. Notas</span>
+        </a>
+      </li>
+      @endif
+      @if(auth()->user()->rol==1)
+      <li class="nav-item inactive">
         <a class="nav-link" href="/profesores">
           <i class="fas fa-chalkboard-teacher"></i>
           <span>Profesores</span>
@@ -149,14 +179,13 @@
           <span>Alumnos</span>
         </a>
       </li>
+      @endif
 </ul>
     </ul>
-
+</section>
+</aside>
     <div id="content-wrapper">
       <!-- CODIGO ACA-->
-
-
-
       @yield('contenido')
 
 

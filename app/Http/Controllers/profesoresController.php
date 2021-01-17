@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use App\Profesor;
+use App\Cuenta;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\hash;
 use DB;
 use App\Comments;
 
@@ -23,6 +25,21 @@ class ProfesoresController extends Controller
 		$profesor->save();
 
 		return Redirect('/profesores');
+	}
+
+	public function createuser(){
+		$profesores = Profesor::all();
+
+		foreach ($profesores as $profesor) {
+			$user = new User();
+			$user->name = $profesor->nombres_profesor.' '.$profesor->apellido_paterno.' '.$profesor->apellido_materno;
+			$user->rut = $profesor->rut;
+			$user->email = $profesor->correo;
+			$user->password = Hash::make($profesor->rut);
+			$user->rol = 2;
+			$user->save();
+		}
+		echo "Usuarios creados correctamentes";
 	}
 	public function show(){
 		$profesor = DB::table('profesor')
@@ -64,6 +81,17 @@ class ProfesoresController extends Controller
 
 		return Redirect('/profesores');
 
+	}
+	public function asignarasignaturas(Request $request){
+			$id_profesor = $request->input('id');
+
+			$cuenta = new Cuenta();
+			$cuenta->id_curso = $request->input('curso');
+			$cuenta->id_profesor = $id_profesor;
+			$cuenta->id_asignatura = $request->input('asignatura');
+			$cuenta->save();
+
+			return Redirect('/profesores');
 	}
 }
 ?>

@@ -23,22 +23,24 @@
               <div class="modal-body">
                   <div class="box-body">
                     <label>Descripcion de la Nota</label>
-                      <input class="form-control" name="id_curso" type="hidden" value="{{$a->id_curso}}">
-                      <input class="form-control" name="id_asignatura" type="hidden" value="{{$a->id_asignatura}}">
-                      <input class="form-control" name="id_profesor" type="hidden" value="{{$a->id_profesor}}">
-                      <input class="form-control" name="descripcion" type="hidden" value="{{$a->descripcion}}">
+                      <input class="form-control" name="id_notas" type="hidden" value="{{$a->id_notas}}">
                       @foreach($alumnos as $b)
                       <?php 
                           $descripcion = DB::table('notas')
                                       ->select('nota')
                                       ->where('id_notas','=',$a->id_notas)
+                                      ->where('id_alumno','=',$b->id_alumnos)
                                       ->get();
 
                       ?>
                       <div class="form-group">
                         <label for="exampleInputEmail1">{{$b->nombre_alumnos}}</label>
                         @foreach($descripcion as $d)
+                        @if($d->nota!="")
                         <input size="4" name="{{$b->id_alumnos}}" type="text" value="{{$d->nota}}">
+                        @else
+                        <input size="4" type="text" name="{{$b->id_alumnos}}">
+                        @endif
                         @endforeach
                       </div>
                       @endforeach

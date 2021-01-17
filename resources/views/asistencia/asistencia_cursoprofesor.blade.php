@@ -35,16 +35,21 @@
                         <th scope="col">Ver</th>
                         <th scope="col">Modificar</th>
                       </tr>
+                      <?php 
+                      $contador=1;
+                      ?>
                       @foreach($asistencias as $a)
+                      <?php ++$contador; ?>
                         <tr>
                           <td>{{date("d-m-Y", strtotime($a->fecha_asistencia))}}</td>
                           <td>
                             <a type="button" class="btn btn-info btn-sm btn-block" data-toggle="modal" data-target="#modal_verasistencia-{{$a->id_asistencia}}"><i class="fas fa-eye" style="color: white;"></i></a>
                           </td>
-                          <td><a type="button" class="btn btn-info btn-sm btn-block" data-toggle="modal" data-target="#modal_modificarasistencia-{{$a->id_asistencia}}"><i class="fas fa-pen-square" style="color: white;"></i></a></td>
+                          <td><a type="button" class="btn btn-info btn-sm btn-block" data-toggle="modal" data-target="#modal_modificarasistencia-{{$a->id_asistencia}}-{{$contador}}"><i class="fas fa-pen-square" style="color: white;"></i></a></td>
                         </tr>
                         @include('asistencia.modal_verasistencia')
                         @include('asistencia.modal_modificarasistencia')
+                        <?php ++$contador; ?>
                         @endforeach
                     </table>
                     <a type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modal_subirasistencia-{{$id_curso}}-{{$asignatura}}-{{$profesor}}"><i class="fas fa-plus" style="color: white;"></i></a>
