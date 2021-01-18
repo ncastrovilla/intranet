@@ -1,6 +1,23 @@
 <div class="modal fade bd-example-modal-lg" id="modal_verasistencia_alumnos-{{$a->id_alumnos}}-{{$a->id_asignatura}}" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <!-- Modal content-->
+        <?php 
+$curso = DB::table('asistencia')
+                            ->select('fecha_asistencia','presente_asistencia')
+                            ->where('id_alumnos','=',$a->id_alumnos)
+                            ->where('id_asignatura','=',$a->id_asignatura)
+                            ->get();
+
+    $esperada = 0;
+    $obtenida = 0;
+foreach ($curso as $c) {
+    $esperada++;
+    if ($c->presente_asistencia=='Si') {
+        ++$obtenida;
+    }
+}
+
+?>
         <div class="modal-content">
             <div class="modal-header">
               <h4 class="modal-title" align="center">
@@ -11,36 +28,65 @@
                   <span aria-hidden="true"><i class="fa fa-times" aria-hidden="true"></i></span>
                 </button>
             </div>
+            
               <div class="modal-body">
-                <div class="box-body">
-                  <div class="container">
-                    <div class="row" style="border: 5px groove;">
-                      <div class="col" style="border: 3px groove;">Nombre alumno</div>
-                      <div class="col" style="border: 3px groove;">Fecha Clase</div>
-                      <div class="col" style="border: 3px groove;">Presente?</div>
-                    </div>
-                  </div>
-                  <?php
-
-                    $curso = DB::table('alumnos')
-                            ->join('asistencia','alumnos.id_alumnos','=','asistencia.id_alumnos')
-                            ->select('alumnos.nombre_alumnos','asistencia.fecha_asistencia','asistencia.presente_asistencia')
-                            ->where('alumnos.id_alumnos','=',$a->id_alumnos)
-                            ->where('asistencia.id_asignatura','=',$a->id_asignatura)
-                            ->get();
-
-                   ?>
-                  @foreach($curso as $e)
-                  <div class="container">
-                    <div class="row" style="border: 5px groove;">
-                      <div class="col" style="border: 3px groove;">{{$e->nombre_alumnos}}</div><br>
-                      <div class="col" style="border: 3px groove;">{{date("d-m-Y", strtotime($e->fecha_asistencia))}}</div><br>
-                      <div class="col" style="border: 3px groove;">{{$e->presente_asistencia}}</div><br>
-                      <div class="w-100"></div>
-                    </div>
-                  </div>
-                  @endforeach
-                </div>
+                @if($esperada!=0)
+                <div class="bs-callout bs-callout-success">
+                <link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.css">
+  <canvas id="mychart{{$a->id_asignatura}}" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 800px;"></canvas>
+</div>
+    <div class="bs-callout bs-callout-warning">    
+    <table class="table table-hover table-bordered">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Asistencia</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($curso as $c)
+            <tr>
+                <td>{{$c->fecha_asistencia}}</td>
+                @if($c->presente_asistencia=='Si')
+                <td><span class="fa fa-check fa-2x" style="color:green"></span></td>
+                @else
+                <td><span class="fa fa-times fa-2x" style="color:red"></span></td>
+                @endif
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+    </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script type="text/javascript">
+        var asistencia = <?php echo $esperada ?>;
+        var obtenida = <?php echo $obtenida ?>;
+var ctx = document.getElementById('mychart{{$a->id_asignatura}}').getContext('2d');
+var mychart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+        labels: ['Asistencia esperada', 'Assitencia Obtenida'],
+        datasets: [{
+            data: [asistencia,obtenida],
+            backgroundColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)'
+            ],
+            borderWidth: 1
+        }]
+    }
+});
+</script>
+@else
+<div class="bs-callout bs-callout-info">  
+<h3>Actualmente no existen registros de asistencias en esta asignatura</h3>
+</div>
+ @endif
               </div>
               <div class="modal-footer">
                   <button class="btn btn-default" data-dismiss="modal" type="button">

@@ -65,6 +65,11 @@
                   @endif
               </div>
         </div>
+        <div class="modal-footer">
+                  <button class="btn btn-default" data-dismiss="modal" type="button">
+                      Cerrar
+                  </button>
+              </div>
     </div>
 </div>
 </div>

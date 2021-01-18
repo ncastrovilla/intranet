@@ -90,5 +90,5 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/prueba', function(){
-	return view("prueba");
+	return view("asistencia_prueba");
 });

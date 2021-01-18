@@ -12,6 +12,9 @@
   use App\Profesor;
 
   $profesor = Profesor::where('id_profesor',$curso->id_profesor)->first();
+  $array = array('red','green','blue','yellow','cyan');
+  $i=0;
+  $contador=0;
 ?>
 
 <body>
@@ -58,7 +61,7 @@
       <div class="row">
         @foreach($alumno as $a)
         <div class="col-lg-4 col-xs-6">
-          <div class="small-box bg-info">
+          <div class="small-box bg-{{$array[$i++]}}">
             <div class="inner">
               <p>{{$a->nombre_asignatura}}</p>
             </div>
@@ -66,9 +69,12 @@
               <i class="ion ion-bag"></i>
             </div>
             <a type="button" class="small-box-footer" data-toggle="modal" data-target="#modal_notas-{{$a->id_alumnos}}-{{$a->id_asignatura}}">Notas <i class="fas fa-arrow-circle-right"></i></a>
+            <a type="button" class="small-box-footer" data-toggle="modal" data-target="#modal_verasistencia_alumnos-{{$a->id_alumnos}}-{{$a->id_asignatura}}">Asistencia <i class="fas fa-arrow-circle-right"></i></a>
           </div>
         </div>
+        <?php ++$contador ?>
         @include('notas.modal_notas')
+        @include('asistencia.modal_verasistencia_alumnos')
         @endforeach
       </div>
     </div>
