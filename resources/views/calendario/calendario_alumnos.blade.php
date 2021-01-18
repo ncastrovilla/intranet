@@ -1,4 +1,4 @@
-@extends('layouts.index')
+@extends('layouts.plantilla')
 @section('title', 'calendario profesor')
 @section('contenido')
 
@@ -18,7 +18,7 @@
 </div>
 <div id="content-wrapper">
   <div class="row">
-    <div class="col offset-md-1">
+    <div class="col offset-sm-auto">
       <div class="card mb-3">
         <div class="card-header">
           <div class="card-body">

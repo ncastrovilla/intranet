@@ -1,10 +1,11 @@
-@extends('layouts.index')
+@extends('layouts.plantilla')
 
 @section('title', 'Certificados')  
 
 @section('contenido')
 <!-- INDEX NOTAS -->
-<section class="content-header" style="background-color: skyblue;">
+<div class="bs-callout  bs-callout-info">
+<section class="content-header">
     <h1>
         Solicitud de Certificado
     </h1>
@@ -15,8 +16,11 @@
         </li>
     </ol>
 </section>
+</div>
 <!-- Main content -->
+
 <section class="content container-fluid">
+    <div class="bs-callout bs-callout-info">
     <div class="row">
         <div class="col-md-12">
             <div class="box box-primary">
@@ -68,7 +72,8 @@
             </div>
         </div>
     </div>
-    <br>
+    </div>
+    <div class="bs-callout bs-callout-info">
     <div class="row">
         <div class="col-md-12">
             <div class="panel box box-primary">
@@ -126,7 +131,7 @@
             </div>
         </div>
     </div>
-    
+    </div>
 </section>
 <!-- -->
 

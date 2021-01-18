@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('layouts.index');
+    return view('layouts.plantilla');
 })->middleware('auth');
 
 Route::group(["middleware" => "profesor"],function(){
@@ -40,7 +40,7 @@ Route::post('/certificado/notas/curso','pdfController@notasasignaturas');
 });
 
 Route::group(['middleware' => "alumno"],function(){
-	Route::get('/notas/ver/curso','notasController@showalumnos')->middleware('alumno');
+	Route::get('/notas/alumno','notasController@showalumnos')->middleware('alumno');
 Route::get('/calendario/alumnos','calendarioController@indexalumnos');
 Route::get('/asistencia/alumno','asistenciaController@indexalumno');
 Route::get('/certificado/alumnoregular','pdfController@index'); //alumno
@@ -89,3 +89,6 @@ Route::get('/anotaciones','anotacionesController@index');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/prueba', function(){
+	return view("prueba");
+});

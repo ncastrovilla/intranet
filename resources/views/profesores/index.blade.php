@@ -1,4 +1,4 @@
-@extends('layouts.index')
+@extends('layouts.plantilla')
 @section('title', 'Profesores')
 @section('contenido')
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
@@ -7,6 +7,7 @@
 
 <div class="row">
     <div class="col offset-md-1">
+    	<br>
       <h3 style="color:#2c6aa0">Profesores</h3>
     </div>
     <div class="offset-md-1">

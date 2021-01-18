@@ -1,4 +1,4 @@
-@extends('layouts.index')
+@extends('layouts.plantilla')
 @section('title', 'ver evaluaciones profesor')
 @section('contenido')
 

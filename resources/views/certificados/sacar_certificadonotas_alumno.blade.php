@@ -1,4 +1,4 @@
-@extends('layouts.index')
+@extends('layouts.plantilla')
 
 @section('title', 'Certificados')  
 
@@ -13,7 +13,13 @@
         Solicitud de Certificado
     </h1>
     <ol class="breadcrumb">
-        
+        <li>
+            <a href="inicio">
+                <i class="fa fa-home">
+                </i>
+                Inicio
+            </a>
+        </li>
         <li class="active">
             Certificados
         </li>

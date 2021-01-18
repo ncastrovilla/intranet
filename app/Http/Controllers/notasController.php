@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use App\Notas;
+use App\Curso;
 use App\Alumnos;
 use App\Profesor;
+use App\Cuenta;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Redirect;
 use DB;
@@ -31,12 +33,6 @@ class NotasController extends Controller
 		$cursos = $request->input('id_curso');
 		$asignatura = $request->input('id_asignatura');
 
-		$parciales = DB::table('notas')
-				   ->select('id_notas','descripcion','created_at','id_curso','id_asignatura','id_profesor')
-                   ->distinct()
-				   ->where('id_curso','=',$cursos)
-				   ->where('id_asignatura','=',$asignatura)
-				   ->get();
 
 		$nombre_curso = DB::table('curso')
 						->where('id_curso','=',$cursos)
@@ -47,13 +43,17 @@ class NotasController extends Controller
 	public function showalumnos(){
 		$id = Alumnos::where('rut',auth()->user()->rut)->first();
 
+		$curso = Curso::where('id_curso',$id->id_curso)->first();
+
 		$alumno = DB::table('alumnos')
 				->join('cuenta','alumnos.id_curso','=','cuenta.id_curso')
 				->join('asignatura','cuenta.id_asignatura','=','asignatura.id_asignatura')
 				->join('profesor','cuenta.id_profesor','=','profesor.id_profesor')
 				->where('alumnos.id_alumnos','=',$id->id_alumnos)
 				->get();
-		return view('notas.ver_notasprofesor',compact('alumno'));
+
+		$asignaturas = Cuenta::where('id_curso',$id->id_curso)->count();
+		return view('notas.ver_notasalumno',compact('alumno','curso','asignaturas'));
 	}
 
 	public function create(Request $request){
