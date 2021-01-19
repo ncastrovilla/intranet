@@ -20,7 +20,7 @@
 <body>
 <div class="row">
     <div class="page header col offset-md-1">
-      <h3 style="color:#2c6aa0">Calificacion Asignaturas</h3>
+      <h3 style="color:#2c6aa0">Asignaturas</h3>
     </div>
     <div class="offset-md-1">
     </div>
@@ -56,7 +56,7 @@
         </div>                                              
     </div>
   </div>
-    <div class="col-md-5" style="left: 400px;"> 
+    <div class="col-md-5" style="left: 400px;">
     <div class="bs-callout bs-callout-success"> 
       <div class="row">
         @foreach($alumno as $a)

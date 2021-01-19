@@ -6,6 +6,7 @@ $curso = DB::table('asistencia')
                             ->select('fecha_asistencia','presente_asistencia')
                             ->where('id_alumnos','=',$a->id_alumnos)
                             ->where('id_asignatura','=',$a->id_asignatura)
+                            ->orderBy('fecha_asistencia')
                             ->get();
 
     $esperada = 0;
@@ -15,6 +16,10 @@ foreach ($curso as $c) {
     if ($c->presente_asistencia=='Si') {
         ++$obtenida;
     }
+}
+$porcentaje= 0 ;
+if ($esperada!=0) {
+  $porcentaje = $obtenida/$esperada*100;
 }
 
 ?>
@@ -35,7 +40,19 @@ foreach ($curso as $c) {
                 <link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.css">
   <canvas id="mychart{{$a->id_asignatura}}" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 800px;"></canvas>
 </div>
-    <div class="bs-callout bs-callout-warning">    
+    <div class="bs-callout bs-callout-warning">
+    <table class="table table-hover table-bordered">
+        <thead>
+            <tr>
+                <th>Porcentaje de asistencia</th>
+            </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{number_format($porcentaje,'1','.',',')}}%</td>
+          </tr>
+        </tbody>
+    </table>    
     <table class="table table-hover table-bordered">
         <thead>
             <tr>
@@ -46,7 +63,7 @@ foreach ($curso as $c) {
         <tbody>
             @foreach($curso as $c)
             <tr>
-                <td>{{$c->fecha_asistencia}}</td>
+                <td>{{date("d-m-Y", strtotime($c->fecha_asistencia))}}</td>
                 @if($c->presente_asistencia=='Si')
                 <td><span class="fa fa-check fa-2x" style="color:green"></span></td>
                 @else
@@ -66,7 +83,7 @@ var ctx = document.getElementById('mychart{{$a->id_asignatura}}').getContext('2d
 var mychart = new Chart(ctx, {
     type: 'pie',
     data: {
-        labels: ['Asistencia esperada', 'Assitencia Obtenida'],
+        labels: ['Asistencia esperada', 'Asistencia Obtenida'],
         datasets: [{
             data: [asistencia,obtenida],
             backgroundColor: [
@@ -79,6 +96,9 @@ var mychart = new Chart(ctx, {
             ],
             borderWidth: 1
         }]
+    },
+    options: {
+      responsive: true
     }
 });
 </script>

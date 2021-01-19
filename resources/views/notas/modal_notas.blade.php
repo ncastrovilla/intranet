@@ -30,9 +30,29 @@
                             ->where('alumnos.id_alumnos','=',$a->id_alumnos)
                             ->where('notas.id_asignatura','=',$a->id_asignatura)
                             ->count();
+                            $a=0;
 
                    ?>
                    @if($nnotas!="")
+                   <div class="bs-callout bs-callout-info">  
+                   <table class="table table-hover table-bordered">
+                     <thead>
+                       <tr>
+                        <td>Nota</td>
+                        <td>Descripcion</td>
+                       </tr>
+                     </thead>
+                     <tbody>
+                      @foreach($curso as $e)
+                       <tr>
+                        <td>{{++$a}}</td>
+                        <td>{{$e->descripcion}}</td>
+                       </tr>
+                      @endforeach
+                     </tbody>
+                   </table>
+                   </div>
+                   <?php $i=0; ?>
                   <table class="table table-hover table-bordered">
                     <thead>
                       <tr class="encabezadotabla">
@@ -40,8 +60,8 @@
                   <?php 
                       $suma += $e->nota;
                       ++$notas;
-                  ?>
-                        <th>{{$e->descripcion}}</th>
+                  ?>    
+                        <th>{{++$i}}</th>
                       @endforeach
                       <th>Promedio</th>
                       </tr>
@@ -49,10 +69,18 @@
                     <tbody> 
                       <tr class="Tabla3">
                       @foreach($curso as $e)
-                        <td>{{$e->nota}}</td>
+                      @if($e->nota>=4)
+                            <td><span class="pull-right badge bg-blue btn-block">{{$e->nota}}</span></td>
+                            @else
+                            <td><span class="pull-right badge bg-red btn-block">{{$e->nota}}</span></td>
+                            @endif
                       @endforeach
                       @if($notas!=0)
-                        <td>{{$suma/$notas}}</td>
+                      @if($suma/$notas>=4)
+                            <td><span class="pull-right badge bg-blue btn-block">{{number_format($suma/$notas,1,'.',',')}}</span></td>
+                            @else
+                            <td><span class="pull-right badge bg-red btn-block">{{number_format($suma/$notas,1,'.',',')}}</span></td>
+                            @endif
                       @else
                       <td></td>
                       @endif

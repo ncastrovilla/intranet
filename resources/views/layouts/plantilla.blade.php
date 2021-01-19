@@ -65,7 +65,7 @@
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-dark-danger elevation-4">
+  <aside class="main-sidebar sidebar-dark-danger elevation-4 sidebar-no-expand">
     <!-- Brand Logo -->
     <a href="/" class="brand-link">
       <img src="../images/descarga.png" alt="adminlte Logo" class="brand-image" style="opacity: .8">
@@ -77,20 +77,10 @@
       <!-- Sidebar user (optional) -->
 
       <!-- SidebarSearch Form -->
-      <div class="form-inline">
-        <div class="input-group" data-widget="sidebar-search">
-          <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-          <div class="input-group-append">
-            <button class="btn btn-sidebar">
-              <i class="fas fa-search fa-fw"></i>
-            </button>
-          </div>
-        </div>
-      </div>
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <ul class="nav nav-pills nav-sidebar flex-column nav-collapse-hide-child" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
@@ -130,34 +120,39 @@
       @if(auth()->user()->rol==3)
       <li class="nav-item">
         <a class="nav-link" href="/notas/alumno">
-          <i class="nav-icon fas fa-info-circle"></i>
-          <p>Notas Alumnos</p>
+          <i class="nav-icon fas fa-book"></i>
+          <p>Asignaturas</p>
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/calendario/alumnos">
-          <i class="nav-icon fas fa-calendar-alt"></i>
-          <p>Calendario de Evaluaciones</p>
-        </a>
-      </li>
+                  <a class="nav-link" href="/calendario/alumnos">
+                    <i class="nav-icon fas fa-calendar-alt"></i>
+                    <p>Calendario de Evaluaciones</p>
+                  </a>
+                </li>
       <li class="nav-item">
-        <a class="nav-link" href="/asistencia/alumno">
-          <i class="nav-icon fas fa-toggle-on"></i>
-          <p>Asistencia</p>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/certificado/alumnoregular">
-          <i class="nav-icon fas fa-info-circle"></i>
-          <p>Cert. Alumno Regular</p>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/certificado/notas">
-          <i class="nav-icon fas fa-info-circle"></i>
-          <p>Cert. Notas</p>
-        </a>
-      </li>
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-file"></i>
+              <p>
+                Certificados
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a class="nav-link" href="/certificado/alumnoregular">
+                  <i class="nav-icon fas fa-info-circle"></i>
+                  <p>Cert. Alumno Regular</p>
+                </a>
+              </li>
+               <li class="nav-item">
+                  <a class="nav-link" href="/certificado/notas">
+                    <i class="nav-icon fas fa-info-circle"></i>
+                    <p>Cert. Notas</p>
+                  </a>
+                </li>
+            </ul>
+          </li>
       @endif
       @if(auth()->user()->rol==1)
       <li class="nav-item">
