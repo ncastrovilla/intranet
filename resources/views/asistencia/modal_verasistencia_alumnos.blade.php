@@ -40,19 +40,21 @@ if ($esperada!=0) {
                 <link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.css">
   <canvas id="mychart{{$a->id_asignatura}}" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 800px;"></canvas>
 </div>
-    <div class="bs-callout bs-callout-warning">
-    <table class="table table-hover table-bordered">
-        <thead>
-            <tr>
-                <th>Porcentaje de asistencia</th>
-            </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{{number_format($porcentaje,'1','.',',')}}%</td>
-          </tr>
-        </tbody>
-    </table>    
+    <div class="bs-callout bs-callout-info">
+        <table class="table table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th>Porcentaje Asistencia</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{number_format($porcentaje,'1','.',',')}}%</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="bs-callout bs-callout-warning">    
     <table class="table table-hover table-bordered">
         <thead>
             <tr>

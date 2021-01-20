@@ -1,11 +1,9 @@
 <div class="modal fade bd-example-modal-lg" id="modal_verasistencia-{{$a->id_asistencia}}" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title" align="center">
-                    Asistencia
-                </h4>
+              <h4 class="modal-title" align="center">Asistencia</h4>
                 <button type="button" class="close" data-dismiss="modal"  
                 aria-label="Close">
                   <span aria-hidden="true"><i class="fa fa-times" aria-hidden="true"></i></span>
@@ -13,13 +11,14 @@
             </div>
               <div class="modal-body">
                 <div class="box-body">
-                  <div class="container">
-                    <div class="row" style="border: 5px groove;">
-                      <div class="col" style="border: 3px groove;">Nombre alumno</div>
-                      <div class="col" style="border: 3px groove;">Presente</div>
-                    </div>
-                  </div>
-                  <?php
+                  <table class="table table-bordered">
+              <thead>  
+              <tr>
+                <th>Nombre alumno</th>
+                <th>Asistencia</th>
+              </tr>
+              </thead>
+              <?php
 
                     $curso = DB::table('alumnos')
                             ->join('asistencia','alumnos.id_alumnos','=','asistencia.id_alumnos')
@@ -27,15 +26,19 @@
                             ->where('asistencia.id_asistencia','=',$a->id_asistencia)
                             ->get();
                    ?>
-                  @foreach($curso as $e)
-                  <div class="container">
-                    <div class="row" style="border: 5px groove;">
-                      <div class="col" style="border: 3px groove;">{{$e->nombre_alumnos}}</div><br>
-                      <div class="col" style="border: 3px groove;">{{$e->presente_asistencia}}</div><br>
-                      <div class="w-100"></div>
-                    </div>
-                  </div>
-                  @endforeach
+              <tbody>
+               @foreach($curso as $e) 
+              <tr>
+                <td>{{$e->nombre_alumnos}}</td>
+                @if($e->presente_asistencia=='Si')
+                <td><span class="fa fa-check fa-2x" style="color:green"></span></td>
+                @else
+                <td><span class="fa fa-times fa-2x" style="color:red"></span></td>
+                @endif
+              </tr>
+              @endforeach
+              </tbody>
+            </table>
                 </div>
               </div>
               <div class="modal-footer">

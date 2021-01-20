@@ -11,10 +11,7 @@
                   <span aria-hidden="true"><i class="fa fa-times" aria-hidden="true"></i></span>
                 </button>
             </div>
-              <div class="modal-body">
-                <div class="bs-callout bs-callout-info">
-                <div class="box-body">
-                  <?php
+            <?php
                     $suma = 0;
                     $notas = 0;
                     $curso = DB::table('alumnos')
@@ -22,6 +19,8 @@
                             ->select('alumnos.nombre_alumnos','notas.nota','notas.descripcion')
                             ->where('alumnos.id_alumnos','=',$a->id_alumnos)
                             ->where('notas.id_asignatura','=',$a->id_asignatura)
+                            ->where('notas.año','=',$año)
+                            ->where('notas.semestre','=',$semestre)
                             ->get();
 
                     $nnotas = DB::table('alumnos')
@@ -29,10 +28,15 @@
                             ->select('alumnos.nombre_alumnos','notas.nota','notas.descripcion')
                             ->where('alumnos.id_alumnos','=',$a->id_alumnos)
                             ->where('notas.id_asignatura','=',$a->id_asignatura)
+                            ->where('notas.año','=',$año)
+                            ->where('notas.semestre','=',$semestre)
                             ->count();
                             $a=0;
 
                    ?>
+              <div class="modal-body">
+                <div class="bs-callout bs-callout-info">
+                <div class="box-body">
                    @if($nnotas!="")
                    <div class="bs-callout bs-callout-info">  
                    <table class="table table-hover table-bordered">

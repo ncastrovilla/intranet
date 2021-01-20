@@ -15,6 +15,18 @@
   $array = array('red','green','blue','yellow','cyan');
   $i=0;
   $contador=0;
+  if(date('m')<3){
+    $año = date('Y')-1;
+    $semestre = 2;
+  }else{
+    if(date('m')<=8){
+      $año = date('Y');
+      $semestre = 1;
+    }else{
+      $año = date('Y');
+      $semestre = 2;
+    }
+  }
 ?>
 
 <body>
@@ -52,6 +64,18 @@
             <div class="form-group">
                 <label class="col-sm-3 col-xs-12" style="color:#2c6aa0;font-family:Times new roman">Correo profesor jefe</label>
                 <label class="col-sm-8 col-xs-12" style="color:#393939;font-family:calibri">{{$profesor->correo}}</label>
+            </div>
+        </div>
+        <div class="col-xs-12 col-lg-6">
+            <div class="form-group">
+                <label class="col-sm-3 col-xs-12" style="color:#2c6aa0;font-family:Times new roman">Semestre</label>
+                <label class="col-sm-8 col-xs-12" style="color:#393939;font-family:calibri">{{$semestre}}</label>
+            </div>
+        </div>
+        <div class="col-xs-12 col-lg-6">
+            <div class="form-group">
+                <label class="col-sm-3 col-xs-12" style="color:#2c6aa0;font-family:Times new roman">Año</label>
+                <label class="col-sm-8 col-xs-12" style="color:#393939;font-family:calibri">{{$año}}</label>
             </div>
         </div>                                              
     </div>

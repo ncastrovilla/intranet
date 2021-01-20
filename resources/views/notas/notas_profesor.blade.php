@@ -92,16 +92,15 @@
                         <?php
                           $parciales = DB::table('notas')
                           ->select('nota')
-                          ->distinct()
                           ->where('id_curso','=',$cursos)
                           ->where('id_asignatura','=',$asignatura)
                           ->where('id_alumno','=',$alumno->id_alumnos)
-                          ->where('semestre',2)
-                          ->where('año',2020)
+                          ->where('semestre',1)
+                          ->where('año',2021)
                           ->get();
 
-                           $faltantes = Notas::where('id_alumno','=',$alumno->id_alumnos)->where('año',2020)->where('semestre',2)->where('id_asignatura',$asignatura)->count();
-                           $promedio = Notas::where('id_alumno','=',$alumno->id_alumnos)->where('año',2020)->where('semestre',2)->where('id_asignatura',$asignatura)->avg('nota');
+                           $faltantes = Notas::where('id_alumno','=',$alumno->id_alumnos)->where('año',2021)->where('semestre',1)->where('id_asignatura',$asignatura)->count();
+                           $promedio = Notas::where('id_alumno','=',$alumno->id_alumnos)->where('año',2021)->where('semestre',1)->where('id_asignatura',$asignatura)->avg('nota');
 
                          ?>
                           <tbody>
@@ -118,9 +117,9 @@
                             <td></td>
                             @endfor
                             @if($promedio>=4)
-                            <td><span class="pull-right badge bg-blue btn-block">{{$promedio}}</span></td>
+                            <td><span class="pull-right badge bg-blue btn-block">{{number_format($promedio,'1','.',',')}}</span></td>
                             @else
-                            <td><span class="pull-right badge bg-red btn-block">{{$promedio}}</span></td>
+                            <td><span class="pull-right badge bg-red btn-block">{{number_format($promedio,'1','.',',')}}</span></td>
                             @endif
                             </tr>
                           </tbody>

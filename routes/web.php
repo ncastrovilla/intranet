@@ -37,6 +37,13 @@ Route::post('/asistencia/create','asistenciaController@create'); //profe
 
 Route::post('/asistencia/update','asistenciaController@update');
 Route::post('/certificado/notas/curso','pdfController@notasasignaturas');
+
+Route::get('/material',function(){
+	return view('material_pedagogico.index_profesor');
+});
+
+Route::post('/material/upload','materialController@upload');
+
 });
 
 Route::group(['middleware' => "alumno"],function(){

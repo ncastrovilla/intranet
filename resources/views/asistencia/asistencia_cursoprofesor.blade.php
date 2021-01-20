@@ -45,9 +45,11 @@
                           <td>
                             <a type="button" class="btn btn-info btn-sm btn-block" data-toggle="modal" data-target="#modal_verasistencia-{{$a->id_asistencia}}"><i class="fas fa-eye" style="color: white;"></i></a>
                           </td>
-                          <td><a type="button" class="btn btn-info btn-sm btn-block" data-toggle="modal" data-target="#modal_modificarasistencia-{{$a->id_asistencia}}-{{$contador}}"><i class="fas fa-pen-square" style="color: white;"></i></a></td>
+                          <td><a type="button" class="btn btn-info btn-sm btn-block" data-toggle="modal" data-target="#modal_modificarasistencia-{{$a->id_asistencia}}-{{$contador}}"><i class="fas fa-pen-square" style="color: white;"></i></a>
+                            @include('asistencia.modal_verasistencia')
+                          </td>
                         </tr>
-                        @include('asistencia.modal_verasistencia')
+                        
                         @include('asistencia.modal_modificarasistencia')
                         <?php ++$contador; ?>
                         @endforeach

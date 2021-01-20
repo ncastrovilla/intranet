@@ -91,7 +91,15 @@ class NotasController extends Controller
 			$nota->id_asignatura = $request->input('id_asignatura');
 			$nota->save();
 			}
-		return Redirect('/notas/ver');
+			?>
+			<form id="volver" action="/notas" method="post">
+				<input type="text" name="id_profesor" value="{{$request->input('id_profesor')}}">
+				<input type="text" name="id_asignatura" value="{{$request->input('id_asignatura')}}">
+			</form>
+			<script >
+				document.GetElementById('volver').submit();
+			</script>
+			<?php 
 	}
 
 	public function update(Request $request, Notas $nota){

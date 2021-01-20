@@ -17,27 +17,49 @@ foreach ($curso as $c) {
     }
 }
 
+        $asistencias = DB::table('asistencia')
+                   ->select('id_asistencia','fecha_asistencia','id_curso','presente_asistencia')
+                   ->distinct()
+                   ->where('id_curso','=',1)
+                   ->where('id_asignatura','=',3)
+                   ->where('id_profesor','=',3)
+                   ->orderBy('fecha_asistencia')
+                   ->get();
+
+        $nombre_curso = DB::table('curso')
+                        ->where('id_curso','=',3)
+                        ->get();
+
 ?>
 <h1>Prueba de grafico de asistencia de alumnos {{$esperada}}</h1>
 	<link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
 	<canvas id="mychart" width="auto" height="150"></canvas><br>
-    <div class="bs-callout bs-callout-warning">    
-    <table class="table table-hover table-bordered">
+    <input type="date" name="">
+    <div class="bs-callout bs-callout-warning">
+    <table id="example" class="table table-hover table-bordered" style="width: auto; height: auto;">
         <thead>
             <tr>
-                <th>Fecha</th>
-                <th>Asistencia</th>
+               @for($i=1;$i<30;$i++)
+                <th style="padding: 5px; font-size: 10px;">{{date('d-m-y')}}</th>
+                @endfor
             </tr>
         </thead>
         <tbody>
-            @foreach($curso as $c)
-            <tr>
-                <td>{{$c->fecha_asistencia}}</td>
-                @if($c->presente_asistencia=='Si')
-                <td><span class="fa fa-check fa-2x" style="color:green"></span></td>
+            @foreach($asistencias as $a)
+            <tr><?php
+
+                $fecha = date('m',strtotime($c->fecha_asistencia));
+             ?>
+                <td style="padding: 2px; font-size: 10px;">{{date("d-m-Y", strtotime($c->fecha_asistencia))}}</td>
+                @if($a->presente_asistencia=='Si')
+                <td style="padding: 2px; font-size: 10px;"><span class="fa fa-check fa-2x" style="color:green"></span></td>
                 @else
-                <td><span class="fa fa-remove fa-2x" style="color:red"></span></td>
+                <td style="padding: 2px; font-size: 10px;"><span class="fa fa-remove fa-2x" style="color:red"></span></td>
                 @endif
+                <td style="padding: 2px; font-size: 10px;"><a type="button" class="btn btn-info btn-sm btn-block" data-toggle="modal" data-target="#modal_verasistencia-{{$a->id_asistencia}}"><i class="fas fa-eye" style="color: white;"></i></a>
+                    @include('asistencia.modal_verasistencia')
+                </td>
             </tr>
             @endforeach
         </tbody>
@@ -45,6 +67,7 @@ foreach ($curso as $c) {
     </div>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
 	<script type="text/javascript">
         var asistencia = <?php echo $esperada ?>;
         var obtenida = <?php echo $obtenida ?>;
@@ -67,6 +90,9 @@ var mychart = new Chart(ctx, {
         }]
     }
 });
+$(document).ready( function () {
+    $('#example').DataTable();
+} );
 </script>
 </body>
 </html>
