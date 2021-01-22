@@ -8,12 +8,17 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
+<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+<link rel="stylesheet" href="plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+
 <?php 
   use App\Profesor;
 
   $profesor = Profesor::where('id_profesor',$curso->id_profesor)->first();
   $array = array('red','green','blue','yellow','cyan');
+  $icon = array('paper','bookmarks','person','football','book');
   $i=0;
+  $e=0;
   $contador=0;
   if(date('m')<3){
     $año = date('Y')-1;
@@ -30,14 +35,11 @@
 ?>
 
 <body>
-<div class="row">
-    <div class="page header col offset-md-1">
+    <div class="page-header">
       <h3 style="color:#2c6aa0">Asignaturas</h3>
     </div>
     <div class="offset-md-1">
     </div>
-</div>
-<div class="content-wrapper">
   <br>
   <div class="col-md-12 mr-auto">
   <div class="bs-callout  bs-callout-info">
@@ -80,17 +82,18 @@
         </div>                                              
     </div>
   </div>
-    <div class="col-md-5" style="left: 400px;">
+    <div class="col-md-12 mr-auto">
     <div class="bs-callout bs-callout-success"> 
       <div class="row">
         @foreach($alumno as $a)
-        <div class="col-lg-4 col-xs-6">
+        <div class="col-md-2">
           <div class="small-box bg-{{$array[$i++]}}">
             <div class="inner">
-              <p>{{$a->nombre_asignatura}}</p>
+              <h5>{{$a->nombre_asignatura}}</h5>
+              <p></p>
             </div>
             <div class="icon">
-              <i class="ion ion-bag"></i>
+              <i class="ion ion-ios-{{$icon[$e++]}}"></i>
             </div>
             <a type="button" class="small-box-footer" data-toggle="modal" data-target="#modal_notas-{{$a->id_alumnos}}-{{$a->id_asignatura}}">Notas <i class="fas fa-arrow-circle-right"></i></a>
             <a type="button" class="small-box-footer" data-toggle="modal" data-target="#modal_verasistencia_alumnos-{{$a->id_alumnos}}-{{$a->id_asignatura}}">Asistencia <i class="fas fa-arrow-circle-right"></i></a>
@@ -104,7 +107,6 @@
     </div>
     </div>
   </div>
-</div>
 
 </table>
 </body>

@@ -7,21 +7,41 @@
   use App\Alumnos;
       $nombre = Asignatura::where('id_asignatura',$asignatura)->first();
       $i=1;
+
+      if(date('m')<3){
+      $año = date('Y')-1;
+      $semestre = 2;
+    }else{
+      if(date('m')<=8){
+        $año = date('Y');
+        $semestre = 1;
+      }else{    
+        $año = date('Y');
+        $semestre = 2;
+      }
+    }
       $parciales = DB::table('notas')
            ->select('id_notas','descripcion','created_at','id_curso','id_asignatura','id_profesor')
                    ->distinct()
            ->where('id_curso','=',$cursos)
            ->where('id_asignatura','=',$asignatura)
-           ->where('semestre',2)
-           ->where('año',2020)
+           ->where('semestre',$semestre)
+           ->where('año',$año)
            ->get();
  ?>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+<script>
+  $(document).ready( function () {
+    $('#example1').DataTable();
+} );
+</script>
+
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <body>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
-<div class="row">
-
-    <div class="col offset-md-1">
+    <div class="page-header">
       <a type="button" class="btn btn-info btn-sm" href="/notas/ver"><i class="fas fa-arrow-left"></i></a>
       @foreach($nombre_curso as $curso)
       <h3 style="color:#2c6aa0">Notas {{$nombre->nombre_asignatura.' '.$curso->grado.' '.$curso->letra}}</h3>
@@ -29,12 +49,7 @@
     </div>
     <div class="card mb-3">
 
-    </div>
-</div>
-<div id="content-wrapper">
-
-</div>
-<div id="content-wrapper">
+    </div><br>
   <div class="row">
     <div class="col-lg-3 offset-md-1">
       <div class="card">
@@ -74,7 +89,7 @@
               <div class="box box-primary">
                   <div class="box-body">
                     <div class="form-group">
-                      <table id="example1" class="table table-bordered table-striped">
+                      <table id="example2" class="table table-bordered table-hover">
                           <thead>
                             <tr>
                           <th scope="col">Nombre Alumno</th>
@@ -87,6 +102,10 @@
                         <?php $alumnos = DB::table('alumnos')
                                          ->where('id_curso',$cursos)
                                          ->get();
+                              $nalumnos = DB::table('alumnos')
+                                         ->where('id_curso',$cursos)
+                                         ->count();
+                              $promedio_curso=0;
                          ?>
                         @foreach($alumnos as $alumno)
                         <?php
@@ -95,12 +114,14 @@
                           ->where('id_curso','=',$cursos)
                           ->where('id_asignatura','=',$asignatura)
                           ->where('id_alumno','=',$alumno->id_alumnos)
-                          ->where('semestre',1)
-                          ->where('año',2021)
+                          ->where('semestre',$semestre)
+                          ->where('año',$año)
                           ->get();
 
-                           $faltantes = Notas::where('id_alumno','=',$alumno->id_alumnos)->where('año',2021)->where('semestre',1)->where('id_asignatura',$asignatura)->count();
-                           $promedio = Notas::where('id_alumno','=',$alumno->id_alumnos)->where('año',2021)->where('semestre',1)->where('id_asignatura',$asignatura)->avg('nota');
+                           $faltantes = Notas::where('id_alumno','=',$alumno->id_alumnos)->where('año',$año)->where('semestre',$semestre)->where('id_asignatura',$asignatura)->count();
+                           $promedio = Notas::where('id_alumno','=',$alumno->id_alumnos)->where('año',$año)->where('semestre',$semestre)->where('id_asignatura',$asignatura)->avg('nota');
+
+                           $promedio_curso+=$promedio;
 
                          ?>
                           <tbody>
@@ -124,6 +145,16 @@
                             </tr>
                           </tbody>
                         @endforeach
+                        <tfoot>
+                            @if($promedio_curso!=0)
+                            <td colspan="11" style="text-align: right;">Promedio Curso</td>
+                            @if($promedio>=4)
+                            <td><span class="pull-right badge bg-blue btn-block">{{number_format($promedio_curso/$nalumnos,'2','.',',')}}</span></td>
+                            @else
+                            <td><span class="pull-right badge bg-red btn-block">{{number_format($promedio_curso/$nalumnos,'2','.',',')}}</span></td>
+                            @endif
+                            @endif
+                        </tfoot>
                       </table>
                       <a type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal_subirnotas-{{$cursos}}-{{$asignatura}}"><i class="fas fa-plus-circle" style="color: white;"></i></a>
                       @include('notas.modal_subirnotas')
@@ -144,14 +175,13 @@
       </div>
     @endforeach
   </div>
-</div>
 <script>
   $(function () {
-    $("#example1").DataTable({
+    $("#example2").DataTable({
       "responsive": true, "lengthChange": false, "autoWidth": false,
       "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    $('#example2').DataTable({
+    $('#example1').DataTable({
       "paging": true,
       "lengthChange": false,
       "searching": false,
@@ -162,6 +192,7 @@
     });
   });
 </script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
 </body>
 </br>
 

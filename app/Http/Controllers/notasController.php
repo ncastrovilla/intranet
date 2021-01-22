@@ -38,7 +38,7 @@ class NotasController extends Controller
 						->where('id_curso','=',$cursos)
 						->get();
 
-		return view('notas.notas_profesor',compact('parciales','nombre_curso','cursos','asignatura'));
+		return view('notas.notas_profesor',compact('nombre_curso','cursos','asignatura'));
 	}
 	public function showalumnos(){
 		$id = Alumnos::where('rut',auth()->user()->rut)->first();
@@ -91,15 +91,9 @@ class NotasController extends Controller
 			$nota->id_asignatura = $request->input('id_asignatura');
 			$nota->save();
 			}
-			?>
-			<form id="volver" action="/notas" method="post">
-				<input type="text" name="id_profesor" value="{{$request->input('id_profesor')}}">
-				<input type="text" name="id_asignatura" value="{{$request->input('id_asignatura')}}">
-			</form>
-			<script >
-				document.GetElementById('volver').submit();
-			</script>
-			<?php 
+
+			return Redirect('/notas/curso');
+			 
 	}
 
 	public function update(Request $request, Notas $nota){

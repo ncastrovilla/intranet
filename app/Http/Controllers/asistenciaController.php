@@ -43,14 +43,40 @@ class AsistenciaController extends Controller
 		$id_curso = $request->input('id_curso');
 		$asignatura = $request->input('id_asignatura');
 		$profesor = $request->input('id_profesor');
-		$asistencias = DB::table('asistencia')
+		if(date('m')<3){
+      $asistencias = DB::table('asistencia')
+                     ->select('id_asistencia','fecha_asistencia','id_curso')
+                     ->distinct()
+                     ->where('id_curso','=',$id_curso)
+                     ->where('id_asignatura','=',$asignatura)
+                     ->where('id_profesor','=',$profesor)
+                     ->wheremonth('fecha_asistencia','>=',8)
+                     ->whereyear('fecha_asistencia','=',date('Y')-1)
+                     ->orderBy('fecha_asistencia')
+                     ->get();
+        }else{
+            if(date('m')<=8){
+                    $asistencias = DB::table('asistencia')
+                    			   ->select('id_asistencia','fecha_asistencia','id_curso')
+                    			   ->distinct()
+                    			   ->where('id_curso','=',$id_curso)
+                    			   ->where('id_asignatura','=',$asignatura)
+                    			   ->where('id_profesor','=',$profesor)
+                    			   ->wheremonth('fecha_asistencia','<=',8)
+                    			   ->orderBy('fecha_asistencia')
+                    			   ->get();
+            }else{    
+            $asistencias = DB::table('asistencia')
 				   ->select('id_asistencia','fecha_asistencia','id_curso')
                    ->distinct()
 				   ->where('id_curso','=',$id_curso)
 				   ->where('id_asignatura','=',$asignatura)
 				   ->where('id_profesor','=',$profesor)
+				   ->wheremonth('fecha_asistencia','>',8)
 				   ->orderBy('fecha_asistencia')
 				   ->get();
+            }
+        }
 
 		$nombre_curso = DB::table('curso')
 						->where('id_curso','=',$id_curso)

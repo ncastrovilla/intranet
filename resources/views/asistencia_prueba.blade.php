@@ -2,7 +2,15 @@
 @section('title', 'ver notas profesor')
 @section('contenido')
 
-<?php $curso = DB::table('asistencia')
+<?php 
+
+use App\Documentos;
+$ruta = auth()->user()->name;
+$ruta = str_replace(' ', '', $ruta);
+
+$doc = Documentos::all();
+
+$curso = DB::table('asistencia')
                             ->select('fecha_asistencia','presente_asistencia')
                             ->where('id_alumnos','=',6)
                             ->where('id_asignatura','=',3)
@@ -21,8 +29,9 @@ foreach ($curso as $c) {
                    ->select('id_asistencia','fecha_asistencia','id_curso','presente_asistencia')
                    ->distinct()
                    ->where('id_curso','=',1)
-                   ->where('id_asignatura','=',3)
-                   ->where('id_profesor','=',3)
+                   ->where('id_asignatura','=',2)
+                   ->where('id_profesor','=',2)
+                   ->wheremonth('fecha_asistencia',"=",1)
                    ->orderBy('fecha_asistencia')
                    ->get();
 
@@ -65,6 +74,14 @@ foreach ($curso as $c) {
         </tbody>
     </table>
     </div>
+    @foreach($doc as $d)
+    <a href="/file/download/{{$d->file}}">{{$d->file}}</a><br>
+    @endforeach
+    <form action="file/upload" method="post" enctype="multipart/form-data" name="formName" >
+        @csrf
+        <input type="file" name="file">
+        <button type="submit" value="subir">Guardar</button>
+    </form>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>

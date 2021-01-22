@@ -5,13 +5,12 @@
 
 
 <body>
-<div class="row">
-    <div class="col offset-md-1">
+
+    <div class="page-header">
       <h3 style="color:#2c6aa0">Notas</h3>
     </div>
     <div class="offset-md-1">
     </div>
-</div>
 <div id="content-wrapper">
   <div class="row">
     <div class="col offset-md-1">

@@ -19,12 +19,6 @@
                     <label for="exampleInputEmail1">Nombre Completo</label>
                     <label class="form-control">{{$p->nombres_profesor.' '.$p->apellido_paterno.' '.$p->apellido_materno}}</label>
                   </div>
-                  <div class="container">
-                    <div class="row" style="border: 5px groove;">
-                      <div class="col" style="border: 3px groove;">Asignatura</div>
-                      <div class="col" style="border: 3px groove;">Curso</div>
-                    </div>
-                  </div>
                   <?php $asignaturas = DB::table('cuenta')
                                        ->join('asignatura','cuenta.id_asignatura','=','asignatura.id_asignatura')
                                        ->join('curso','cuenta.id_curso','=','curso.id_curso')
@@ -32,18 +26,24 @@
                                        ->where('cuenta.id_profesor','=',$p->id_profesor)
                                        ->get();
                        ?>
-                  @foreach($asignaturas as $asignatura)
-                  <div class="container">
-                    <div class="row" style="border: 5px groove;">
-                      <div class="col" style="border: 3px groove;">{{$asignatura->nombre_asignatura}}</div><br>
-                      <div class="col" style="border: 3px groove;">{{$asignatura->grado.' '.$asignatura->letra}}</div><br>
-                      <div class="w-100"></div>
-                    </div>
-                  </div>
+                  <table class="table table-bordered table-hover">
+                    <thead>
+                      <tr>
+                        <th>Asignatura</th>
+                        <th>Curso</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @foreach($asignaturas as $asignatura)
+                      <tr>
+                        <td>{{$asignatura->nombre_asignatura}}</td>
+                        <td>{{$asignatura->grado.' '.$asignatura->letra}}</td>
+                      </tr>
                   @endforeach
+                    </tbody>
+                  </table>
                 </div>
               </div>
-              @csrf
               <div class="modal-footer">
                 <button class="btn btn-social btn-warning"type="submit">
                       <i class="fa fa-trash"></i>Eliminar

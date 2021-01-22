@@ -18,7 +18,7 @@ Route::get('/', function () {
 })->middleware('auth');
 
 Route::group(["middleware" => "profesor"],function(){
-	Route::post('/notas','notasController@notasasignatura');
+Route::post('/notas','notasController@notasasignatura');
 Route::get('/notas/ver', 'notasController@showa');
 Route::get('/notas/subir','notasController@showp');
 Route::post('/notas/upload','notasController@create');
@@ -38,9 +38,8 @@ Route::post('/asistencia/create','asistenciaController@create'); //profe
 Route::post('/asistencia/update','asistenciaController@update');
 Route::post('/certificado/notas/curso','pdfController@notasasignaturas');
 
-Route::get('/material',function(){
-	return view('material_pedagogico.index_profesor');
-});
+Route::get('/material','fileController@profesor');
+Route::post('/material/curso','fileController@showprofesor');
 
 Route::post('/material/upload','materialController@upload');
 
@@ -96,6 +95,6 @@ Route::get('/anotaciones','anotacionesController@index');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/prueba', function(){
-	return view("asistencia_prueba");
-});
+Route::post('file/upload','fileController@store');
+Route::get('file/download/{file}','fileController@download');
+Route::get('/prueba/{id_curso}','fileController@prueba');

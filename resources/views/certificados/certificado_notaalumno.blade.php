@@ -26,10 +26,19 @@ use App\Notas;
     }
     </style>
 </head>
+<?php 
+    
+    $año = date('Y');
+
+    if (date('m')<3) {
+        $año = date('Y')-1;
+    }
+
+?>
 <body>
 <header>
     <p style="font-size:20px;line-height: 1;"><img src="http://localhost/intranet/public/images/descarga.png" style="width: 80px;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<b><u>CERTIFICADO DE NOTAS</u></b></p>
-    <p style="font-size:15px;line-height: 1;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <b><u>@if($semestre==1) PRIMER @else SEGUNDO @endif SEMESTRE 2020</u></b></p>
+    <p style="font-size:15px;line-height: 1;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <b><u>@if($semestre==1) PRIMER @else SEGUNDO @endif SEMESTRE {{$año}}</u></b></p>
 </header>
 <p style="text-align: right;">Folio: 2{{date('Ymd')}}</p>
 <table style="width: 39%;">
@@ -94,6 +103,7 @@ use App\Notas;
                             ->where('id_asignatura','=',$asignaturas->id_asignatura)
                             ->where('id_alumno','=',$alumno->id_alumnos)
                             ->where('semestre','=',$semestre)
+                            ->where('año','=',$año)
                             ->get();?>
                 
                 @foreach($notas as $nota)
@@ -102,21 +112,21 @@ use App\Notas;
                 @endif
                 @endforeach
                  <?php
-                 $faltantes = Notas::where('id_alumno','=',$alumno->id_alumnos)->where('año',date('Y'))->where('semestre',$semestre)->where('id_asignatura',$asignaturas->id_asignatura)->count();
+                 $faltantes = Notas::where('id_alumno','=',$alumno->id_alumnos)->where('año',$año)->where('semestre',$semestre)->where('id_asignatura',$asignaturas->id_asignatura)->count();
                                         ?>
 
-                                        @for($i=$faltantes; $i<11; $i++)
+                                        @for($i=$faltantes; $i<10; $i++)
                                             <td></td>
                                         @endfor
                 @if($faltantes==0)
                 <td></td>
                 @else
                 <?php 
-                    $faltantes = Notas::where('id_alumno','=',$alumno->id_alumnos)->where('año',date('Y'))->where('semestre',$semestre)->where('id_asignatura',$asignaturas->id_asignatura)->avg('nota');
+                    $faltantes = Notas::where('id_alumno','=',$alumno->id_alumnos)->where('año',$año)->where('semestre',$semestre)->where('id_asignatura',$asignaturas->id_asignatura)->avg('nota');
                     $promedioparcial += $faltantes;
                     ++$cantidad;
                 ?>
-                <td>{{$faltantes}}</td>
+                <td>{{number_format($faltantes,'1','.',',')}}</td>
                 @endif
                 @endforeach
             </tr>
@@ -132,7 +142,7 @@ use App\Notas;
             @if($promedioparcial==0)
             <td style="width: 40%;"></td>
             @else
-            <td style="width: 40%;">{{$promedioparcial/$cantidad}}</td>
+            <td style="width: 40%;">{{number_format($promedioparcial/$cantidad,'1','.',',')}}</td>
             @endif
         </tr>
     </tbody>

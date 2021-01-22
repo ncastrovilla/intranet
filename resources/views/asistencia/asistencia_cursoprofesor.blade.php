@@ -9,16 +9,14 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <body>
-<div class="row">
-    <div class="col offset-md-1">
+    <div class="page-header">
       @foreach($nombre_curso as $curso)
       <h3 style="color:#2c6aa0">Asistencia {{$curso->grado.' '.$curso->letra}}</h3>
       @endforeach
     </div>
     <div class="offset-md-1">
     </div>
-</div>
-<div id="content-wrapper">
+    <br>
   <div class="row">
     <div class="col offset-md-1">
       <div class="card mb-3">
@@ -64,7 +62,6 @@
       </div>
     </div>
   </div>
-</div>
 </body>
 </br>
 @endsection

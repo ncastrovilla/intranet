@@ -13,10 +13,12 @@
 
 
 -- Volcando estructura de base de datos para intranet
+DROP DATABASE IF EXISTS `intranet`;
 CREATE DATABASE IF NOT EXISTS `intranet` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `intranet`;
 
 -- Volcando estructura para tabla intranet.alumnos
+DROP TABLE IF EXISTS `alumnos`;
 CREATE TABLE IF NOT EXISTS `alumnos` (
   `id_alumnos` int(11) NOT NULL AUTO_INCREMENT,
   `nombre_alumnos` varchar(100) NOT NULL,
@@ -47,6 +49,7 @@ INSERT INTO `alumnos` (`id_alumnos`, `nombre_alumnos`, `apellido_paterno`, `apel
 /*!40000 ALTER TABLE `alumnos` ENABLE KEYS */;
 
 -- Volcando estructura para tabla intranet.anotaciones
+DROP TABLE IF EXISTS `anotaciones`;
 CREATE TABLE IF NOT EXISTS `anotaciones` (
   `id_anotacion` int(11) NOT NULL AUTO_INCREMENT,
   `id_alumno` int(11) NOT NULL,
@@ -74,6 +77,7 @@ INSERT INTO `anotaciones` (`id_anotacion`, `id_alumno`, `id_asignatura`, `anotac
 /*!40000 ALTER TABLE `anotaciones` ENABLE KEYS */;
 
 -- Volcando estructura para tabla intranet.asignatura
+DROP TABLE IF EXISTS `asignatura`;
 CREATE TABLE IF NOT EXISTS `asignatura` (
   `id_asignatura` int(11) NOT NULL AUTO_INCREMENT,
   `nombre_asignatura` varchar(100) NOT NULL,
@@ -92,6 +96,7 @@ INSERT INTO `asignatura` (`id_asignatura`, `nombre_asignatura`, `codigo`) VALUES
 /*!40000 ALTER TABLE `asignatura` ENABLE KEYS */;
 
 -- Volcando estructura para tabla intranet.asistencia
+DROP TABLE IF EXISTS `asistencia`;
 CREATE TABLE IF NOT EXISTS `asistencia` (
   `id_asistencia` int(11) NOT NULL,
   `fecha_asistencia` date NOT NULL,
@@ -120,15 +125,16 @@ INSERT INTO `asistencia` (`id_asistencia`, `fecha_asistencia`, `presente_asisten
 	(5, '2020-12-29', 'Si', 5, 2, 3, 3, '2020-12-26 20:26:05', '2020-12-26 20:26:05'),
 	(5, '2020-12-29', 'Si', 6, 2, 3, 3, '2020-12-26 20:26:05', '2020-12-26 20:26:05'),
 	(5, '2020-12-29', 'Si', 11, 2, 3, 3, '2020-12-26 20:26:05', '2020-12-26 20:26:05'),
-	(6, '2021-01-02', 'Si', 3, 1, 2, 2, '2021-01-03 01:37:00', '2021-01-03 01:37:00'),
+	(6, '2021-01-02', 'No', 3, 1, 2, 2, '2021-01-03 01:37:00', '2021-01-03 01:37:00'),
 	(6, '2021-01-02', 'Si', 4, 1, 2, 2, '2021-01-03 01:37:00', '2021-01-03 01:37:00'),
 	(6, '2021-01-02', 'No', 13, 1, 2, 2, '2021-01-03 01:37:00', '2021-01-03 01:37:00'),
 	(7, '2021-01-03', 'Si', 3, 1, 2, 2, '2021-01-03 01:37:13', '2021-01-03 01:37:13'),
-	(7, '2021-01-03', 'Si', 4, 1, 2, 2, '2021-01-03 01:37:13', '2021-01-03 01:37:13'),
+	(7, '2021-01-03', 'No', 4, 1, 2, 2, '2021-01-03 01:37:13', '2021-01-03 01:37:13'),
 	(7, '2021-01-03', 'Si', 13, 1, 2, 2, '2021-01-03 01:37:13', '2021-01-03 01:37:13');
 /*!40000 ALTER TABLE `asistencia` ENABLE KEYS */;
 
 -- Volcando estructura para tabla intranet.calendario
+DROP TABLE IF EXISTS `calendario`;
 CREATE TABLE IF NOT EXISTS `calendario` (
   `id_calendario` int(11) NOT NULL AUTO_INCREMENT,
   `fecha_evaluacion` date NOT NULL,
@@ -151,6 +157,7 @@ INSERT INTO `calendario` (`id_calendario`, `fecha_evaluacion`, `descripcion_eval
 /*!40000 ALTER TABLE `calendario` ENABLE KEYS */;
 
 -- Volcando estructura para tabla intranet.cuenta
+DROP TABLE IF EXISTS `cuenta`;
 CREATE TABLE IF NOT EXISTS `cuenta` (
   `id_curso` int(11) NOT NULL,
   `id_asignatura` int(11) NOT NULL,
@@ -190,6 +197,7 @@ INSERT INTO `cuenta` (`id_curso`, `id_asignatura`, `id_profesor`) VALUES
 /*!40000 ALTER TABLE `cuenta` ENABLE KEYS */;
 
 -- Volcando estructura para tabla intranet.curso
+DROP TABLE IF EXISTS `curso`;
 CREATE TABLE IF NOT EXISTS `curso` (
   `id_curso` int(11) NOT NULL AUTO_INCREMENT,
   `grado` varchar(40) NOT NULL,
@@ -209,7 +217,42 @@ INSERT INTO `curso` (`id_curso`, `grado`, `letra`, `id_profesor`) VALUES
 	(4, 'Sexto', 'A', 4);
 /*!40000 ALTER TABLE `curso` ENABLE KEYS */;
 
+-- Volcando estructura para tabla intranet.documentos
+DROP TABLE IF EXISTS `documentos`;
+CREATE TABLE IF NOT EXISTS `documentos` (
+  `id_documentos` int(11) NOT NULL AUTO_INCREMENT,
+  `titulo_documento` varchar(100) NOT NULL,
+  `descripcion_documento` varchar(200) NOT NULL,
+  `tipo_documento` varchar(200) NOT NULL,
+  `file` varchar(100) NOT NULL,
+  `id_curso` int(11) NOT NULL,
+  `id_profesor` int(11) NOT NULL,
+  `id_asignatura` int(11) NOT NULL,
+  `año` varchar(20) NOT NULL,
+  `semestre` varchar(20) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `created_at` date NOT NULL,
+  `updated_at` date NOT NULL,
+  PRIMARY KEY (`id_documentos`),
+  KEY `FK_documentos_curso` (`id_curso`),
+  KEY `FK_documentos_profesor` (`id_profesor`),
+  KEY `FK_documentos_asignatura` (`id_asignatura`),
+  CONSTRAINT `FK_documentos_asignatura` FOREIGN KEY (`id_asignatura`) REFERENCES `asignatura` (`id_asignatura`),
+  CONSTRAINT `FK_documentos_curso` FOREIGN KEY (`id_curso`) REFERENCES `curso` (`id_curso`),
+  CONSTRAINT `FK_documentos_profesor` FOREIGN KEY (`id_profesor`) REFERENCES `profesor` (`id_profesor`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+-- Volcando datos para la tabla intranet.documentos: ~4 rows (aproximadamente)
+/*!40000 ALTER TABLE `documentos` DISABLE KEYS */;
+INSERT INTO `documentos` (`id_documentos`, `titulo_documento`, `descripcion_documento`, `tipo_documento`, `file`, `id_curso`, `id_profesor`, `id_asignatura`, `año`, `semestre`, `nombre`, `created_at`, `updated_at`) VALUES
+	(1, 'prueba', 'Estoy probando si sirve el insert de archivos', 'Guia', '1611296942.1611275395.zip', 1, 2, 2, '2020', '2', '1611275395.zip', '2021-01-22', '2021-01-22'),
+	(2, 'prueba evaluacion', 'porbando weas', 'Evaluacion', '1611353137.formulario ieci_proyectotitulo (1).doc', 1, 2, 2, '2020', '2', 'formulario ieci_proyectotitulo (1).doc', '2021-01-22', '2021-01-22'),
+	(3, 'Prueba nuevo profe', 'probando insertar un archivo con un profesor diferente', 'Guia', '1611353494.regular.pdf', 1, 3, 3, '2020', '2', 'regular.pdf', '2021-01-22', '2021-01-22'),
+	(4, 'Evaluacion 1', 'evaluacion', 'Evaluacion', '1611353794.AdminLTE 3  DataTables.pdf', 1, 3, 3, '2020', '2', 'AdminLTE 3  DataTables.pdf', '2021-01-22', '2021-01-22');
+/*!40000 ALTER TABLE `documentos` ENABLE KEYS */;
+
 -- Volcando estructura para tabla intranet.failed_jobs
+DROP TABLE IF EXISTS `failed_jobs`;
 CREATE TABLE IF NOT EXISTS `failed_jobs` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -225,22 +268,25 @@ CREATE TABLE IF NOT EXISTS `failed_jobs` (
 /*!40000 ALTER TABLE `failed_jobs` ENABLE KEYS */;
 
 -- Volcando estructura para tabla intranet.migrations
+DROP TABLE IF EXISTS `migrations`;
 CREATE TABLE IF NOT EXISTS `migrations` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Volcando datos para la tabla intranet.migrations: ~3 rows (aproximadamente)
 /*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 	(4, '2014_10_12_000000_create_users_table', 1),
 	(5, '2014_10_12_100000_create_password_resets_table', 1),
-	(6, '2019_08_19_000000_create_failed_jobs_table', 1);
+	(6, '2019_08_19_000000_create_failed_jobs_table', 1),
+	(7, '2021_01_21_233715_create_documentos_table', 2);
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
 
 -- Volcando estructura para tabla intranet.notas
+DROP TABLE IF EXISTS `notas`;
 CREATE TABLE IF NOT EXISTS `notas` (
   `id_notas` int(11) NOT NULL AUTO_INCREMENT,
   `nota` varchar(5) NOT NULL,
@@ -262,24 +308,31 @@ CREATE TABLE IF NOT EXISTS `notas` (
   CONSTRAINT `FK_notas_asignatura` FOREIGN KEY (`id_asignatura`) REFERENCES `asignatura` (`id_asignatura`),
   CONSTRAINT `FK_notas_curso` FOREIGN KEY (`id_curso`) REFERENCES `curso` (`id_curso`),
   CONSTRAINT `FK_notas_profesor` FOREIGN KEY (`id_profesor`) REFERENCES `profesor` (`id_profesor`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
 
 -- Volcando datos para la tabla intranet.notas: ~8 rows (aproximadamente)
 /*!40000 ALTER TABLE `notas` DISABLE KEYS */;
 INSERT INTO `notas` (`id_notas`, `nota`, `descripcion`, `semestre`, `año`, `id_alumno`, `id_asignatura`, `id_profesor`, `id_curso`, `created_at`, `updated_at`) VALUES
-	(1, '5', 'Pronombres', '2', '2020', 3, 2, 2, 1, '2020-12-24 00:45:57', '2020-12-24 00:45:57'),
+	(1, '6', 'Pronombres', '2', '2020', 3, 2, 2, 1, '2020-12-24 00:45:57', '2020-12-24 00:45:57'),
 	(1, '3', 'Pronombres', '2', '2020', 4, 2, 2, 1, '2020-12-24 00:45:57', '2020-12-24 00:45:57'),
 	(2, '6', 'Prueba subir primera fila', '2', '2020', 3, 2, 2, 1, '2020-12-24 00:49:18', '2020-12-24 00:49:18'),
 	(2, '7', 'Prueba subir primera fila', '2', '2020', 4, 2, 2, 1, '2020-12-24 00:49:18', '2020-12-24 00:49:18'),
-	(3, '1', 'prueba', '1', '2021', 3, 2, 2, 1, '2021-01-16 23:38:23', '2021-01-16 23:38:23'),
+	(3, '2', 'prueba', '1', '2021', 3, 2, 2, 1, '2021-01-16 23:38:23', '2021-01-16 23:38:23'),
 	(3, '1', 'prueba', '1', '2021', 4, 2, 2, 1, '2021-01-16 23:38:23', '2021-01-16 23:38:23'),
 	(4, '5', 'Consultas', '1', '2021', 5, 2, 2, 2, '2021-01-18 06:21:01', '2021-01-18 06:21:01'),
 	(4, '4', 'Consultas', '1', '2021', 6, 2, 2, 2, '2021-01-18 06:21:01', '2021-01-18 06:21:01'),
 	(5, '5', 'Prueba subir primera fila', '1', '2021', 5, 2, 2, 2, '2021-01-18 06:26:56', '2021-01-18 06:26:56'),
-	(5, '6', 'Prueba subir primera fila', '1', '2021', 6, 2, 2, 2, '2021-01-18 06:26:56', '2021-01-18 06:26:56');
+	(5, '6', 'Prueba subir primera fila', '1', '2021', 6, 2, 2, 2, '2021-01-18 06:26:56', '2021-01-18 06:26:56'),
+	(6, '3', 'Caca', '1', '2021', 3, 2, 2, 1, '2021-01-19 04:53:20', '2021-01-19 04:53:20'),
+	(6, '2', 'Caca', '1', '2021', 4, 2, 2, 1, '2021-01-19 04:53:20', '2021-01-19 04:53:20'),
+	(7, '4', 'Sujeto', '1', '2021', 3, 2, 2, 1, '2021-01-19 14:57:57', '2021-01-19 14:57:57'),
+	(7, '7', 'Sujeto', '1', '2021', 4, 2, 2, 1, '2021-01-19 14:57:57', '2021-01-19 14:57:57'),
+	(8, '5', 'prueba redirect', '1', '2021', 3, 2, 2, 1, '2021-01-21 23:30:41', '2021-01-21 23:30:41'),
+	(8, '4', 'prueba redirect', '1', '2021', 4, 2, 2, 1, '2021-01-21 23:30:41', '2021-01-21 23:30:41');
 /*!40000 ALTER TABLE `notas` ENABLE KEYS */;
 
 -- Volcando estructura para tabla intranet.password_resets
+DROP TABLE IF EXISTS `password_resets`;
 CREATE TABLE IF NOT EXISTS `password_resets` (
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -294,6 +347,7 @@ INSERT INTO `password_resets` (`email`, `token`, `created_at`) VALUES
 /*!40000 ALTER TABLE `password_resets` ENABLE KEYS */;
 
 -- Volcando estructura para tabla intranet.profesor
+DROP TABLE IF EXISTS `profesor`;
 CREATE TABLE IF NOT EXISTS `profesor` (
   `id_profesor` int(11) NOT NULL AUTO_INCREMENT,
   `nombres_profesor` varchar(40) NOT NULL,
@@ -317,6 +371,7 @@ INSERT INTO `profesor` (`id_profesor`, `nombres_profesor`, `apellido_paterno`, `
 /*!40000 ALTER TABLE `profesor` ENABLE KEYS */;
 
 -- Volcando estructura para tabla intranet.users
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
