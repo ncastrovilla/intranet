@@ -31,6 +31,7 @@ Route::post('/calendario/update','calendarioController@update'); //profe
 
 Route::post('/calendario/delete','calendarioController@delete');
 Route::get('/asistencia','asistenciaController@indexprofesor');
+Route::get('/asistencia/curso','asistenciaController@asistenciaasignatura');
 Route::post('/asistencia/curso','asistenciaController@asistenciaasignatura'); //profe
 
 Route::post('/asistencia/create','asistenciaController@create'); //profe
@@ -94,6 +95,9 @@ Route::get('/anotaciones','anotacionesController@index');
 
 Auth::routes();
 
+Route::get('/prueba',function(){
+	return view('asistencia_prueba');
+});
 Route::get('/home', 'HomeController@index')->name('home');
 Route::post('file/upload','fileController@store');
 Route::get('file/download/{file}','fileController@download');

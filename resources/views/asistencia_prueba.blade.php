@@ -41,6 +41,21 @@ foreach ($curso as $c) {
 
 ?>
 <h1>Prueba de grafico de asistencia de alumnos {{$esperada}}</h1>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+ 
+<input type="text" id="id">
+<input type="text" name="nombre">
+<select class="selectpicker">
+    <option id="1">opcion 1</option>
+    <option id="2">opcion 2</option>
+</select>
+ 
+<script>
+$(".selectpicker").on("change", function(){
+    $('#id').val($(".selectpicker option:selected").text());
+    $('#nombre').val(hola);
+});
+</script>
 	<link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
 	<canvas id="mychart" width="auto" height="150"></canvas><br>

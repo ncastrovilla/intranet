@@ -1,7 +1,4 @@
-<div class="modal fade bd-example-modal-lg" id="modal_verasistencia_alumnos-{{$a->id_alumnos}}-{{$a->id_asignatura}}" role="dialog">
-    <div class="modal-dialog modal-lg">
-        <!-- Modal content-->
-        <?php
+<?php
         if(date('m')<3){
             $curso = DB::table('asistencia')
                             ->select('fecha_asistencia','presente_asistencia')
@@ -45,8 +42,11 @@ if ($esperada!=0) {
 }
 
 ?>
-        <div class="modal-content">
-            <div class="modal-header">
+<div class="modal fade bd-example-modal-lg" id="modal_verasistencia_alumnos-{{$a->id_alumnos}}-{{$a->id_asignatura}}" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+<div class="modal-content">
+    <div class="modal-header">
               <h4 class="modal-title" align="center">
                     Asistencia
                 </h4>
@@ -61,9 +61,7 @@ if ($esperada!=0) {
                 <div class="bs-callout bs-callout-success">
                 <link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.css">
   <canvas id="mychart{{$a->id_asignatura}}" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 800px;"></canvas>
-</div>
-    <div class="bs-callout bs-callout-info">
-        <table class="table table-hover table-bordered">
+   <table class="ml-auto">
             <thead>
                 <tr>
                     <th>Porcentaje Asistencia</th>
@@ -75,6 +73,9 @@ if ($esperada!=0) {
                 </tr>
             </tbody>
         </table>
+</div>
+    <div class="bs-callout bs-callout-info">
+       
     </div>
     <div class="bs-callout bs-callout-warning">    
     <table class="table table-hover table-bordered">
@@ -101,27 +102,34 @@ if ($esperada!=0) {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script type="text/javascript">
-        var asistencia = <?php echo $esperada ?>;
+        var porcentaje = <?php echo $porcentaje ?>;
+        var asistencia = 100;
+        if (porcentaje == 100) {
+            porcentaje = 0;
+        }
         var obtenida = <?php echo $obtenida ?>;
+    
 var ctx = document.getElementById('mychart{{$a->id_asignatura}}').getContext('2d');
 var mychart = new Chart(ctx, {
     type: 'pie',
     data: {
-        labels: ['Asistencia esperada', 'Asistencia Obtenida'],
+        labels: ['Porcentaje obtenido'],
         datasets: [{
-            data: [asistencia,obtenida],
+            data: [porcentaje,asistencia],
             backgroundColor: [
-                'rgba(255, 99, 132, 1)',
+                'rgba(210, 214, 222, 1)',
                 'rgba(54, 162, 235, 1)'
             ],
             borderColor: [
-                'rgba(255, 99, 132, 1)',
+                'rgba(210, 214, 222, 1)',
                 'rgba(54, 162, 235, 1)'
             ],
             borderWidth: 1
         }]
     },
     options: {
+        legend: false,
+        tooltips: false,
       responsive: true
     }
 });

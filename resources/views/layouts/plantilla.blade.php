@@ -40,17 +40,6 @@
     <ul class="navbar-nav ml-auto">
       <!-- Messages Dropdown Menu -->
       <li class="nav-item dropdown">
-        
-      <li class="nav-item">
-        <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-          <i class="fas fa-expand-arrows-alt"></i>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-          <i class="fas fa-th-large"></i>
-        </a>
-      </li>
       <li class="nav-item dropdown no-arrow">
       <div class="container-fluid">
       <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -118,6 +107,31 @@
               </div>
             </div>
         @endif
+        @if(auth()->user()->rol==1)
+        <div class="card card-widget widget-user">
+              <!-- Add the bg color to the header using any of the bg-* classes -->
+              <div class="widget-user-header bg-info">
+                <h3 class="widget-user-username">{{auth()->user()->name}}</h3>
+              </div>
+              <div class="widget-user-image">
+                <img class="img-circle elevation-1" src="../images/Nicolas-WIN_20181016_165625.jpg" alt="User Avatar">
+              </div>
+              <div class="card-footer" style="float: right;">
+                <div class="row">
+                  <div class="">
+                    <label>Administrador</label><br>
+                    <!-- /.description-block -->
+                  </div>
+                </div>
+                <!-- /.row -->
+        <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{ __('Cerrar Sesion') }}</a>
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+        @csrf
+        </form>
+              </div>
+            </div>
+        @endif
       </div>
     </div>
     </li>
@@ -154,33 +168,21 @@
           </li>
           @if(auth()->user()->rol==2)
       <li class="nav-item">
-        <a class="nav-link" href="/notas/ver">
-          <i class="nav-icon fas fa-info-circle"></i>
-          <p>Notas</p>
+        <a class="nav-link" href="/asistencia">
+          <i class="nav-icon fas fa-toggle-on"></i>
+          <p>Asignaturas</p>
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/calendario">
           <i class="nav-icon fas fa-calendar-alt"></i>
-          <p>Calendario de Evaluaciones</p>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/asistencia">
-          <i class="nav-icon fas fa-toggle-on"></i>
-          <p>Asistencia</p>
+          <p>Calendario</p>
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/material">
           <i class="nav-icon fas fa-folder"></i>
           <p>Documentos</p>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/">
-          <i class="nav-icon fas fa-info-circle"></i>
-          <p>Certificados</p>
         </a>
       </li>
       @endif
@@ -194,7 +196,7 @@
       <li class="nav-item">
                   <a class="nav-link" href="/calendario/alumnos">
                     <i class="nav-icon fas fa-calendar-alt"></i>
-                    <p>Calendario de Evaluaciones</p>
+                    <p>Calendario</p>
                   </a>
                 </li>
       <li class="nav-item">

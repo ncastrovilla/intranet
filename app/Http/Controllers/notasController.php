@@ -113,5 +113,12 @@ class NotasController extends Controller
 			}
 		return Redirect('/notas/ver');
 	}
+
+	public function delete(Request $request){
+		$nota = Notas::find($request->input('id'));
+		$nota->delete();
+
+		return Redirect('/notas');
+	}
 }
 ?>

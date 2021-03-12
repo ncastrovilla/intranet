@@ -49,7 +49,6 @@ class CalendarioController extends Controller
 						->where('id_curso','=',$request->input('id_curso'))
 						->where('id_asignatura','=',$request->input('id_asignatura'))
 						->where('id_profesor','=',$request->input('id_profesor'))
-						->where('calendario.fecha_evaluacion','>=',date('Y-m-d'))
 						->get();
 
 		$curso = $request->input('id_curso');

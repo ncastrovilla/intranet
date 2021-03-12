@@ -1,12 +1,6 @@
 @extends('layouts.plantilla')
 @section('title', 'Profesores')
 @section('contenido')
-
-
-  
-
-
-
 <div class="row">
     <div class="col offset-md-1">
     	<br>
@@ -16,7 +10,6 @@
     </div>
 </div>
 <script>
-
 function myFunction() {
   // Declare variables
   var input, filter, table, tr, td, i, txtValue;
@@ -45,10 +38,6 @@ $(document).ready( function () {
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
   
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
-  
-<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.11/css/jquery.dataTables.css">
 <div id="content-wrapper">
 	<div class="row">
 		<div class="col offset-md-0">
@@ -84,7 +73,7 @@ $(document).ready( function () {
                                        ->select('asignatura.nombre_asignatura','curso.grado','curso.letra')
                                        ->where('cuenta.id_profesor','=',$p->id_profesor)
                                        ->get();
-                       ?>
+                                       ?>
 								      		<tr>
 								      			<td>{{$p->nombres_profesor}}</td>
 								      			<td>{{$p->apellido_paterno}}</td>

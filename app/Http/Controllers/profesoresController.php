@@ -27,20 +27,6 @@ class ProfesoresController extends Controller
 		return Redirect('/profesores');
 	}
 
-	public function createuser(){
-		$profesores = Profesor::all();
-
-		foreach ($profesores as $profesor) {
-			$user = new User();
-			$user->name = $profesor->nombres_profesor.' '.$profesor->apellido_paterno.' '.$profesor->apellido_materno;
-			$user->rut = $profesor->rut;
-			$user->email = $profesor->correo;
-			$user->password = Hash::make($profesor->rut);
-			$user->rol = 2;
-			$user->save();
-		}
-		echo "Usuarios creados correctamentes";
-	}
 	public function show(){
 		$profesor = DB::table('profesor')
 					->get();

@@ -38,14 +38,7 @@
                           <td>{{$a->nombre_asignatura}}</td>
                           <td>{{$a->grado}}</td>
                           <td>{{$a->letra}}</td>
-                          <td>
-                            <form action="/notas" method="post">
-                              @csrf
-                              <input type="text" name="id_curso" value="{{$a->id_curso}}" hidden>
-                              <input type="text" name="id_asignatura" value="{{$a->id_asignatura}}" hidden>
-                              <button type="submit" class="btn btn-info btn-sm btn-block "><i class="fas fa-info-circle"></i></button>
-                            </form> 
-                          </td>
+                          
                         </tr>
                       @endforeach
                     </table>

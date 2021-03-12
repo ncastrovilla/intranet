@@ -40,9 +40,15 @@ class AsistenciaController extends Controller
 	}
 
 	public function asistenciaasignatura(Request $request){
-		$id_curso = $request->input('id_curso');
+		if($request->old('id_curso')==""){
+			$id_curso = $request->input('id_curso');
 		$asignatura = $request->input('id_asignatura');
-		$profesor = $request->input('id_profesor');
+	}else{
+		$id_curso = $request->old('id_curso');
+		$asignatura = $request->old('id_asignatura');
+	}
+		$id = Profesor::where('rut',auth()->user()->rut)->first();
+		$profesor = $id->id_profesor;
 		if(date('m')<3){
       $asistencias = DB::table('asistencia')
                      ->select('id_asistencia','fecha_asistencia','id_curso')
@@ -86,11 +92,12 @@ class AsistenciaController extends Controller
 		return view('asistencia.asistencia_cursoprofesor',compact('asistencias','nombre_curso','id_curso','asignatura','profesor'));
 	}
 	public function create(Request $request){
+		$request->flash(); //guarda los request
 		$asistencias = DB::table('asistencia')
 						->orderBy('id_asistencia','desc')
 						->first();
 		
-		if($asistencias==""){
+		if($asistencias->id_asistencia==""){
 			$id_asistencias = "1";
 		}else{
 			$id_asistencias = ++$asistencias->id_asistencia;
@@ -119,7 +126,7 @@ class AsistenciaController extends Controller
 			$asistencia->save();
 		}
 
-		return Redirect('/asistencia');
+		return Redirect()->back()->withInput(); //vuelve hacia atras con los request guardados
 	}
 
 	public function update(Request $request,Asistencia $asistencia){
@@ -149,6 +156,13 @@ class AsistenciaController extends Controller
 		}
 		return Redirect('/asistencia');
 
+	}
+
+	public function delete(Request $request){
+		$asistencia = Asistencia::find($request->input('id'));
+		$asistencia->delete();
+
+		return Redirect('/asistencia');
 	}
 }
 ?>

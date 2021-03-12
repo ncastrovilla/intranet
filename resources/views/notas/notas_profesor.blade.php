@@ -42,7 +42,6 @@
 
 <body>
     <div class="page-header">
-      <a type="button" class="btn btn-info btn-sm" href="/notas/ver"><i class="fas fa-arrow-left"></i></a>
       @foreach($nombre_curso as $curso)
       <h3 style="color:#2c6aa0">Notas {{$nombre->nombre_asignatura.' '.$curso->grado.' '.$curso->letra}}</h3>
       @endforeach
@@ -50,8 +49,11 @@
     <div class="card mb-3">
 
     </div><br>
+
   <div class="row">
+
     <div class="col-lg-3 offset-md-1">
+      <a type="button" class="btn btn-info btn-sm" href="/asistencia"><i class="fas fa-arrow-left"></i></a>
       <div class="card">
       <div class="card-header border-0">
         <h10 class="card-tittle">Descripcion de notas</h10>

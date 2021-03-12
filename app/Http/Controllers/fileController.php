@@ -15,8 +15,9 @@ use App\Comments;
 class FileController extends Controller
 {
 	public function download($file){
-		$ruta = auth()->user()->name;
-		$ruta = str_replace(' ', '', $ruta);
+		$ruta = auth()->user()->rut;
+		$ruta = str_replace('-','', $ruta);
+		$ruta = str_replace('.','', $ruta);
 
 		$documento = Documentos::where('file',$file)->first();
 
@@ -36,8 +37,9 @@ class FileController extends Controller
 		$documento = new Documentos; 
 
 		if ($request->file('file')) {
-			$ruta = auth()->user()->name;
-			$ruta = str_replace(' ', '', $ruta);
+			$ruta = auth()->user()->rut;
+			$ruta = str_replace('-','', $ruta);
+			$ruta = str_replace('.','', $ruta);
 			$file = $request->file('file');
 			$nombre = $file->getClientOriginalName();
 			$filename = time().'.'.$file->getClientOriginalName();
@@ -53,11 +55,71 @@ class FileController extends Controller
 		$documento->id_profesor = $request->input('id_profesor');
 		$documento->id_asignatura = $request->input('id_asignatura');
 		$documento->tipo_documento = $request->input('tipo');
-		$documento->año = 2020;
-		$documento->semestre = 2;
+		if(date('m')<3){
+			$documento->año = date('Y')-1;
+			$documento->semestre = 2;	
+		}else{
+			if(date('m')<=8){
+				$documento->año = date('Y');
+				$documento->semestre = 1;
+			}else{
+				$documento->año = date('Y');
+				$documento->semestre = 2;
+			}
+		}
+		
 		$documento->save();
 
 		return Redirect('/material');
+	}
+
+	public function update(Request $request){
+
+		$documento = Documentos::find($request->input('id')); 
+
+		if ($request->file('file')) {
+			$ruta = auth()->user()->rut;
+			$ruta = str_replace('-','', $ruta);
+			$ruta = str_replace('.','', $ruta);
+			$file = $request->file('file');
+			$nombre = $file->getClientOriginalName();
+			$filename = time().'.'.$file->getClientOriginalName();
+			$request->file->move(public_path().'/documentos/'.$ruta, $filename);
+			$documento->nombre = $nombre;
+			$documento->file = $filename;
+		}
+
+		$documento->titulo_documento = $request->input('titulo');
+		$documento->descripcion_documento = $request->input('descripcion');
+
+		$documento->id_curso = $request->input('id_curso');
+		$documento->id_profesor = $request->input('id_profesor');
+		$documento->id_asignatura = $request->input('id_asignatura');
+		$documento->tipo_documento = $request->input('tipo');
+		if(date('m')<3){
+			$documento->año = date('Y')-1;
+			$documento->semestre = 2;	
+		}else{
+			if(date('m')<=8){
+				$documento->año = date('Y');
+				$documento->semestre = 1;
+			}else{
+				$documento->año = date('Y');
+				$documento->semestre = 2;
+			}
+		}
+		
+		$documento->update();
+
+		return Redirect('/material');
+	}
+
+	public function delete(Request $request){
+			$documento = Documentos::find($request->input('id'));
+
+			$documento->delete();
+
+			return Redirect('/material');
 	}
 
 	public function profesor(){

@@ -31,13 +31,22 @@
                         <th scope="col">Asignatura</th>
                         <th scope="col">Grado</th>
                         <th scope="col">Letra</th>
-                        <th scope="col">Ver</th>
+                        <th scope="col">Notas</th>
+                        <th scope="col">Asistencia</th>
                       </tr>
                       @foreach($cursos as $curso)
                         <tr>
                           <td>{{$curso->nombre_asignatura}}</td>
                           <td>{{$curso->grado}}</td>
                           <td>{{$curso->letra}}</td>
+                          <td>
+                            <form action="/notas" method="post">
+                              @csrf
+                              <input type="text" name="id_curso" value="{{$curso->id_curso}}" hidden>
+                              <input type="text" name="id_asignatura" value="{{$curso->id_asignatura}}" hidden>
+                              <button type="submit" class="btn btn-info btn-sm btn-block "><i class="fas fa-info-circle"></i></button>
+                            </form> 
+                          </td>
                           <td>
                             <form action="/asistencia/curso" method="post">
                               @csrf
