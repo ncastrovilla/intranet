@@ -69,6 +69,7 @@ class AsistenciaController extends Controller
                     			   ->where('id_asignatura','=',$asignatura)
                     			   ->where('id_profesor','=',$profesor)
                     			   ->wheremonth('fecha_asistencia','<=',8)
+                    			   ->whereyear('fecha_asistencia',date('Y'))
                     			   ->orderBy('fecha_asistencia')
                     			   ->get();
             }else{    
@@ -79,6 +80,7 @@ class AsistenciaController extends Controller
 				   ->where('id_asignatura','=',$asignatura)
 				   ->where('id_profesor','=',$profesor)
 				   ->wheremonth('fecha_asistencia','>',8)
+				   ->whereyear('fecha_asistencia',date('Y'))
 				   ->orderBy('fecha_asistencia')
 				   ->get();
             }

@@ -1,13 +1,6 @@
 @extends('layouts.plantilla')
 @section('title', 'Notas Profesor')
 @section('contenido')
-
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
-
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
 <body>
     <div class="page-header">
       @foreach($nombre_curso as $curso)
@@ -27,12 +20,15 @@
             <div class="box box-primary">
                 <div class="box-body">
                   <div class="form-group">
-                    <table class="table table-bordered">
+                    <table class="table table-stripped" id="asistencia">
+                      <thead>
                       <tr>
                         <th scope="col">Fecha Clase</th>
                         <th scope="col">Ver</th>
                         <th scope="col">Modificar</th>
                       </tr>
+                      </thead>
+                      <tbody>
                       <?php 
                       $contador=1;
                       ?>
@@ -42,18 +38,18 @@
                           <td>{{date("d-m-Y", strtotime($a->fecha_asistencia))}}</td>
                           <td>
                             <a type="button" class="btn btn-info btn-sm btn-block" data-toggle="modal" data-target="#modal_verasistencia-{{$a->id_asistencia}}"><i class="fas fa-eye" style="color: white;"></i></a>
-                          </td>
-                          <td><a type="button" class="btn btn-info btn-sm btn-block" data-toggle="modal" data-target="#modal_modificarasistencia-{{$a->id_asistencia}}-{{$contador}}"><i class="fas fa-pen-square" style="color: white;"></i></a>
                             @include('asistencia.modal_verasistencia')
                           </td>
-                        </tr>
-                        
+                          <td><a type="button" class="btn btn-info btn-sm btn-block" data-toggle="modal" data-target="#modal_modificarasistencia-{{$a->id_asistencia}}-{{$contador}}"><i class="fas fa-pen-square" style="color: white;"></i></a>
                         @include('asistencia.modal_modificarasistencia')
+                          </td>
+                        </tr>
                         <?php ++$contador; ?>
                         @endforeach
+                        </tbody>
                     </table>
-                    <a type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modal_subirasistencia-{{$id_curso}}-{{$asignatura}}-{{$profesor}}"><i class="fas fa-plus" style="color: white;"></i></a>
-                    @include('asistencia.modal_subirasistencia')
+                    <a type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modal_subirasistencia-{{$id_curso}}-{{$asignatura}}-{{$profesor}}"><i class="fas fa-plus" style="color: white;"></i>@include('asistencia.modal_subirasistencia')</a>
+                    
                     </div>
                 </div>
             </div>
@@ -64,4 +60,10 @@
   </div>
 </body>
 </br>
+<script>
+ $(document).ready( function () {
+    $('#asistencia').DataTable();
+} );
+</script>
+
 @endsection

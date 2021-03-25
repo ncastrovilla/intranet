@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use App\Profesor;
+use App\Alumnos;
 use App\Cuenta;
+use App\Curso;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\hash;
@@ -23,6 +25,15 @@ class ProfesoresController extends Controller
 		$profesor->rut = $request->input('rut');
 		$profesor->correo = $request->input('correo');
 		$profesor->save();
+
+		$user = new User();
+
+		$user->name = $request->input('nombres').' '.$request->input('apellido_paterno').' '.$request->input('apellido_materno');
+		$user->email = $request->input('correo');
+		$user->rut = $request->input('rut');
+		$user->password = Hash::make($request->input('rut'));
+		$user->rol = 2;
+		$user->save();
 
 		return Redirect('/profesores');
 	}
@@ -78,6 +89,30 @@ class ProfesoresController extends Controller
 			$cuenta->save();
 
 			return Redirect('/profesores');
+	}
+
+	public function curso(){
+		$profesor = Profesor::where('rut',auth()->user()->rut)->first();
+
+		$cursos = Curso::all();
+
+		$id_curso = 0;
+
+		foreach($cursos as $curso){
+			if($curso->id_profesor == $profesor->id_profesor){
+				$id_curso = $curso->id_curso;
+				break;
+			}
+		}
+
+		$asignaturas = Cuenta::where('id_curso',$id_curso)->get();
+
+
+		
+
+		$alumnos = Alumnos::where('id_curso',$id_curso)->get();;
+
+		return view('profesores.profesorjefe_index',compact('asignaturas','alumnos','id_curso'));
 	}
 }
 ?>

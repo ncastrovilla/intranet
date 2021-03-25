@@ -44,7 +44,19 @@ Route::post('/material/curso','fileController@showprofesor');
 
 Route::post('/material/upload','materialController@upload');
 
+Route::get('/curso','profesoresController@curso');
+
 });
+
+Route::get('/administrativos','administrativosController@show');
+Route::post('/administrativos/create','administrativosController@create');
+Route::post('/administrativos/update','administrativosController@update');
+Route::post('/administrativos/delete','administrativosController@delete');
+
+Route::get('/administradores','administradoresController@show');
+Route::post('/administradores/create','administradoresController@create');
+Route::post('/administradores/update','administradoresController@update');
+Route::post('/administradores/delete','administradoresController@delete');
 
 Route::group(['middleware' => "alumno"],function(){
 	Route::get('/notas/alumno','notasController@showalumnos')->middleware('alumno');
@@ -88,6 +100,17 @@ Route::post('/alumnos/create','alumnosController@create'); //admin
 Route::post('/alumnos/update','alumnosController@update'); //admin
 
 Route::post('/alumnos/delete','alumnosController@delete');
+
+Route::get('/administrativos','administrativosController@show');
+Route::post('/administrativos/create','administrativosController@create');
+Route::post('/administrativos/update','administrativosController@update');
+Route::post('/administrativos/delete','administrativosController@delete');
+
+Route::get('/administradores','administradoresController@show');
+Route::post('/administradores/create','administradoresController@create');
+Route::post('/administradores/update','administradoresController@update');
+Route::post('/administradores/delete','administradoresController@delete');
+
 });
 
 

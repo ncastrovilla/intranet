@@ -92,12 +92,7 @@
                 <img class="img-circle elevation-1" src="../dist/img/user7-128x128.jpg" alt="User Avatar">
               </div>
               <div class="card-footer" style="float: right;">
-                <div class="row">
-                  <div class="">
-                    <label>Profesor Jefe {{$curso->grado.' '.$curso->letra}}</label><br>
-                    <!-- /.description-block -->
-                  </div>
-                </div>
+                
                 <!-- /.row -->
         <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{ __('Cerrar Sesion') }}</a>
@@ -232,8 +227,20 @@
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/alumnos">
-          <i class="nav-icon fas fa-toggle-on"></i>
+          <i class="nav-icon fas fa-user"></i>
           <p>Alumnos</p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/administradores">
+         <i class="nav-icon fas fa-user-cog"></i>
+          <p>Administradores</p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/administrativos">
+          <i class="nav-icon fas fa-user-tie"></i>
+          <p>Administrativos</p>
         </a>
       </li>
       @endif

@@ -1,131 +1,488 @@
-@extends('layouts.plantilla')
-@section('title', 'ver notas profesor')
-@section('contenido')
 
-<?php 
+<link rel="stylesheet" href="../adminlte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="../adminlte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="../adminlte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+<link rel="stylesheet" href="../adminlte/plugins/fontawesome-free/css/all.min.css">
+<link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
 
-use App\Documentos;
-$ruta = auth()->user()->name;
-$ruta = str_replace(' ', '', $ruta);
+  <link href="{{ asset('css/sb-admin.css') }}" rel="stylesheet">
 
-$doc = Documentos::all();
-
-$curso = DB::table('asistencia')
-                            ->select('fecha_asistencia','presente_asistencia')
-                            ->where('id_alumnos','=',6)
-                            ->where('id_asignatura','=',3)
-                            ->get();
-
-    $esperada = 0;
-    $obtenida = 0;
-foreach ($curso as $c) {
-    $esperada++;
-    if ($c->presente_asistencia=='Si') {
-        ++$obtenida;
-    }
-}
-
-        $asistencias = DB::table('asistencia')
-                   ->select('id_asistencia','fecha_asistencia','id_curso','presente_asistencia')
-                   ->distinct()
-                   ->where('id_curso','=',1)
-                   ->where('id_asignatura','=',2)
-                   ->where('id_profesor','=',2)
-                   ->wheremonth('fecha_asistencia',"=",1)
-                   ->orderBy('fecha_asistencia')
-                   ->get();
-
-        $nombre_curso = DB::table('curso')
-                        ->where('id_curso','=',3)
-                        ->get();
-
-?>
-<h1>Prueba de grafico de asistencia de alumnos {{$esperada}}</h1>
-<script src="http://code.jquery.com/jquery-latest.js"></script>
- 
-<input type="text" id="id">
-<input type="text" name="nombre">
-<select class="selectpicker">
-    <option id="1">opcion 1</option>
-    <option id="2">opcion 2</option>
-</select>
- 
-<script>
-$(".selectpicker").on("change", function(){
-    $('#id').val($(".selectpicker option:selected").text());
-    $('#nombre').val(hola);
-});
-</script>
-	<link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
-	<canvas id="mychart" width="auto" height="150"></canvas><br>
-    <input type="date" name="">
-    <div class="bs-callout bs-callout-warning">
-    <table id="example" class="table table-hover table-bordered" style="width: auto; height: auto;">
-        <thead>
-            <tr>
-               @for($i=1;$i<30;$i++)
-                <th style="padding: 5px; font-size: 10px;">{{date('d-m-y')}}</th>
-                @endfor
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($asistencias as $a)
-            <tr><?php
-
-                $fecha = date('m',strtotime($c->fecha_asistencia));
-             ?>
-                <td style="padding: 2px; font-size: 10px;">{{date("d-m-Y", strtotime($c->fecha_asistencia))}}</td>
-                @if($a->presente_asistencia=='Si')
-                <td style="padding: 2px; font-size: 10px;"><span class="fa fa-check fa-2x" style="color:green"></span></td>
-                @else
-                <td style="padding: 2px; font-size: 10px;"><span class="fa fa-remove fa-2x" style="color:red"></span></td>
-                @endif
-                <td style="padding: 2px; font-size: 10px;"><a type="button" class="btn btn-info btn-sm btn-block" data-toggle="modal" data-target="#modal_verasistencia-{{$a->id_asistencia}}"><i class="fas fa-eye" style="color: white;"></i></a>
-                    @include('asistencia.modal_verasistencia')
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
-    </div>
-    @foreach($doc as $d)
-    <a href="/file/download/{{$d->file}}">{{$d->file}}</a><br>
-    @endforeach
-    <form action="file/upload" method="post" enctype="multipart/form-data" name="formName" >
-        @csrf
-        <input type="file" name="file">
-        <button type="submit" value="subir">Guardar</button>
-    </form>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
-	<script type="text/javascript">
-        var asistencia = <?php echo $esperada ?>;
-        var obtenida = <?php echo $obtenida ?>;
-var ctx = document.getElementById('mychart').getContext('2d');
-var mychart = new Chart(ctx, {
-    type: 'pie',
-    data: {
-        labels: ['Asistencia esperada', 'Assitencia Obtenida'],
-        datasets: [{
-            data: [asistencia,obtenida],
-            backgroundColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)'
-            ],
-            borderWidth: 1
-        }]
-    }
-});
-$(document).ready( function () {
-    $('#example').DataTable();
-} );
-</script>
+  <!-- Page level plugin CSS-->
+  <link href="{{ asset('vendor/datatables/dataTables.bootstrap4.css') }}" rel="stylesheet">
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+ <div class="card-body">
+                <table id="example2" class="table table-bordered table-hover">
+                  <thead>
+                  <tr>
+                    <th>Rendering engine</th>
+                    <th>Browser</th>
+                    <th>Platform(s)</th>
+                    <th>Engine version</th>
+                    <th>CSS grade</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td>Trident</td>
+                    <td>Internet
+                      Explorer 4.0
+                    </td>
+                    <td>Win 95+</td>
+                    <td> 4</td>
+                    <td>X</td>
+                  </tr>
+                  <tr>
+                    <td>Trident</td>
+                    <td>Internet
+                      Explorer 5.0
+                    </td>
+                    <td>Win 95+</td>
+                    <td>5</td>
+                    <td>C</td>
+                  </tr>
+                  <tr>
+                    <td>Trident</td>
+                    <td>Internet
+                      Explorer 5.5
+                    </td>
+                    <td>Win 95+</td>
+                    <td>5.5</td>
+                    <td>A</td>
+                  </tr>
+                  <tr>
+                    <td>Trident</td>
+                    <td>Internet
+                      Explorer 6
+                    </td>
+                    <td>Win 98+</td>
+                    <td>6</td>
+                    <td>A</td>
+                  </tr>
+                  <tr>
+                    <td>Trident</td>
+                    <td>Internet Explorer 7</td>
+                    <td>Win XP SP2+</td>
+                    <td>7</td>
+                    <td>A</td>
+                  </tr>
+                  <tr>
+                    <td>Trident</td>
+                    <td>AOL browser (AOL desktop)</td>
+                    <td>Win XP</td>
+                    <td>6</td>
+                    <td>A</td>
+                  </tr>
+                  <tr>
+                    <td>Gecko</td>
+                    <td>Firefox 1.0</td>
+                    <td>Win 98+ / OSX.2+</td>
+                    <td>1.7</td>
+                    <td>A</td>
+                  </tr>
+                  <tr>
+                    <td>Gecko</td>
+                    <td>Firefox 1.5</td>
+                    <td>Win 98+ / OSX.2+</td>
+                    <td>1.8</td>
+                    <td>A</td>
+                  </tr>
+                  <tr>
+                    <td>Gecko</td>
+                    <td>Firefox 2.0</td>
+                    <td>Win 98+ / OSX.2+</td>
+                    <td>1.8</td>
+                    <td>A</td>
+                  </tr>
+                  <tr>
+                    <td>Gecko</td>
+                    <td>Firefox 3.0</td>
+                    <td>Win 2k+ / OSX.3+</td>
+                    <td>1.9</td>
+                    <td>A</td>
+                  </tr>
+                  <tr>
+                    <td>Gecko</td>
+                    <td>Camino 1.0</td>
+                    <td>OSX.2+</td>
+                    <td>1.8</td>
+                    <td>A</td>
+                  </tr>
+                  <tr>
+                    <td>Gecko</td>
+                    <td>Camino 1.5</td>
+                    <td>OSX.3+</td>
+                    <td>1.8</td>
+                    <td>A</td>
+                  </tr>
+                  <tr>
+                    <td>Gecko</td>
+                    <td>Netscape 7.2</td>
+                    <td>Win 95+ / Mac OS 8.6-9.2</td>
+                    <td>1.7</td>
+                    <td>A</td>
+                  </tr>
+                  <tr>
+                    <td>Gecko</td>
+                    <td>Netscape Browser 8</td>
+                    <td>Win 98SE+</td>
+                    <td>1.7</td>
+                    <td>A</td>
+                  </tr>
+                  <tr>
+                    <td>Gecko</td>
+                    <td>Netscape Navigator 9</td>
+                    <td>Win 98+ / OSX.2+</td>
+                    <td>1.8</td>
+                    <td>A</td>
+                  </tr>
+                  <tr>
+                    <td>Gecko</td>
+                    <td>Mozilla 1.0</td>
+                    <td>Win 95+ / OSX.1+</td>
+                    <td>1</td>
+                    <td>A</td>
+                  </tr>
+                  <tr>
+                    <td>Gecko</td>
+                    <td>Mozilla 1.1</td>
+                    <td>Win 95+ / OSX.1+</td>
+                    <td>1.1</td>
+                    <td>A</td>
+                  </tr>
+                  <tr>
+                    <td>Gecko</td>
+                    <td>Mozilla 1.2</td>
+                    <td>Win 95+ / OSX.1+</td>
+                    <td>1.2</td>
+                    <td>A</td>
+                  </tr>
+                  <tr>
+                    <td>Gecko</td>
+                    <td>Mozilla 1.3</td>
+                    <td>Win 95+ / OSX.1+</td>
+                    <td>1.3</td>
+                    <td>A</td>
+                  </tr>
+                  <tr>
+                    <td>Gecko</td>
+                    <td>Mozilla 1.4</td>
+                    <td>Win 95+ / OSX.1+</td>
+                    <td>1.4</td>
+                    <td>A</td>
+                  </tr>
+                  <tr>
+                    <td>Gecko</td>
+                    <td>Mozilla 1.5</td>
+                    <td>Win 95+ / OSX.1+</td>
+                    <td>1.5</td>
+                    <td>A</td>
+                  </tr>
+                  <tr>
+                    <td>Gecko</td>
+                    <td>Mozilla 1.6</td>
+                    <td>Win 95+ / OSX.1+</td>
+                    <td>1.6</td>
+                    <td>A</td>
+                  </tr>
+                  <tr>
+                    <td>Gecko</td>
+                    <td>Mozilla 1.7</td>
+                    <td>Win 98+ / OSX.1+</td>
+                    <td>1.7</td>
+                    <td>A</td>
+                  </tr>
+                  <tr>
+                    <td>Gecko</td>
+                    <td>Mozilla 1.8</td>
+                    <td>Win 98+ / OSX.1+</td>
+                    <td>1.8</td>
+                    <td>A</td>
+                  </tr>
+                  <tr>
+                    <td>Gecko</td>
+                    <td>Seamonkey 1.1</td>
+                    <td>Win 98+ / OSX.2+</td>
+                    <td>1.8</td>
+                    <td>A</td>
+                  </tr>
+                  <tr>
+                    <td>Gecko</td>
+                    <td>Epiphany 2.20</td>
+                    <td>Gnome</td>
+                    <td>1.8</td>
+                    <td>A</td>
+                  </tr>
+                  <tr>
+                    <td>Webkit</td>
+                    <td>Safari 1.2</td>
+                    <td>OSX.3</td>
+                    <td>125.5</td>
+                    <td>A</td>
+                  </tr>
+                  <tr>
+                    <td>Webkit</td>
+                    <td>Safari 1.3</td>
+                    <td>OSX.3</td>
+                    <td>312.8</td>
+                    <td>A</td>
+                  </tr>
+                  <tr>
+                    <td>Webkit</td>
+                    <td>Safari 2.0</td>
+                    <td>OSX.4+</td>
+                    <td>419.3</td>
+                    <td>A</td>
+                  </tr>
+                  <tr>
+                    <td>Webkit</td>
+                    <td>Safari 3.0</td>
+                    <td>OSX.4+</td>
+                    <td>522.1</td>
+                    <td>A</td>
+                  </tr>
+                  <tr>
+                    <td>Webkit</td>
+                    <td>OmniWeb 5.5</td>
+                    <td>OSX.4+</td>
+                    <td>420</td>
+                    <td>A</td>
+                  </tr>
+                  <tr>
+                    <td>Webkit</td>
+                    <td>iPod Touch / iPhone</td>
+                    <td>iPod</td>
+                    <td>420.1</td>
+                    <td>A</td>
+                  </tr>
+                  <tr>
+                    <td>Webkit</td>
+                    <td>S60</td>
+                    <td>S60</td>
+                    <td>413</td>
+                    <td>A</td>
+                  </tr>
+                  <tr>
+                    <td>Presto</td>
+                    <td>Opera 7.0</td>
+                    <td>Win 95+ / OSX.1+</td>
+                    <td>-</td>
+                    <td>A</td>
+                  </tr>
+                  <tr>
+                    <td>Presto</td>
+                    <td>Opera 7.5</td>
+                    <td>Win 95+ / OSX.2+</td>
+                    <td>-</td>
+                    <td>A</td>
+                  </tr>
+                  <tr>
+                    <td>Presto</td>
+                    <td>Opera 8.0</td>
+                    <td>Win 95+ / OSX.2+</td>
+                    <td>-</td>
+                    <td>A</td>
+                  </tr>
+                  <tr>
+                    <td>Presto</td>
+                    <td>Opera 8.5</td>
+                    <td>Win 95+ / OSX.2+</td>
+                    <td>-</td>
+                    <td>A</td>
+                  </tr>
+                  <tr>
+                    <td>Presto</td>
+                    <td>Opera 9.0</td>
+                    <td>Win 95+ / OSX.3+</td>
+                    <td>-</td>
+                    <td>A</td>
+                  </tr>
+                  <tr>
+                    <td>Presto</td>
+                    <td>Opera 9.2</td>
+                    <td>Win 88+ / OSX.3+</td>
+                    <td>-</td>
+                    <td>A</td>
+                  </tr>
+                  <tr>
+                    <td>Presto</td>
+                    <td>Opera 9.5</td>
+                    <td>Win 88+ / OSX.3+</td>
+                    <td>-</td>
+                    <td>A</td>
+                  </tr>
+                  <tr>
+                    <td>Presto</td>
+                    <td>Opera for Wii</td>
+                    <td>Wii</td>
+                    <td>-</td>
+                    <td>A</td>
+                  </tr>
+                  <tr>
+                    <td>Presto</td>
+                    <td>Nokia N800</td>
+                    <td>N800</td>
+                    <td>-</td>
+                    <td>A</td>
+                  </tr>
+                  <tr>
+                    <td>Presto</td>
+                    <td>Nintendo DS browser</td>
+                    <td>Nintendo DS</td>
+                    <td>8.5</td>
+                    <td>C/A<sup>1</sup></td>
+                  </tr>
+                  <tr>
+                    <td>KHTML</td>
+                    <td>Konqureror 3.1</td>
+                    <td>KDE 3.1</td>
+                    <td>3.1</td>
+                    <td>C</td>
+                  </tr>
+                  <tr>
+                    <td>KHTML</td>
+                    <td>Konqureror 3.3</td>
+                    <td>KDE 3.3</td>
+                    <td>3.3</td>
+                    <td>A</td>
+                  </tr>
+                  <tr>
+                    <td>KHTML</td>
+                    <td>Konqureror 3.5</td>
+                    <td>KDE 3.5</td>
+                    <td>3.5</td>
+                    <td>A</td>
+                  </tr>
+                  <tr>
+                    <td>Tasman</td>
+                    <td>Internet Explorer 4.5</td>
+                    <td>Mac OS 8-9</td>
+                    <td>-</td>
+                    <td>X</td>
+                  </tr>
+                  <tr>
+                    <td>Tasman</td>
+                    <td>Internet Explorer 5.1</td>
+                    <td>Mac OS 7.6-9</td>
+                    <td>1</td>
+                    <td>C</td>
+                  </tr>
+                  <tr>
+                    <td>Tasman</td>
+                    <td>Internet Explorer 5.2</td>
+                    <td>Mac OS 8-X</td>
+                    <td>1</td>
+                    <td>C</td>
+                  </tr>
+                  <tr>
+                    <td>Misc</td>
+                    <td>NetFront 3.1</td>
+                    <td>Embedded devices</td>
+                    <td>-</td>
+                    <td>C</td>
+                  </tr>
+                  <tr>
+                    <td>Misc</td>
+                    <td>NetFront 3.4</td>
+                    <td>Embedded devices</td>
+                    <td>-</td>
+                    <td>A</td>
+                  </tr>
+                  <tr>
+                    <td>Misc</td>
+                    <td>Dillo 0.8</td>
+                    <td>Embedded devices</td>
+                    <td>-</td>
+                    <td>X</td>
+                  </tr>
+                  <tr>
+                    <td>Misc</td>
+                    <td>Links</td>
+                    <td>Text only</td>
+                    <td>-</td>
+                    <td>X</td>
+                  </tr>
+                  <tr>
+                    <td>Misc</td>
+                    <td>Lynx</td>
+                    <td>Text only</td>
+                    <td>-</td>
+                    <td>X</td>
+                  </tr>
+                  <tr>
+                    <td>Misc</td>
+                    <td>IE Mobile</td>
+                    <td>Windows Mobile 6</td>
+                    <td>-</td>
+                    <td>C</td>
+                  </tr>
+                  <tr>
+                    <td>Misc</td>
+                    <td>PSP browser</td>
+                    <td>PSP</td>
+                    <td>-</td>
+                    <td>C</td>
+                  </tr>
+                  <tr>
+                    <td>Other browsers</td>
+                    <td>All others</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>U</td>
+                  </tr>
+                  </tbody>
+                  <tfoot>
+                  <tr>
+                    <th>Rendering engine</th>
+                    <th>Browser</th>
+                    <th>Platform(s)</th>
+                    <th>Engine version</th>
+                    <th>CSS grade</th>
+                  </tr>
+                  </tfoot>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+</div>
 </body>
 </html>
-@endsection
+<script src="../adminlte/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="../adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- DataTables  & Plugins -->
+<script src="../adminlte/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="../adminlte/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="../adminlte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="../adminlte/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="../adminlte/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="../adminlte/plugins/jszip/jszip.min.js"></script>
+<script src="../adminlte/plugins/pdfmake/pdfmake.min.js"></script>
+<script src="../adminlte/plugins/pdfmake/vfs_fonts.js"></script>
+<script src="../adminlte/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="../adminlte/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="../adminlte/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+<script>
+  $(function () {
+    $("#example1").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
+</script>
