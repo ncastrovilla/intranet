@@ -1,5 +1,6 @@
 <?php 
 use App\Notas;
+$promediogeneral = 0;
 ?>
 <html>
 <head>
@@ -26,15 +27,6 @@ use App\Notas;
     }
     </style>
 </head>
-<?php 
-    
-    $año = date('Y');
-
-    if (date('m')<3) {
-        $año = date('Y')-1;
-    }
-
-?>
 <body>
 <header>
     <p style="font-size:20px;line-height: 1;"><img src="http://localhost/intranet/public/images/descarga.png" style="width: 80px;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<b><u>CERTIFICADO DE NOTAS</u></b></p>
@@ -68,6 +60,7 @@ use App\Notas;
                               ->select('nombres_profesor','apellido_paterno','apellido_materno')
                               ->where('id_curso','=',$curso->id_curso)
                               ->first();
+                              $suma=0;
              ?>
             <td style="width: 75%;">{{$profesor->nombres_profesor.' '.$profesor->apellido_paterno.' '.$profesor->apellido_materno}}</td>
         </tr>
@@ -95,20 +88,32 @@ use App\Notas;
             <?php $nombre = DB::table('asignatura') 
                             ->where('id_asignatura','=',$asignaturas->id_asignatura)
                             ->get();
+            $suma = 0;
             ?>
             <tr>
                 @foreach($nombre as $n)
                 <td>{{$n->nombre_asignatura}}</td>
                 <?php $notas = DB::table('notas') 
-                            ->where('id_asignatura','=',$asignaturas->id_asignatura)
-                            ->where('id_alumno','=',$alumno->id_alumnos)
-                            ->where('semestre','=',$semestre)
-                            ->where('año','=',$año)
-                            ->get();?>
-                
+                            ->join('ponderaciones','notas.id_ponderacion','ponderaciones.id_ponderacion')
+                            ->where('notas.id_asignatura','=',$asignaturas->id_asignatura)
+                            ->where('notas.id_alumno','=',$alumno->id_alumnos)
+                            ->where('notas.semestre','=',$semestre)
+                            ->where('notas.año','=',$año)
+                            ->get();
+                            
+                            ?>
                 @foreach($notas as $nota)
+                <?php
+                $notanormal = $nota->nota;
+                    $porcentajeindividual = $nota->porcentaje/$nota->cantidad;
+                      $nota = ($nota->nota * $porcentajeindividual)/100;
+                      $nota = number_format($nota,'2','.',','); 
+                      $suma += $nota;
+                      $promediogeneral = $suma;
+                      ++$notas;
+                  ?> 
                 @if($notas!=[])
-                <td>{{$nota->nota}}</td>
+                <td>{{$notanormal}}</td>
                 @endif
                 @endforeach
                  <?php
@@ -126,7 +131,7 @@ use App\Notas;
                     $promedioparcial += $faltantes;
                     ++$cantidad;
                 ?>
-                <td>{{number_format($faltantes,'1','.',',')}}</td>
+                <td>{{number_format($suma,'1','.',',')}}</td>
                 @endif
                 @endforeach
             </tr>
@@ -154,6 +159,5 @@ use App\Notas;
 <?php setlocale(LC_ALL,'spanish'); $mes= strftime("%B");?>
 
 <p>Hualpen, {{date('d').' de '.$mes.' del '.date('Y')}} </p>
-<p style="font-size:12px">La autenticidad de este certificado puede verificarse en nuestro sitio web, <b>www.institutosanpedro.cl</b>, sección de Servicios Virtuales, ingresando el <b>número de folio</b> que registra este documento.</p>
-</body>
+
 </html>

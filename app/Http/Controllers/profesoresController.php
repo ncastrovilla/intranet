@@ -8,6 +8,7 @@ use App\Profesor;
 use App\Alumnos;
 use App\Cuenta;
 use App\Curso;
+use App\Dicta;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\hash;
@@ -81,12 +82,14 @@ class ProfesoresController extends Controller
 	}
 	public function asignarasignaturas(Request $request){
 			$id_profesor = $request->input('id');
+			
+			$cuenta = Cuenta::where('id_curso',$request->input('curso'))->where('id_asignatura',$request->input('asignatura'))->first();
 
-			$cuenta = new Cuenta();
-			$cuenta->id_curso = $request->input('curso');
-			$cuenta->id_profesor = $id_profesor;
-			$cuenta->id_asignatura = $request->input('asignatura');
-			$cuenta->save();
+			$dicta = new Dicta();
+			$dicta->id_profesor = $request->input('id');
+			$dicta->id_cuenta = $cuenta->id_cuenta;
+			$dicta->año = date('Y');
+			$dicta->save();
 
 			return Redirect('/profesores');
 	}
@@ -110,7 +113,11 @@ class ProfesoresController extends Controller
 
 		
 
-		$alumnos = Alumnos::where('id_curso',$id_curso)->get();;
+		$alumnos = DB::table('alumnos')
+					->join('pertenece','pertenece.id_alumno','alumnos.id_alumnos')
+					->where('pertenece.id_curso',$id_curso)
+					->where('pertenece.año',date('Y'))
+					->get();;
 
 		return view('profesores.profesorjefe_index',compact('asignaturas','alumnos','id_curso'));
 	}

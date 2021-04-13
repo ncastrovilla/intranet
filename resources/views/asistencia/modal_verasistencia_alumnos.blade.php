@@ -1,23 +1,15 @@
 <?php
-        if(date('m')<3){
+        
+        if($semestre == 1){
             $curso = DB::table('asistencia')
                             ->select('fecha_asistencia','presente_asistencia')
                             ->where('id_alumnos','=',$a->id_alumnos)
                             ->where('id_asignatura','=',$a->id_asignatura)
                             ->orderBy('fecha_asistencia')
-                            ->wheremonth('fecha_asistencia','>=',8)
-                            ->whereyear('fecha_asistencia','=',date('Y')-1)
+                            ->wheremonth('fecha_asistencia','<',8)
+                            ->whereyear('fecha_asistencia','=',$año)
                             ->get();
         }else{
-            if(date('m')<=8){
-                    $curso = DB::table('asistencia')
-                            ->select('fecha_asistencia','presente_asistencia')
-                            ->where('id_alumnos','=',$a->id_alumnos)
-                            ->where('id_asignatura','=',$a->id_asignatura)
-                            ->wheremonth('fecha_asistencia','<=',8)
-                            ->orderBy('fecha_asistencia')
-                            ->get();
-            }else{    
             $curso = DB::table('asistencia')
                             ->select('fecha_asistencia','presente_asistencia')
                             ->where('id_alumnos','=',$a->id_alumnos)
@@ -25,8 +17,9 @@
                             ->wheremonth('fecha_asistencia','>',8)
                             ->orderBy('fecha_asistencia')
                             ->get();
-            }
+
         }
+
 
     $esperada = 0;
     $obtenida = 0;
@@ -42,7 +35,7 @@ if ($esperada!=0) {
 }
 
 ?>
-<div class="modal fade bd-example-modal-lg" id="modal_verasistencia_alumnos-{{$a->id_alumnos}}-{{$a->id_asignatura}}" role="dialog">
+<div class="modal fade bd-example-modal-lg" data-backdrop="static" id="modal_verasistencia_alumnos-{{$a->id_alumnos}}-{{$a->id_asignatura}}" role="dialog">
     <div class="modal-dialog modal-lg">
         <!-- Modal content-->
 <div class="modal-content">

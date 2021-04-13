@@ -1,4 +1,4 @@
-<div class="modal fade bd-example-modal-lg" id="modal_subirnotas-{{$cursos}}-{{$asignatura}}" role="dialog">
+<div class="modal fade bd-example-modal-lg" data-backdrop="static" id="modal_subirnotas-{{$cursos}}-{{$asignatura}}-{{$dicta}}" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">
@@ -16,21 +16,44 @@
               @csrf
               <?php 
                   $alumnos = DB::table('alumnos')
-                            ->select('id_alumnos','nombre_alumnos')
-                            ->where('id_curso','=',$cursos)
+                            ->join('pertenece','alumnos.id_alumnos','=','pertenece.id_alumno')
+                            ->select('alumnos.id_alumnos','alumnos.nombre_alumnos')
+                            ->where('pertenece.id_curso','=',$cursos)
+                            ->where('pertenece.año',date('Y'))
                             ->get();
+
+                  $ponderaciones = DB::table('ponderaciones')
+                                   ->where('id_dicta',$dicta)
+                                   ->get();
                ?>
               <div class="modal-body">
                   <div class="box-body">
+                    <div class="form-group">
+                      <label>Tipo de nota</label>
+                      <select class="form-control" name="ponderacion">
+                        @foreach($ponderaciones as $p)
+                        <?php $cantidad = DB::table('notas')
+                            ->where('id_ponderacion',$p->id_ponderacion)
+                            ->distinct('descripcion')
+                            ->count();
+                            ?>
+                        @if($cantidad < $p->cantidad && $cantidad==0)
+                        <option value="{{$p->id_ponderacion}}">{{$p->descripcion_ponderacion}}</option>
+                        @endif
+                        @endforeach
+                      </select>
+                    </div>
                     <label>Descripcion de la Nota</label>
                     <input class="form-control" type="text" name="descripcion" placeholder="Descripcion"><br>
                       <input class="form-control" name="id_curso" type="hidden" value="{{$cursos}}">
                       <input class="form-control" name="id_asignatura" type="hidden" value="{{$asignatura}}">
                       <?php 
                         $profesor_id = DB::table('cuenta')
-                                      ->select('id_profesor')
-                                      ->where('id_curso','=',$cursos)
-                                      ->where('id_asignatura','=',$asignatura)
+                                      ->join('dicta','dicta.id_cuenta','=','cuenta.id_cuenta')
+                                      ->select('dicta.id_profesor')
+                                      ->where('cuenta.id_curso','=',$cursos)
+                                      ->where('cuenta.id_asignatura','=',$asignatura)
+                                      ->where('dicta.año',date('Y'))
                                       ->get();
                       ?>
                       @foreach ($profesor_id as $id_profesor)

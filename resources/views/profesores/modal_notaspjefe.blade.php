@@ -3,7 +3,7 @@
     $semestre = 1;
                    $año = 2021;
  ?>
-<div class="modal fade bd-example-modal-lg" id="modal_notaspjefe-{{$asignatura->id_curso}}-{{$asignatura->id_asignatura}}" role="dialog">
+<div class="modal fade bd-example-modal-lg" data-backdrop="static" id="modal_notaspjefe-{{$asignatura->id_curso}}-{{$asignatura->id_asignatura}}" role="dialog">
     <div class="modal-dialog modal-lg">
         <!-- Modal content-->
         <div class="modal-content">
@@ -23,10 +23,14 @@
                    <?php
                    $b=0;
                     $alumnos = DB::table('alumnos')
-                                         ->where('id_curso',$asignatura->id_curso)
-                                         ->get();
+                               ->join('pertenece','pertenece.id_alumno','alumnos.id_alumnos')
+                               ->where('pertenece.id_curso',$asignatura->id_curso)
+                               ->where('pertenece.año',date('Y'))
+                               ->get();
                               $nalumnos = DB::table('alumnos')
-                                         ->where('id_curso',$asignatura->id_curso)
+                                         ->join('pertenece','pertenece.id_alumno','alumnos.id_alumnos')
+                                         ->where('pertenece.id_curso',$asignatura->id_curso)
+                                         ->where('pertenece.año',date('Y'))
                                          ->count();
                               $promedio_curso=0;
                          ?>
@@ -125,7 +129,7 @@
                          @foreach($parciales as $p)
                         <td>{{$p->nota}}</td>
                         @endforeach
-                        <td>{{$promedio}}</td>
+                        <td>{{number_format($promedio,1,'.',',')}}</td>
                       </tr>
                       @endforeach
                     </tbody>

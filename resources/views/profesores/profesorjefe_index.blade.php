@@ -100,16 +100,16 @@
 						                          ->where('id_curso','=',$asignatura->id_curso)
 						                          ->where('id_asignatura','=',$asignatura->id_asignatura)
 						                          ->where('id_alumno','=',$alumno->id_alumnos)
-						                          ->where('semestre',1)
-						                          ->where('año',2021)
+						                          ->where('semestre',$semestre)
+						                          ->where('año',$año)
 						                          ->avg('nota');
 						            $nnotas = DB::table('notas')
 						                          ->select('nota')
 						                          ->where('id_curso','=',$asignatura->id_curso)
 						                          ->where('id_asignatura','=',$asignatura->id_asignatura)
 						                          ->where('id_alumno','=',$alumno->id_alumnos)
-						                          ->where('semestre',1)
-						                          ->where('año',2021)
+						                          ->where('semestre',$semestre)
+						                          ->where('año',$año)
 						                          ->count();
 
 						    if ($parciales<4 & $parciales!=0) {

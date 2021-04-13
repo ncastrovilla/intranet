@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Alumnos;
 use App\Curso;
+use App\Pertenece;
 use App\Notas;
 use PDF;
 use Illuminate\Http\Request;
@@ -16,7 +17,8 @@ class PDFController extends Controller{
 	public function alumnoregular(Request $request){
 		$alumno = Alumnos::all()->where('rut',auth()->user()->rut);
 		foreach ($alumno as $a ) {
-		$curso = Curso::all()->where('id_curso',$a->id_curso);
+		$pertenece = Pertenece::where('id_alumno',$a->id_alumnos)->where('año',date('Y'))->first();
+		$curso = Curso::all()->where('id_curso',$pertenece->id_curso);
 		}
 		$pdf = PDF::loadview('certificados.certificado_alumnoregular',compact('alumno','curso'));
 		return $pdf->stream('regular.pdf');
@@ -34,15 +36,16 @@ class PDFController extends Controller{
 
 	public function notasalumno(Request $request){
 		$semestre=$request->input('semestre'); 
+		$año = $request->input('año');
+
 		$alumno = Alumnos::where('rut',auth()->user()->rut)->first();
-		$curso = Curso::where('id_curso',$alumno->id_curso)->first();
+		$pertenece = Pertenece::where('id_alumno',$alumno->id_alumnos)->where('año',date('Y'))->first();
+		$curso = Curso::where('id_curso',$pertenece->id_curso)->first();
 		$asignatura = DB::table('cuenta')
-					  ->where('id_curso','=',$alumno->id_curso)
+					  ->where('id_curso','=',$pertenece->id_curso)
 					  ->get();
 
-
-
-		$pdf = PDF::loadview('certificados.certificado_notaalumno',compact('alumno','curso','asignatura','semestre'));
+		$pdf = PDF::loadview('certificados.certificado_notaalumno',compact('alumno','curso','asignatura','semestre','año'));
 		return $pdf->stream();
 			
 	}

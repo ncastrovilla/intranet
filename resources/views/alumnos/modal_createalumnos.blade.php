@@ -1,4 +1,4 @@
-<div class="modal fade bd-example-modal-lg" id="modal_createalumnos" role="dialog">
+<div class="modal fade bd-example-modal-lg" data-backdrop="static" id="modal_createalumnos" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">

@@ -1,4 +1,4 @@
-<div class="modal fade bd-example-modal-lg" id="modal_subirasistencia-{{$id_curso}}-{{$asignatura}}-{{$profesor}}" role="dialog">
+<div class="modal fade bd-example-modal-lg" data-backdrop="static" id="modal_subirasistencia-{{$id_curso}}-{{$asignatura}}-{{$profesor}}" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
         <style type="text/css">
@@ -66,7 +66,9 @@
                           </div>
                           <?php
                               $alumnos = DB::table('alumnos')
-                                        ->where('id_curso' ,'=',$id_curso)
+                                        ->join('pertenece','pertenece.id_alumno','=','alumnos.id_alumnos')
+                                        ->where('pertenece.id_curso' ,'=',$id_curso)
+                                        ->where('pertenece.año',date('Y'))
                                         ->get();
                            ?>
                            @foreach($alumnos as $alumno)

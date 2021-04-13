@@ -15,12 +15,15 @@
   use App\Profesor;
 
   $profesor = Profesor::where('id_profesor',$curso->id_profesor)->first();
-  $array = array('red','green','blue','yellow','cyan');
-  $icon = array('paper','bookmarks','person','football','book');
+  $array = array('red','green','blue','yellow','cyan','green');
+  $icon = array('paper','bookmarks','person','football','book','paper');
   $i=0;
   $e=0;
   $contador=0;
-  if(date('m')<3){
+  if(isset($año)){
+
+  }else{
+    if(date('m')<3){
     $año = date('Y')-1;
     $semestre = 2;
   }else{
@@ -32,6 +35,19 @@
       $semestre = 2;
     }
   }
+  }
+  if(date('m')<3){
+    $semestre1 = 2;
+  }else{
+    if(date('m')<=8){
+      $semestre1 = 1;
+    }else{
+      $semestre1 = 2;
+    }
+  }
+  
+  
+  
 ?>
 
 <body>
@@ -71,19 +87,44 @@
         <div class="col-xs-12 col-lg-6">
             <div class="form-group">
                 <label class="col-sm-3 col-xs-12" style="color:#2c6aa0;font-family:Times new roman">Semestre</label>
-                <label class="col-sm-8 col-xs-12" style="color:#393939;font-family:calibri">{{$semestre}}</label>
+                <label class="col-sm-8 col-xs-12" style="color:#393939;font-family:calibri">{{$semestre1}}</label>
             </div>
         </div>
         <div class="col-xs-12 col-lg-6">
             <div class="form-group">
                 <label class="col-sm-3 col-xs-12" style="color:#2c6aa0;font-family:Times new roman">Año</label>
-                <label class="col-sm-8 col-xs-12" style="color:#393939;font-family:calibri">{{$año}}</label>
+                <label class="col-sm-8 col-xs-12" style="color:#393939;font-family:calibri">{{date('Y')}}</label>
             </div>
         </div>                                              
     </div>
   </div>
+  <div class="col-md-12 mr-auto">
+    <div class="bs-callout bs-callout-success"> 
+      <div class="row">
+        <form action="/notas/alumno" method="post">
+          @csrf
+          <div class="form-group" style="padding-left: 500px; text-align: center;">
+            <label class="">Año</label>
+            <input class="form-control" style="text-align: center;" name="año" type="text" value="{{$año}}">      
+          </div>
+          <div class="form-group" style="padding-left: 500px; text-align: center;">
+            <label class="">Semestre</label>
+            <input class="form-control" style="text-align: center;" name="semestre" type="text" value="{{$semestre}}">      
+          </div>
+          <div class="form-group" style="padding-left: 500px; text-align: center;">
+            <button type="submit" class="btn btn-sm btn-success"><i class="fas fa-search"> Buscar</i></button>      
+        </div>
+        </form>
+      </div>
+    </div>
+    </div>
     <div class="col-md-12 mr-auto">
     <div class="bs-callout bs-callout-success"> 
+      @if($alumno=="")
+      <div class="row">
+        <h5>Usted no presenta asignaturas para el periodo {{$año.'-'.$semestre}}</h5>
+      </div>
+      @else
       <div class="row">
         @foreach($alumno as $a)
         <div class="col-md-2">
@@ -97,6 +138,12 @@
             </div>
             <a type="button" class="small-box-footer" data-toggle="modal" data-target="#modal_notas-{{$a->id_alumnos}}-{{$a->id_asignatura}}">Notas <i class="fas fa-arrow-circle-right"></i></a>
             <a type="button" class="small-box-footer" data-toggle="modal" data-target="#modal_verasistencia_alumnos-{{$a->id_alumnos}}-{{$a->id_asignatura}}">Asistencia <i class="fas fa-arrow-circle-right"></i></a>
+            <form action="/material/alumnos" method="post">
+              @csrf
+              <input type="text" name="id_curso" value="{{$curso->id_curso}}" hidden>
+              <input type="text" name="id_asignatura" value="{{$a->id_asignatura}}" hidden>
+              <button type="submit" class="btn btn-sm" style="color: white;">Documentos<i class="fas fa-file"></i></button>
+            </form>
           </div>
         </div>
         <?php ++$contador ?>
@@ -104,6 +151,7 @@
         @include('asistencia.modal_verasistencia_alumnos')
         @endforeach
       </div>
+      @endif
     </div>
     </div>
   </div>

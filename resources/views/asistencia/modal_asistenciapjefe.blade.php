@@ -1,4 +1,4 @@
-<div class="modal fade bd-example-modal-lg" id="modal_asistenciapjefe-{{$asignatura->id_curso}}-{{$asignatura->id_asignatura}}" role="dialog">
+<div class="modal fade bd-example-modal-lg" data-backdrop="static" id="modal_asistenciapjefe-{{$asignatura->id_curso}}-{{$asignatura->id_asignatura}}" role="dialog">
     <div class="modal-dialog modal-lg">
         <!-- Modal content-->
         <div class="modal-content">
@@ -22,8 +22,10 @@
               <?php
 
                     $curso = DB::table('alumnos')
-                            ->select('nombre_alumnos','apellido_paterno','apellido_materno','id_alumnos')
-                            ->where('id_curso','=',$asignatura->id_curso)
+                            ->join('pertenece','pertenece.id_alumno','alumnos.id_alumnos')
+                            ->select('alumnos.nombre_alumnos','alumnos.apellido_paterno','alumnos.apellido_materno','alumnos.id_alumnos')
+                            ->where('pertenece.id_curso',$asignatura->id_curso)
+                            ->where('pertenece.año',date('Y'))
                             ->get();
                    ?>
               <tbody>

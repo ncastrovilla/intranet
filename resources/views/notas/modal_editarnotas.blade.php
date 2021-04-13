@@ -1,4 +1,4 @@
-<div class="modal fade bd-example-modal-lg" id="modal_editarnotas-{{$a->id_notas}}" role="dialog">
+<div class="modal fade bd-example-modal-lg" data-backdrop="static" id="modal_editarnotas-{{$a->id_notas}}" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">
@@ -16,14 +16,20 @@
               @csrf
               <?php 
                   $alumnos = DB::table('alumnos')
-                            ->select('id_alumnos','nombre_alumnos')
-                            ->where('id_curso','=',$a->id_curso)
+                            ->join('pertenece','alumnos.id_alumnos','=','pertenece.id_alumno')
+                            ->select('alumnos.id_alumnos','alumnos.nombre_alumnos')
+                            ->where('pertenece.id_curso','=',$a->id_curso)
+                            ->where('pertenece.año',date('Y'))
                             ->get();
+
                ?>
               <div class="modal-body">
                   <div class="box-body">
                     <label>Descripcion de la Nota</label>
+                    <input type="text" class="form-controlz" name="descripcion" value="{{$a->descripcion}}"><br><br>
                       <input class="form-control" name="id_notas" type="hidden" value="{{$a->id_notas}}">
+                      <input class="form-control" name="id_curso" type="hidden" value="{{$a->id_curso}}">
+                      <input class="form-control" name="id_asignatura" type="hidden" value="{{$a->id_asignatura}}">
                       @foreach($alumnos as $b)
                       <?php 
                           $descripcion = DB::table('notas')
@@ -31,7 +37,6 @@
                                       ->where('id_notas','=',$a->id_notas)
                                       ->where('id_alumno','=',$b->id_alumnos)
                                       ->get();
-
                       ?>
                       <div class="form-group">
                         <label for="exampleInputEmail1">{{$b->nombre_alumnos}}</label>

@@ -38,6 +38,6 @@
 <p><br></p>
 <p>Hualpén, {{date('d').' de '.$mes.' del '.date('Y')}} </p>
 <p><br></p>
-<p style="font-size:12px;">La autenticidad de este certificado puede verificarse en nuestro sitio web, <b>www.enriquemolinagarmendia.cl</b>, sección de Servicios Virtuales, ingresando el <b>número de folio</b> que registra este documento.</p>
+
 </body>
 </html>

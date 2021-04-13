@@ -1,4 +1,4 @@
-<div class="modal fade bd-example-modal-lg" id="modal_notas-{{$a->id_alumnos}}-{{$a->id_asignatura}}" role="dialog">
+<div class="modal fade bd-example-modal-lg" data-backdrop="static" id="modal_notas-{{$a->id_alumnos}}-{{$a->id_asignatura}}" role="dialog">
     <div class="modal-dialog modal-lg">
         <!-- Modal content-->
         <div class="modal-content">
@@ -16,7 +16,8 @@
                     $notas = 0;
                     $curso = DB::table('alumnos')
                             ->join('notas','alumnos.id_alumnos','=','notas.id_alumno')
-                            ->select('alumnos.nombre_alumnos','notas.nota','notas.descripcion')
+                            ->join('ponderaciones','notas.id_ponderacion','ponderaciones.id_ponderacion')
+                            ->select('alumnos.nombre_alumnos','notas.nota','notas.descripcion','ponderaciones.id_ponderacion','ponderaciones.porcentaje','ponderaciones.cantidad','ponderaciones.descripcion_ponderacion')
                             ->where('alumnos.id_alumnos','=',$a->id_alumnos)
                             ->where('notas.id_asignatura','=',$a->id_asignatura)
                             ->where('notas.año','=',$año)
@@ -44,6 +45,7 @@
                        <tr>
                         <td>Nota</td>
                         <td>Descripcion</td>
+                        <td>Porcentaje</td>
                        </tr>
                      </thead>
                      <tbody>
@@ -51,6 +53,7 @@
                        <tr>
                         <td>{{++$a}}</td>
                         <td>{{$e->descripcion}}</td>
+                        <td>{{$e->porcentaje/$e->cantidad}}%</td>
                        </tr>
                       @endforeach
                      </tbody>
@@ -61,10 +64,7 @@
                     <thead>
                       <tr class="encabezadotabla">
                   @foreach($curso as $e)
-                  <?php 
-                      $suma += $e->nota;
-                      ++$notas;
-                  ?>    
+                     
                         <th>{{++$i}}</th>
                       @endforeach
                       <th>Promedio</th>
@@ -73,17 +73,25 @@
                     <tbody> 
                       <tr class="Tabla3">
                       @foreach($curso as $e)
+                      <?php 
+                    $porcentajeindividual = $e->porcentaje/$e->cantidad;
+                      $nota = ($e->nota * $porcentajeindividual)/100;
+                      $nota = number_format($nota,'2','.',','); 
+                      $suma += $nota;
+                      ++$notas;
+                  ?> 
                       @if($e->nota>=4)
+
                             <td><span class="pull-right badge bg-blue btn-block">{{$e->nota}}</span></td>
                             @else
                             <td><span class="pull-right badge bg-red btn-block">{{$e->nota}}</span></td>
                             @endif
                       @endforeach
                       @if($notas!=0)
-                      @if($suma/$notas>=4)
-                            <td><span class="pull-right badge bg-blue btn-block">{{number_format($suma/$notas,1,'.',',')}}</span></td>
+                      @if($suma>=4)
+                            <td><span class="pull-right badge bg-blue btn-block">{{number_format($suma,1,'.',',')}}</span></td>
                             @else
-                            <td><span class="pull-right badge bg-red btn-block">{{number_format($suma/$notas,1,'.',',')}}</span></td>
+                            <td><span class="pull-right badge bg-red btn-block">{{number_format($suma,1,'.',',')}}</span></td>
                             @endif
                       @else
                       <td></td>

@@ -8,5 +8,7 @@ class Documentos extends Model
 {
     protected $table = 'documentos';
 
+    protected $primaryKey = 'id_documentos';
+
     protected $fillable = ['titulo_documento','descripcion_documento','tipo_documento','file','id_curso','id_profesor','id_asignatura','nombre','año','semestre'];
 }

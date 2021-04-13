@@ -6,6 +6,7 @@
 
 <?php 
     use App\Curso;
+    use App\Pertenece;
 ?>
 <!-- INDEX NOTAS -->
 <div class="page-content" >
@@ -44,7 +45,9 @@
                                 <div class="col-xs-12 col-lg-6">
                                     <div class="form-group">
                                         <label class="col-sm-2 col-xs-12" style="color:#2c6aa0;font-family:calibri">Curso</label>
-                                        <?php $curso = Curso::where('id_curso',$a->id_curso)->first(); ?>
+                                        <?php 
+                                        $pertenece = Pertenece::where('año',date('Y'))->first();
+                                        $curso = Curso::where('id_curso',$pertenece->id_curso)->first(); ?>
                                         <label class="col-sm-9 col-xs-12" style="color:#393939;font-family:calibri">{{$curso->grado.' '.$curso->letra}}</label>
                                     </div>
                                 </div>
@@ -71,21 +74,19 @@
                                                 <h4 class="col-sm-9 col-xs-12" style="color:#393939;font-family:calibri">{{date('d/m/y')}}</h4>
                                             </div>
                                         </div>
+                                        <?php 
+                                        $años = Pertenece::where('id_alumno',$a->id_alumnos)->get();
+
+                                        ?>
                                         <div class="col-xs-12 col-lg-6">
                                             <div class="form-group">
                                                 <h4 class="col-sm-3 col-xs-12" style="color:#2c6aa0;font-family:calibri">Año</h4>
-                                                <h4 class="col-sm-9 col-xs-12" style="color:#393939;font-family:calibri">{{date('Y')}}</h4>
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 col-lg-6">
-                                            <div class="form-group">
-                                                <label class="col-sm-3 col-xs-12" style="color:#2c6aa0;font-family:calibri; font-size: 25px;">Tipo</label>
-                                                <div class="col-sm-9 col-xs-12">
-                                                    <select class="form-control" name="tipo" required>
+                                                <select class="form-control" name="año" required>
                                                         <option value="" hidden>-- Seleccione --</option>
-                                                        <option value="1">Concentracion de notas</option>
+                                                        @foreach($años as $año)
+                                                        <option value="{{$año->año}}">{{$año->año}}</option>
+                                                        @endforeach
                                                       </select>
-                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-xs-12 col-lg-6">

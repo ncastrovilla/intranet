@@ -1,8 +1,10 @@
 <?php
       use App\Alumnos;
+      use App\Pertenece;
       use App\Profesor;
       use App\Curso;
       ?>
+      
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,6 +14,7 @@
   <title>Intranet</title>
   <!-- Google Font: Source Sans Pro -->
   <!-- Google Font: Source Sans Pro -->
+  
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="../adminlte/plugins/fontawesome-free/css/all.min.css">
@@ -19,12 +22,11 @@
 <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 
   <!-- DataTables -->
-  <link rel="stylesheet" href="../adminlte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="../adminlte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-  <link rel="stylesheet" href="../adminlte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../adminlte/dist/css/adminlte.min.css">
+   
 </head>
+@include('alumnos.modal_cambiarcontraseña')
 <body class="hold-transition sidebar-mini">
 <!-- Site wrapper -->
 <div class="wrapper">
@@ -43,14 +45,13 @@
       <li class="nav-item dropdown no-arrow">
       <div class="container-fluid">
       <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <i class="fas fa-user-circle fa-fw"></i>
-        {{auth()->user()->name}}
-      </a>
+        <i class="fas fa-user-circle fa-fw"></i> {{auth()->user()->name}}</a>
       <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
         @if(auth()->user()->rol==3)
         <?php
       $alumnos = Alumnos::where('rut',auth()->user()->rut)->first();
-      $curso = Curso::where('id_curso',$alumnos->id_curso)->first();
+      $pertenece = Pertenece::where('id_alumno',$alumnos->id_alumnos)->where('año',date('Y'))->first();
+      $curso = Curso::where('id_curso',$pertenece->id_curso)->first();
        ?>
         <div class="card card-widget widget-user">
               <!-- Add the bg color to the header using any of the bg-* classes -->
@@ -63,10 +64,15 @@
               
               <div class="card-footer" style="float: right;">
                 <div class="row">
-                  <div class="">
-                    <label>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;Curso {{$curso->grado.' '.$curso->letra}}</label><br>
-                    <!-- /.description-block -->
+                  <div class="col-sm">
+                    <div class="description-block">
+                
+                <h5>Curso {{$curso->grado.' '.$curso->letra}}</h5>
+                    </div>
                   </div>
+                </div>
+                <div class="row">
+                  <a data-toggle="modal" data-target="#modal_cambiarcontraseña" type="button">Cambiar Contraseña</a>
                 </div>
                 <!-- /.row -->
                 <div class="dropdown-divider"></div>
@@ -81,7 +87,7 @@
         @if(auth()->user()->rol==2)
         <?php
       $alumnos = Profesor::where('rut',auth()->user()->rut)->first();
-      $curso = Curso::where('id_curso',$alumnos->id_profesor)->first();
+      $curso = Curso::where('id_profesor',$alumnos->id_profesor)->first();
        ?>
         <div class="card card-widget widget-user">
               <!-- Add the bg color to the header using any of the bg-* classes -->
@@ -91,15 +97,26 @@
               <div class="widget-user-image">
                 <img class="img-circle elevation-1" src="../dist/img/user7-128x128.jpg" alt="User Avatar">
               </div>
-              <div class="card-footer" style="float: right;">
+              <div class="box-footer">
                 
+              </div>
+              <div class="card-footer" style="float: right;">
+                <div class="row">
+                  <div class="col-sm">
+                    <div class="description-block">
+                @if($curso !="")
+                <h5>Profesor Jefe {{$curso->grado.' '.$curso->letra}}</h5>
+                @endif
+                    </div>
+                  </div>
+                </div>
                 <!-- /.row -->
         <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{ __('Cerrar Sesion') }}</a>
         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
         @csrf
         </form>
-              </div>
+            </div>
             </div>
         @endif
         @if(auth()->user()->rol==1)
@@ -115,9 +132,11 @@
                 <div class="row">
                   <div class="">
                     <label>Administrador</label><br>
+                    <a data-toggle="modal" data-target="#modal_cambiarcontraseña" type="button">Cambiar Contraseña</a>
                     <!-- /.description-block -->
                   </div>
                 </div>
+  
                 <!-- /.row -->
         <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{ __('Cerrar Sesion') }}</a>
@@ -153,6 +172,18 @@
         <ul class="nav nav-pills nav-sidebar flex-column nav-collapse-hide-child" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
+          @if(auth()->user()->rol==1)
+          <p style="color: white; text-align: center;">Administrador</p>
+          @endif
+          @if(auth()->user()->rol==2)
+          <p style="color: white; text-align: center;">Profesor</p>
+          @endif
+          @if(auth()->user()->rol==3)
+          <p style="color: white; text-align: center;">Alumno</p>
+          @endif
+          @if(auth()->user()->rol==4)
+          <p style="color: white; text-align: center;">Administrativo</p>
+          @endif
           <li class="nav-item">
             <a href="/" class="nav-link">
               <i class="nav-icon fas fa-home"></i>
@@ -168,6 +199,14 @@
           <p>Asignaturas</p>
         </a>
       </li>
+      @if($curso!="")
+      <li class="nav-item">
+        <a class="nav-link" href="/curso">
+          <i class="nav-icon fas fa-users"></i>
+          <p>Mi curso</p>
+        </a>
+      </li>
+      @endif
       <li class="nav-item">
         <a class="nav-link" href="/calendario">
           <i class="nav-icon fas fa-calendar-alt"></i>
@@ -218,7 +257,7 @@
             </ul>
           </li>
       @endif
-      @if(auth()->user()->rol==1)
+      @if(auth()->user()->rol==1 || auth()->user()->rol==4)
       <li class="nav-item">
         <a class="nav-link" href="/profesores">
           <i class="nav-icon fas fa-chalkboard-teacher"></i>
@@ -232,6 +271,13 @@
         </a>
       </li>
       <li class="nav-item">
+        <a class="nav-link" href="/cursos">
+          <i class="nav-icon fas fa-user"></i>
+          <p>Cursos</p>
+        </a>
+      </li>
+      @if(auth()->user()->rol==1)
+      <li class="nav-item">
         <a class="nav-link" href="/administradores">
          <i class="nav-icon fas fa-user-cog"></i>
           <p>Administradores</p>
@@ -244,6 +290,7 @@
         </a>
       </li>
       @endif
+      @endif
           </ul>
       </nav>
       <!-- /.sidebar-menu -->
@@ -253,34 +300,15 @@
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
+
+    <!-- imagen de fondo style="background-image: url(/images/descarga.png); background-repeat: no-repeat; background-size: cover; background-attachment: fixed;" -->
     <!-- Content Header (Page header) -->
-    <br>
     <div class="page-content">  
     @yield('contenido')
     </div>
   </div>
 
-<script src="../adminlte/plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="../adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- DataTables  & Plugins -->
-<script src="../adminlte/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="../adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="../adminlte/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="../adminlte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<script src="../adminlte/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-<script src="../adminlte/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-<script src="../adminlte/plugins/jszip/jszip.min.js"></script>
-<script src="../adminlte/plugins/pdfmake/pdfmake.min.js"></script>
-<script src="../adminlte/plugins/pdfmake/vfs_fonts.js"></script>
-<script src="../adminlte/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-<script src="../adminlte/plugins/datatables-buttons/js/buttons.print.min.js"></script>
-<script src="../adminlte/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
-<script src="../adminlte/plugins/jquery/jquery.min.js"></script>
-<!-- adminlte App -->
-<script src="../adminlte/dist/js/adminlte.min.js"></script>
-<!-- adminlte for demo purposes -->
-<script src="../adminlte/dist/js/demo.js"></script>
+
     <!-- Main content -->
     
     <!-- /.content -->
@@ -304,7 +332,28 @@
 <!-- jQuery -->
 
 </body>
-</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="../adminlte/plugins/jquery/jquery.min.js"></script>
+<script src="../adminlte/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="../adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- DataTables  & Plugins -->
+<script src="../adminlte/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="../adminlte/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="../adminlte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="../adminlte/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="../adminlte/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="../adminlte/plugins/jszip/jszip.min.js"></script>
+<script src="../adminlte/plugins/pdfmake/pdfmake.min.js"></script>
+<script src="../adminlte/plugins/pdfmake/vfs_fonts.js"></script>
+<script src="../adminlte/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="../adminlte/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="../adminlte/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<!-- adminlte App -->
+<script src="../adminlte/dist/js/adminlte.min.js"></script>
+<!-- adminlte for demo purposes -->
+<script src="../adminlte/dist/js/demo.js"></script>
 <style type="text/css">
   .bs-callout {
     background-color: white;
@@ -373,3 +422,5 @@
   border-bottom: 1px groove;
 }
 </style>
+
+</html>

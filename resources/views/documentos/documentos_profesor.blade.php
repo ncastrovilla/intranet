@@ -31,7 +31,6 @@
             <thead>
                 <th width="20%"> Título</th>
                 <th width="25%"> Descripción</th>
-                <th width="20%"> Tipo</th>
                 <th width="10%"> Opciones</th>
             </thead>
             <tbody>
@@ -39,7 +38,6 @@
                 <tr>
                     <td>{{$documento->titulo_documento}}</td>
                     <td>{{$documento->descripcion_documento}}</td>
-                    <td>{{$documento->tipo_documento}}</td>
                     <td>
                         <div class="btn-group">
                             <a class="btn btn-flat" style="width: 40px; background-color: #EFEFEF" type="button" href="/file/download/{{$documento->file}}">
@@ -54,11 +52,12 @@
                                     <a data-target="#actualizar-archivo-{{$documento->id_documentos}}" type="button" class="btn btn-app" data-toggle="modal" href="#">
                                         <i class="fa fa-edit"></i>Modificar
                                     </a>
-                                    <a data-target="#eliminar-archivo-{{$documento->id_documentos}}" data-toggle="modal" type="button" class="btn btn-app" href="#">
+                                    <a data-target="#modal_deletedocumento-{{$documento->id_documentos}}" data-toggle="modal" type="button" class="btn btn-app" href="#">
                                         <i class="fa fa-trash"></i>Eliminar
                                     </a>
                                 </li>
                             </ul>
+                                    @include('documentos.modal_eliminardocumento')
                         </div>
                     </td>
                 </tr>
@@ -73,7 +72,6 @@
                 <tr>
                     <th width="20%"> Título</th>
                     <th width="25%"> Descripción</th>
-                    <th width="20%">Tipo</th>
                     <th width="10%"> Opciones</th>
                 </tr>
             </thead>
@@ -82,7 +80,6 @@
                 <tr>
                     <td>{{$documento->titulo_documento}}</td>
                     <td>{{$documento->descripcion_documento}}</td>
-                    <td>{{$documento->tipo_documento}}</td>
                     <td>
                         <div class="btn-group">
                             <a class="btn btn-flat" style="width: 40px; background-color: #EFEFEF" type="button" href="/file/download/{{$documento->file}}">
@@ -97,11 +94,54 @@
                                     <a data-target="#actualizar-archivo-{{$documento->id_documentos}}" type="button" class="btn btn-app" data-toggle="modal" href="#">
                                         <i class="fa fa-edit"></i>Modificar
                                     </a>
-                                    <a data-target="#eliminar-archivo-{{$documento->id_documentos}}" data-toggle="modal" type="button" class="btn btn-app" href="#">
+                                    <a data-target="#modal_deletedocumento-{{$documento->id_documentos}}" data-toggle="modal" type="button" class="btn btn-app" href="#">
                                         <i class="fa fa-trash"></i>Eliminar
                                     </a>
                                 </li>
                             </ul>
+                            @include('documentos.modal_eliminardocumento')
+                        </div>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+    <div class="bs-callout bs-callout-info">
+        <label>Otro</label>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th width="20%"> Título</th>
+                    <th width="25%"> Descripción</th>
+                    <th width="10%"> Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($otro as $documento)
+                <tr>
+                    <td>{{$documento->titulo_documento}}</td>
+                    <td>{{$documento->descripcion_documento}}</td>
+                    <td>
+                        <div class="btn-group">
+                            <a class="btn btn-flat" style="width: 40px; background-color: #EFEFEF" type="button" href="/file/download/{{$documento->file}}">
+                                <i class="fa fa-download"></i>
+                            </a>
+                            <button class="btn btn-flat dropdown-toggle" data-toggle="dropdown" style="height: 34px;" type="button">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-right " role="menu">
+                                <li>
+                                    <a data-target="#actualizar-archivo-{{$documento->id_documentos}}" type="button" class="btn btn-app" data-toggle="modal" href="#">
+                                        <i class="fa fa-edit"></i>Modificar
+                                    </a>
+                                   <a data-target="#modal_deletedocumento-{{$documento->id_documentos}}" data-toggle="modal" type="button" class="btn btn-app" href="#">
+                                        <i class="fa fa-trash"></i>Eliminar
+                                    </a>
+                                </li>
+                            </ul>
+                            @include('documentos.modal_eliminardocumento')
                         </div>
                     </td>
                 </tr>

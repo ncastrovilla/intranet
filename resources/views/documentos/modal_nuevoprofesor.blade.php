@@ -1,4 +1,4 @@
-<div class="modal fade bd-example-modal-lg" id="modal_subirdocumento-{{$id_curso}}-{{$id_asignatura}}-{{$profesor->id_profesor}}" role="dialog">
+<div class="modal fade bd-example-modal-lg" data-backdrop="static" id="modal_subirdocumento-{{$id_curso}}-{{$id_asignatura}}-{{$profesor->id_profesor}}" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
 </style>
@@ -37,6 +37,7 @@
                               <option selected hidden>Seleccione</option>
                               <option value="Guia">Guia</option>
                               <option value="Evaluacion">Evaluacion</option>
+                              <option value="Otro">Otro</option>
                             </select>
                           </div>
                           <div class="form-group">

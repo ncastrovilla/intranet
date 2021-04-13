@@ -6,9 +6,9 @@
 
 <!-- INDEX NOTAS -->
 <?php
-    
+    use App\Alumnos;
     use App\Curso;
-
+    use App\Pertenece;
  ?>
 <div class="page-content" style="background-color: #fff;
     position: relative;
@@ -52,8 +52,9 @@
                                         <div class="form-group">
                                             <label class="col-sm-2 col-xs-12" style="color:#2c6aa0;font-family:calibri">Curso</label>
                                             <?php 
-
-                                                $curso = Curso::where('id_curso',$a->id_curso)->first();
+                                                $id = Alumnos::where('rut',auth()->user()->rut)->first();
+                                                $pertenece = Pertenece::where('id_alumno',$id->id_alumnos)->where('año',date('Y'))->first();
+                                                $curso = Curso::where('id_curso',$pertenece->id_curso)->first();
 
                                              ?>
                                             <label class="col-sm-9 col-xs-12" style="color:#393939;font-family:calibri">{{$curso->grado.' '.$curso->letra}}</label>

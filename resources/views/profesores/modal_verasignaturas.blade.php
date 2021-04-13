@@ -1,4 +1,4 @@
-<div id="modal_verasignaturas-{{$p->id_profesor}}" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div id="modal_verasignaturas-{{$p->id_profesor}}" data-backdrop="static" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">
@@ -21,9 +21,11 @@
                   </div>
                   <?php $asignaturas = DB::table('cuenta')
                                        ->join('asignatura','cuenta.id_asignatura','=','asignatura.id_asignatura')
+                                       ->join('dicta','dicta.id_cuenta','cuenta.id_cuenta')
                                        ->join('curso','cuenta.id_curso','=','curso.id_curso')
                                        ->select('asignatura.nombre_asignatura','curso.grado','curso.letra','cuenta.id_asignatura','cuenta.id_curso')
-                                       ->where('cuenta.id_profesor','=',$p->id_profesor)
+                                       ->where('dicta.id_profesor','=',$p->id_profesor)
+                                       ->where('dicta.año',date('Y'))
                                        ->get();
                        ?>
                   <table class="table table-bordered table-hover">

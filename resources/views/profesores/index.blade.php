@@ -31,9 +31,6 @@ function myFunction() {
     }
   }
 }
-$(document).ready( function () {
-    $('#profesor').DataTable();
-} );
 </script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
@@ -69,9 +66,11 @@ $(document).ready( function () {
 								      	@foreach($profesor as $p)
 								      	<?php $asignaturas = DB::table('cuenta')
                                        ->join('asignatura','cuenta.id_asignatura','=','asignatura.id_asignatura')
+                                       ->join('dicta','dicta.id_cuenta','cuenta.id_cuenta')
                                        ->join('curso','cuenta.id_curso','=','curso.id_curso')
                                        ->select('asignatura.nombre_asignatura','curso.grado','curso.letra')
-                                       ->where('cuenta.id_profesor','=',$p->id_profesor)
+                                       ->where('dicta.id_profesor','=',$p->id_profesor)
+                                       ->where('dicta.año',date('Y'))
                                        ->get();
                                        ?>
 								      		<tr>
@@ -110,5 +109,23 @@ $(document).ready( function () {
 		</div>
 	</div>
 </div>
+<script>
+  $(function () {
+    $("#profesor").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    $('#example1').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
+</script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
 
 @endsection

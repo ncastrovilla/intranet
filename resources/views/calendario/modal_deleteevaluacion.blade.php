@@ -1,10 +1,10 @@
-<div class="modal fade bd-example-modal-lg" id="modal_deleteevaluacion-{{$evaluacion->id_calendario}}" role="dialog">
+<div class="modal fade bd-example-modal-lg" data-backdrop="static" id="modal_deleteevaluacion" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
               <h4 class="modal-title" align="center">
-                    Modificar futura evaluacion
+                    Eliminar evento
                 </h4>
                 <button type="button" class="close" data-dismiss="modal"  
                 aria-label="Close">
@@ -15,8 +15,8 @@
               @csrf
               <div class="modal-body">
                   <div class="box-body">
-                          <label>¿Esta seguro que desea eliminar esta evaluacion agendada?</label>
-                          <input type="text" name="id_calendario" value="{{$evaluacion->id_calendario}}" hidden>
+                          <label>¿Esta seguro que desea eliminar este evento?</label>
+                          <input type="text" name="id_calendario" id="ideliminar" hidden>
                       </input>
                   </div>
               </div>
@@ -25,7 +25,7 @@
                       Cerrar
                   </button>
                   <button class="btn btn-social btn-warning"type="submit">
-                      <i class="fa fa-new"></i>Crear
+                      <i class="fa fa-new"></i>Eliminar
                   </button>
               </div>
             </form>

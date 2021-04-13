@@ -7,7 +7,10 @@ use Illuminate\Http\Request;
 use App\Notas;
 use App\Curso;
 use App\Alumnos;
+use App\Pertenece;
+use App\Dicta;
 use App\Profesor;
+use App\Ponderaciones;
 use App\Cuenta;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Redirect;
@@ -29,31 +32,118 @@ class NotasController extends Controller
 		return view('notas.ver_notas',compact('alumno'));
 	}
 	public function notasasignatura(Request $request){
-
 		$cursos = $request->input('id_curso');
 		$asignatura = $request->input('id_asignatura');
 
+		$profesor = Profesor::where('rut',auth()->user()->rut)->first();
+
+		$año = $request->input('año');
+		$semestre = $request->input('semestre');
+
+		$dicta2 = DB::table('dicta')
+				 ->join('cuenta','dicta.id_cuenta','cuenta.id_cuenta')
+				 ->select('dicta.id_dicta')
+				 ->where('cuenta.id_curso',$cursos)
+				 ->where('cuenta.id_asignatura',$asignatura)
+				 ->where('dicta.año',$año)
+				 ->where('dicta.id_profesor',$profesor->id_profesor)
+				 ->get();
+		
+		foreach ($dicta2 as $v) {
+			$dicta = $v->id_dicta;
+		}
 
 		$nombre_curso = DB::table('curso')
 						->where('id_curso','=',$cursos)
 						->get();
 
-		return view('notas.notas_profesor',compact('nombre_curso','cursos','asignatura'));
+		$cuenta = Cuenta::where('id_curso',$cursos)->where('id_asignatura',$asignatura)->first();
+
+		return view('notas.notas_profesor',compact('nombre_curso','cursos','asignatura','año','semestre','dicta'));
+	}
+
+	public function ponderacioncreate(Request $request){
+		$dicta = $request->input('dicta');
+
+		if (date('m')<8) {
+			$semestre = 1;
+		}else{
+			$semestre = 2;
+		}
+
+		$ponderacion = new Ponderaciones();
+		$ponderacion->id_dicta = $dicta;
+		$ponderacion->descripcion_ponderacion = $request->input('descripcion');
+		$ponderacion->cantidad = $request->input('cantidad');
+		$ponderacion->semestre = $semestre;
+		$ponderacion->porcentaje = $request->input('porcentaje');
+		$ponderacion->save();
+
+		return Redirect('/asistencia');
+
+	}
+	public function ponderacioneditar(Request $request){
+
+		$ponderacion = Ponderaciones::find($request->input('id'));
+		$ponderacion->descripcion_ponderacion = $request->input('descripcion');
+		$ponderacion->cantidad = $request->input('cantidad');
+		$ponderacion->porcentaje = $request->input('porcentaje');
+		$ponderacion->update();
+
+		return Redirect('/asistencia');
+
 	}
 	public function showalumnos(){
 		$id = Alumnos::where('rut',auth()->user()->rut)->first();
 
-		$curso = Curso::where('id_curso',$id->id_curso)->first();
+		$pertenece = Pertenece::where('id_alumno',$id->id_alumnos)->where('año',date('Y'))->first();
+
+		$curso = Curso::where('id_curso',$pertenece->id_curso)->first();
 
 		$alumno = DB::table('alumnos')
-				->join('cuenta','alumnos.id_curso','=','cuenta.id_curso')
+				->join('pertenece','alumnos.id_alumnos','=','pertenece.id_alumno')
+				->join('cuenta','pertenece.id_curso','=','cuenta.id_curso')
 				->join('asignatura','cuenta.id_asignatura','=','asignatura.id_asignatura')
-				->join('profesor','cuenta.id_profesor','=','profesor.id_profesor')
+				->join('dicta','dicta.id_cuenta','cuenta.id_cuenta')
+				->join('profesor','dicta.id_profesor','=','profesor.id_profesor')
 				->where('alumnos.id_alumnos','=',$id->id_alumnos)
+				->where('pertenece.año','=',date('Y'))
+				->where('dicta.año',date('Y'))
 				->get();
 
-		$asignaturas = Cuenta::where('id_curso',$id->id_curso)->count();
+		$asignaturas = Cuenta::where('id_curso',$curso->id_curso)->count();
 		return view('notas.ver_notasalumno',compact('alumno','curso','asignaturas'));
+	}
+
+	public function showalumnosold(Request $request){
+		$id = Alumnos::where('rut',auth()->user()->rut)->first();
+		$año = $request->input('año');
+		$semestre = $request->input('semestre');
+		$pertenece = Pertenece::where('id_alumno',$id->id_alumnos)->where('año',$año)->first();
+		if($pertenece==""){
+			$alumno="";
+			$pertenece = Pertenece::where('id_alumno',$id->id_alumnos)->orderByDesc('año')->first();
+			$curso = Curso::where('id_curso',$pertenece->id_curso)->first();
+			$asignaturas = Cuenta::where('id_curso',$curso->id_curso)->count();
+			return view('notas.ver_notasalumno',compact('alumno','curso','pertenece','asignaturas','año','semestre'));
+		}else{
+		$curso = Curso::where('id_curso',$pertenece->id_curso)->first();
+
+		$alumno = DB::table('alumnos')
+				->join('pertenece','alumnos.id_alumnos','=','pertenece.id_alumno')
+				->join('cuenta','pertenece.id_curso','=','cuenta.id_curso')
+				->join('asignatura','cuenta.id_asignatura','=','asignatura.id_asignatura')
+				->join('dicta','dicta.id_cuenta','cuenta.id_cuenta')
+				->join('profesor','dicta.id_profesor','=','profesor.id_profesor')
+				->where('alumnos.id_alumnos','=',$id->id_alumnos)
+				->where('pertenece.año','=',$año)
+				->where('dicta.año',$año)
+				->get();
+		$asignaturas = Cuenta::where('id_curso',$curso->id_curso)->count();
+		return view('notas.ver_notasalumno',compact('alumno','curso','asignaturas','año','semestre'));
+	}
+		
+
 	}
 
 	public function create(Request $request){
@@ -72,7 +162,9 @@ class NotasController extends Controller
 		
 
 			$alumnos = DB::table('alumnos')
-					   ->where('id_curso','=',$request->input('id_curso'))
+					   ->join('pertenece','alumnos.id_alumnos','pertenece.id_alumno')
+					   ->where('pertenece.id_curso','=',$request->input('id_curso'))
+					   ->where('pertenece.año',date('Y'))
 					   ->get();
 
 			foreach ($alumnos as $alumno) {
@@ -80,6 +172,7 @@ class NotasController extends Controller
 			$nota->id_notas = $id_asistencias;
 			$nota->nota = $request->input($alumno->id_alumnos);
 			$nota->descripcion = $request->input('descripcion');
+			$nota->id_ponderacion = $request->input('ponderacion');
 			if(DATE('m')>='8')
 				$nota->semestre = '2';
 			else
@@ -92,33 +185,44 @@ class NotasController extends Controller
 			$nota->save();
 			}
 
-			return Redirect('/notas/curso');
+			return Redirect('/asistencia');
 			 
 	}
 
 	public function update(Request $request, Notas $nota){
+			$request->flash();
 			$id_curso = $request->input('id_curso');
+			$id_notas = $request->input('id_notas');
 			$id_asignatura = $request->input('id_asignatura');
 			$descripcion = $request->input('descripcion');
 
+			$nota = DB::table('notas')
+						->where('id_notas','=',$id_notas)
+						->update(['descripcion'=> $descripcion]);
+
 			$alumnos = DB::table('alumnos')
+					   ->join('pertenece','alumnos.id_alumnos','pertenece.id_alumno')
+					   ->where('pertenece.id_curso','=',$request->input('id_curso'))
+					   ->where('pertenece.año',date('Y'))
 					   ->get();
 
 			foreach ($alumnos as $alumno) {
-				$id_notas = $request->input('id_notas');
 				$nota = DB::table('notas')
 						->where('id_notas','=',$id_notas)
 						->where('id_alumno','=',$alumno->id_alumnos)
 						->update(['nota'=> $request->input($alumno->id_alumnos)]);
 			}
-		return Redirect('/notas/ver');
+		return Redirect('/asistencia');
 	}
 
 	public function delete(Request $request){
-		$nota = Notas::find($request->input('id'));
-		$nota->delete();
+	
+		$nota = DB::table('notas')
+						->where('id_notas','=',$request->input('id'))
+						->delete();
 
-		return Redirect('/notas');
+		return Redirect('/asistencia');
+		
 	}
 }
 ?>

@@ -1,4 +1,4 @@
-<div class="modal fade bd-example-modal-lg" id="modal_crearevaluacion-{{$curso}}-{{$asignatura}}-{{$profesor}}" role="dialog">
+<div class="modal fade bd-example-modal-lg" data-backdrop="static" id="modal_crearevaluacion-{{$curso}}-{{$asignatura}}-{{$profesor}}" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">

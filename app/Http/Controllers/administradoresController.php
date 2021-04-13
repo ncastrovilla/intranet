@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Administradores;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\hash;
 use DB;
 use App\Comments;
 
@@ -26,6 +27,22 @@ class AdministradoresController extends Controller
 		$administrador->save();
 
 		return Redirect('/administradores');
+	}
+	public function contraseña(Request $request){
+			$administrador = User::where('rut',auth()->user()->rut)->first();
+			$antigua1 = $request->input('contraseñaant');
+			$antigua = Hash::make($request->input('contraseñaant'));
+			$nueva = $request->input('contranueva');
+			$repite = $request->input('contranuevaagain');
+
+
+			if (Hash::check($antigua1, $administrador->password)) {
+				echo $administrador->password;
+    		}else{
+    			echo $antigua1;
+    		}
+			/*
+			*/
 	}
 	public function show(){
 		$administradores = Administradores::all();
