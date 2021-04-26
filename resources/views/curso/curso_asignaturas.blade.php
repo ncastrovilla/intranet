@@ -37,7 +37,7 @@
 								      	<?php $dicta = Dicta::where('id_cuenta',$asignatura->id_cuenta)->where('año',date('Y'))->first();
 								      		if($dicta!=""){
 								      		$profesor = Profesor::where('id_profesor',$dicta->id_profesor)->first();
-								      	}
+								      		}
 								      	?>
 								      		<tr>
 								      			<td>{{$asignatura->nombre_asignatura}}</td>
@@ -56,8 +56,7 @@
 								      	@endforeach
 								      	</tbody>
 								    </table>
-								    <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#modal_create"><i class="fas fa-plus"></i></a></button>
-								    @include('profesores.modal_create')
+								    
 								</div>
 						</div>
 					</div>

@@ -26,27 +26,35 @@
               <div class="modal-body">
                   <div class="box-body">
                     <label>Descripcion de la Nota</label>
-                    <input type="text" class="form-controlz" name="descripcion" value="{{$a->descripcion}}"><br><br>
+                    <input type="text" class="form-control" name="descripcion" value="{{$a->descripcion}}"><br><br>
                       <input class="form-control" name="id_notas" type="hidden" value="{{$a->id_notas}}">
                       <input class="form-control" name="id_curso" type="hidden" value="{{$a->id_curso}}">
+                      <input type="text" class="form-control" name="id_ponderacion" value="{{$a->id_ponderacion}}" hidden>
                       <input class="form-control" name="id_asignatura" type="hidden" value="{{$a->id_asignatura}}">
                       @foreach($alumnos as $b)
                       <?php 
+
                           $descripcion = DB::table('notas')
                                       ->select('nota')
                                       ->where('id_notas','=',$a->id_notas)
                                       ->where('id_alumno','=',$b->id_alumnos)
                                       ->get();
+                          $e=0;
+                          if (!$descripcion->isEmpty()) {
+                            $e = 1;
+                          }else{
+                            $e=2;
+                          }
                       ?>
                       <div class="form-group">
                         <label for="exampleInputEmail1">{{$b->nombre_alumnos}}</label>
-                        @foreach($descripcion as $d)
-                        @if($d->nota!="")
-                        <input size="4" name="{{$b->id_alumnos}}" type="text" value="{{$d->nota}}">
-                        @else
+                        @if($descripcion == '[]')
                         <input size="4" type="text" name="{{$b->id_alumnos}}">
-                        @endif
+                        @else
+                        @foreach($descripcion as $d)
+                        <input size="4" name="{{$b->id_alumnos}}" type="text" value="{{$d->nota}}">
                         @endforeach
+                        @endif
                       </div>
                       @endforeach
                   </div>

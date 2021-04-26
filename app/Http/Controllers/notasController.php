@@ -207,10 +207,34 @@ class NotasController extends Controller
 					   ->get();
 
 			foreach ($alumnos as $alumno) {
+				$descripcion1 = DB::table('notas')
+                                      ->select('nota')
+                                      ->where('id_notas','=',$id_notas)
+                                      ->where('id_alumno','=',$alumno->id_alumnos)
+                                      ->get();
+				if ($descripcion1 == '[]') {
+					$profesor = Profesor::where('rut',auth()->user()->rut)->first();
+					$nota = new Notas();
+			$nota->id_notas = $id_notas;
+			$nota->nota = $request->input($alumno->id_alumnos);
+			$nota->descripcion = $descripcion;
+			$nota->id_ponderacion = $request->input('id_ponderacion');
+			if(DATE('m')>='8')
+				$nota->semestre = '2';
+			else
+				$nota->semestre = '1';
+			$nota->año = DATE('Y');
+			$nota->id_alumno = $alumno->id_alumnos;
+			$nota->id_curso = $id_curso;
+			$nota->id_profesor = $profesor->id_profesor;
+			$nota->id_asignatura = $id_asignatura;
+			$nota->save();
+				}else{
 				$nota = DB::table('notas')
 						->where('id_notas','=',$id_notas)
 						->where('id_alumno','=',$alumno->id_alumnos)
 						->update(['nota'=> $request->input($alumno->id_alumnos)]);
+				}
 			}
 		return Redirect('/asistencia');
 	}

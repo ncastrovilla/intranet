@@ -11,6 +11,13 @@
             </div>
               <div class="modal-body">
                 <div class="box-body">
+                  <div class="form-group">
+                              <label for="exampleInputEmail1">
+                                  Fecha Clase
+                              </label>
+                              <label class="form-control" name="fecha">{{date("d-m-Y", strtotime($a->fecha_asistencia))}}
+                              </label>
+                          </div>
                   <table class="table table-bordered">
               <thead>  
               <tr>

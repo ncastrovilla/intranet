@@ -1,3 +1,9 @@
+<?php
+    
+    use App\Pertenece;
+    use App\Curso;
+
+ ?>
 <div class="modal fade bd-example-modal-lg" data-backdrop="static" id="modal_cambiarcurso-{{$p->id_alumnos}}" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
@@ -22,9 +28,13 @@
                                   {{$p->nombre_alumnos.' '.$p->apellido_paterno.' '.$p->apellido_materno}}
                               </label>
                           </div>
+                          <?php 
+                              $curso = Pertenece::where('id_alumno',$p->id_alumnos)->orderBy('año')->first();
+                              $curso1 = Curso::where('id_curso',$curso->id_curso)->first();
+                           ?>
                           <div class="form-group">
                             <label>Curso:</label>
-                            <label for="curso">{{$curso->grado.' año '.$curso->letra}}</label>
+                            <label for="curso">{{$curso1->grado.' año '.$curso1->letra}}</label>
                           </div>
                           <?php $cursos = DB::table('curso')
                                           ->where('id_curso','>=',$curso->id_curso)
@@ -33,7 +43,9 @@
                           <div class="form-group">
                             <select name="cursonuevo">
                               @foreach($cursos as $curso)
+                              @if($curso->id_curso!=$curso1->id_curso)
                               <option value="{{$curso->id_curso}}">{{$curso->grado.' '.$curso->letra}}</option>
+                              @endif
                               @endforeach
                             </select>
                           </div>

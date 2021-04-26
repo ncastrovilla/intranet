@@ -14,13 +14,6 @@
                 ->whereMonth('fecha_asistencia','<=',date('m'))
                 ->groupBy('fecha_asistencia')
                 ->get();
-    $n = DB::table('asistencia')
-                ->select('fecha_asistencia')
-                ->where('id_curso',1)
-                ->whereYear('fecha_asistencia',date('Y'))
-                ->whereMonth('fecha_asistencia','<=',date('m'))
-                ->groupBy('fecha_asistencia')
-                ->count('fecha_asistencia');
     $alumnos = DB::table('alumnos')
               ->join('pertenece','alumnos.id_alumnos','pertenece.id_alumno')
               ->where('pertenece.id_curso',1)
@@ -28,6 +21,16 @@
               ->get();
 
               $n=0;
+              $clasesinasistencia;
+        foreach ($asistencia as $a) {
+          $n++;
+        }
+        $descripcion = DB::table('notas')
+                                      ->select('nota')
+                                      ->where('id_notas','=',4)
+                                      ->where('id_alumno','=',17)
+                                      ->get();
+        
     
  ?>
 <html lang='en'>
@@ -48,69 +51,6 @@
 <!-- BS JavaScript -->
 <script type="text/javascript" src="../js/bootstrap.js"></script>
 <!-- Have fun using Bootstrap JS -->
-    <script>
-
-  document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('calendar');
-
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-      locale: 'esLocale',
-      plugins: [  'interaction', 'dayGrid', 'timeGrid' ],
-      header: {
-        left: 'prev,next today',
-        center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay'
-      },
-      navLinks: true, // can click day/week names to navigate views
-      selectable: true,
-      selectMirror: true,
-      select: function(arg) {
-        let m = moment(arg.start,calendar).format("YYYY-MM-DD");
-        $("#txtFecha").val(m);
-        console.log(arg);
-        $("#modal_crearevaluacion").modal();
-        calendar.unselect()
-      },
-      eventClick: function(info){
-        console.log(info.event.id);
-        let m = moment(info.event.start,calendar).format("YYYY-MM-DD");
-        $("#prueba").val(info.event.id);
-        $("#fechaver").text(m);
-        $("#descripcionver").text(info.event.title);
-        $("#cursover").text(info.event.extendedProps.curso);
-        $("#asignaturaver").text(info.event.extendedProps.asignatura);
-        $("#modal_vercalendario").modal();
-      },
-      editable: true,
-      eventLimit: true, // allow "more" link when too many events
-      events: 'calendario/listar'
-    });
-    calendar.setOption('locale', 'es');
-    calendar.render();
-  });
-
-  function modificar(){
-    $("#modal_vercalendario").modal('toggle');
-    $("#modal_modificarcalendario").modal();
-    let i = document.getElementById('prueba').value;
-    $("#idupdate").val(i);
-    let f = document.getElementById('fechaver').innerHTML;
-    let d = document.getElementById('descripcionver').innerHTML;
-    console.log(f);
-    $("#fechaupdate").val(f);
-    $("#descripcionupdate").val(d);
-    let c = document.getElementById('cursover').innerHTML;
-    let a = document.getElementById('asignaturaver').innerHTML;
-    $("#cursoant").text(a + " " + c );
-  }
-  function eliminar(){
-    let f = document.getElementById('prueba').value;
-    $("#modal_vercalendario").modal('toggle');
-    $("#modal_deleteevaluacion").modal();
-    $("#ideliminar").val(f);
-  }
-
-</script>
 <style>
 
   body {
@@ -126,24 +66,17 @@
   }
 
 </style>
-  </head>
+  </head><br><br>
   @section('contenido')
-  <br><br>
   <body>
     <table class="table table-bordered">
       <thead>
         <tr>
         <th>Alumnos</th>
-    @foreach($asistencia as $a)
-        <th>{{$a->fecha_asistencia}}</th>
-        <?php 
-          $n++;
-        ?>
-      @endforeach
-      <th>Horas asistencias</th>
-      <th>Horas Inasistencias</th>
-      <th>Dias asistencias</th>
-      <th>Dias Inasistencias</th>
+      <th>Dias Totales</th>
+      <th>Dias asistidos</th>
+      <th>Clases Faltadas</th>
+      <th>Porcentaje asistencia</th>
     </tr>
       </thead>
       <tbody>
@@ -153,6 +86,8 @@
               $inasistenciass=0;
               $dasistenciass=0;
               $dinasistenciass=0;
+              $clasesinas =0;
+              $aux = 0;
         ?>
         <tr>
           <td>{{$b->nombre_alumnos}}</td>
@@ -160,31 +95,38 @@
           <?php 
             $asistencias = Asistencia::where('id_curso',1)->where('fecha_asistencia',$a->fecha_asistencia)->where('id_alumnos',$b->id_alumnos)->get(); 
             $count = Asistencia::where('id_curso',1)->where('fecha_asistencia',$a->fecha_asistencia)->where('id_alumnos',$b->id_alumnos)->count();
-            echo $count;
           ?>
           @foreach($asistencias as $c)
-          <?php 
-
+          <?php
             if ($c->presente_asistencia=="Si") {
               $asistenciass++;
             }else{
               $inasistenciass++;
+              $clasesinas++;
             }
 
           ?>
-          <td>{{$c->presente_asistencia}}</td>
           @endforeach
+          <?php
+              $aux = $clasesinas;
+          if($clasesinas == $count){
+                $dinasistenciass++;
+                $clasesinasistencia=$aux-$clasesinas;
+              }else{
+                $dasistenciass++;  
+              }
+              $clasesinas=0;
+           ?>
           @endforeach
-          <td>{{$asistenciass}}</td>
-          <td>{{$inasistenciass}}</td>
-        </tr>
+          <td>{{$n}}</td>
+          <td>{{$dasistenciass}}</td>
+          <td>{{$clasesinasistencia}}</td>
+          <td>{{number_format(($dasistenciass/$n)*100,'1','.',',')}}%</td>
+          <?php $clasesinasistencia = 0; ?>
+      </tr>
         @endforeach
-      </tbody>
-</table>
-   {{$n}}
-<script>
-  
-</script>
+    </tbody>
+  </table>
   </body>
 </html>
 

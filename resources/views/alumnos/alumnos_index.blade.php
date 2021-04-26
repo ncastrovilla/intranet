@@ -40,7 +40,7 @@
 								          		<th scope="col">Direccion</th>
 								          		<th scope="col">Correo</th>
 								          		<th scope="col">Modificar</th>
-								          		<th scope="col">Eliminar</th>
+								          		<th scope="col">Cambiar curso</th>
 								        	</tr>
 								        </thead>
 								      	<tbody>
@@ -52,11 +52,11 @@
 								      			<td>{{$p->correo_alumnos}}</td>
 								      			<td><a type="button" class="btn btn-primary btn-sm btn-block" data-toggle="modal" data-target="#modal_updatealumnos-{{$p->id_alumnos}}"><i class="fas fa-pen-square" style="color: white;"></i></a>
 								      			</td>
-								      			<td><a type="button" class="btn btn-danger btn-sm btn-block" data-toggle="modal" data-target="#modal_deletealumnos-{{$p->id_alumnos}}"><i class="fas fa-trash" ></i></a>
+								      			<td><a type="button" class="btn btn-danger btn-sm btn-block" data-toggle="modal" data-target="#modal_cambiarcurso-{{$p->id_alumnos}}"><i class="fas fa-trash" ></i></a>
 								      			</td>
 								      		</tr>
 								      	@include('alumnos.modal_updatealumnos')
-								      	@include('alumnos.modal_deletealumnos')
+								      	@include('alumnos.modal_cambiarcurso')
 								      	@endforeach
 								      	</tbody>
 								    </table>

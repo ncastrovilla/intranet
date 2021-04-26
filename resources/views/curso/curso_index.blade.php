@@ -52,8 +52,6 @@
 								      	@endforeach
 								      	</tbody>
 								    </table>
-								    <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#modal_create"><i class="fas fa-plus"></i></a></button>
-								    @include('profesores.modal_create')
 								</div>
 						</div>
 					</div>

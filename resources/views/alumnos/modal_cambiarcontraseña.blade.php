@@ -25,7 +25,7 @@
                      <span aria-hidden="true"><i class="fa fa-times" aria-hidden="true"></i></span>
                 </button>
             </div>
-            <form action="{{$ruta}}" method="POST">
+            <form action="{{$ruta}}" name="con" method="POST">
               @csrf
               <div class="modal-body">
                 <input type="text" name="" value="{{$ruta}}" hidden>
@@ -48,7 +48,7 @@
                             <label for="exampleInputEmail1">
                                   Ingrese la contraseña nuevamente
                               </label>
-                              <input class="form-control" name="contranuevaagain" type="password" required>
+                              <input class="form-control" name="contranuevaagain" oninput="comprobarClave(this)" type="password" required>
                               </input>
                           </div>
                   </div>
@@ -66,13 +66,14 @@
     </div>
 </div>
 <script>
-function comprobarClave(){
-    contranueva = document.f1.clave1.value
-    contranuevaagain = document.f1.clave2.value
+function comprobarClave(contranuevaagain){
+    var contranueva = document.con.contranueva.value ;
+    var contraseña = contranuevaagain.value;
+    
+    if(contranueva!= contranuevaagain){
+      contranuevaagain.setCustomValidity($contranueva); return false;
+    }
 
-    if (contranueva == contranuevaagain)
-       alert("Las dos claves son iguales...\nRealizaríamos las acciones del caso positivo")
-    else
-       alert("Las dos claves son distintas...\nRealizaríamos las acciones del caso negativo")
+    
 }
 </script>

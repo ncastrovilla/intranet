@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Administrativos;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\hash;
 use DB;
 use App\Comments;
 
@@ -31,6 +32,21 @@ class AdministrativosController extends Controller
 		$administrativos = Administrativos::all();
 
 		return view('administrativos.administrativos_index',compact('administrativos'));
+	}
+	public function contraseña(Request $request){
+			$administrador = User::where('rut',auth()->user()->rut)->first();
+			$antigua1 = $request->input('contraseñaant');
+			$nueva = $request->input('contranueva');
+			$repite = $request->input('contranuevaagain');
+
+
+			if (Hash::check($antigua1, $administrador->password)) {
+				$administrador->password = Hash::make($nueva);
+				$administrador->update();
+				return Redirect('/')->withSuccess('Contraseña actualizada');
+    		}else{
+    			return Redirect('/')->withErrors(['La contraseña antigua es incorrecta']);
+    		}
 	}
 
 	public function delete(Request $request, Administrativos $administrativo){

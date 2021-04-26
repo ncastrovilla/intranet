@@ -7,7 +7,7 @@ $promediogeneral = 0;
 ?>
 <html>
 <head>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
     <style>
         @page {
             margin: 0cm 0cm;
@@ -29,7 +29,6 @@ $promediogeneral = 0;
       text-align: left;
     }
     </style>
-
 </head>
 <body>
 <header>
@@ -241,100 +240,6 @@ $promediogeneral = 0;
 <p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  <b>DIRECTORA</b></p>
 <?php setlocale(LC_ALL,'spanish'); $mes= strftime("%B");?>
 
-<p>Hualpen, {{date('d').' de '.$mes.' del '.date('Y')}} </p><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<p>Hualpen, {{date('d').' de '.$mes.' del '.date('Y')}} </p>
 
-<div class="row">
-    <div class="col-md-6 offset-md-0">
-        <p>DESARROLLO PERSONAL Y SOCIAL</p>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Areas O.F.T.</th>
-                    <th>Acciones, Actividades, Capacidades, Habilidades y Competencias</th>
-                    <th colspan="2">Observaciones, calificaciones conceptuales o expresiones de evaluacion</th>
-                </tr>
-                <tr>
-                    <th colspan="2"></th>
-                    <th>Primer Semestre</th>
-                    <th>Segundo Semestre</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td rowspan="3">Formacion Etica</td>
-                    <td>Procede con honradez</td>
-                    <td></td>
-                    <td></td>
-                    <tr>
-                        <td>Respeta a sus profesores</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>Respeta normas de conducta</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tr>
-                <tr>
-                    <td rowspan="5" style="text-orientation: sideways;">CRECIMIENTO Y AUTOFORMACION PERSONAL</td>
-                    <td>Presta atención en clases</td>
-                    <td></td>
-                        <td></td>
-                    <tr>
-                        <td>Cumple con sus deberes escolares</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>Cuida sus pertenencias</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>Controla impulsos y emociones</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>Cuida higiene y presentacion personal</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tr>
-                <tr>
-                    <td rowspan="3">La persona y su entorno</td>
-                    <td>Trabaja en equipo</td>
-                    <td></td>
-                    <td></td>
-                    <tr>
-                        <td>Cuida mobiliario e infraestructura</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>Participa en actividades del colegio</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="col-md-6 offset-md-6">
-    <p></p><br>
-    <table class="table table-bordered">
-            <tbody>
-                <tr>
-                    <td>Estoy viendo como queda esta parte</td>
-                </tr>
-            </tbody>
-    </table>
-        
-    </div>
-</div>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-</body>
 </html>

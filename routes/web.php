@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
  
 
 Route::group(["middleware" => "profesor"],function(){
+Route::post('/profesor/contraseña','administradoresController@contraseña');
 Route::post('/notas','notasController@notasasignatura');
 Route::get('/notas','notasController@notasasignatura');
 Route::get('/notas/ver', 'notasController@showa');
@@ -44,6 +45,7 @@ Route::post('/asistencia/create','asistenciaController@create'); //profe
 
 Route::post('/asistencia/update','asistenciaController@update');
 Route::post('/certificado/notas/curso','pdfController@notasasignaturas');
+Route::post('/certificado/pjefe','pdfController@pjefe');
 
 Route::get('/material','fileController@profesor');
 Route::post('/material/curso','fileController@showprofesor');
@@ -66,6 +68,7 @@ Route::post('/administradores/update','administradoresController@update');
 Route::post('/administradores/delete','administradoresController@delete');
 
 Route::group(['middleware' => "alumno"],function(){
+	Route::post('/alumnos/contraseña','administradoresController@contraseña');
 Route::get('/notas/alumno','notasController@showalumnos');
 Route::post('/notas/alumno','notasController@showalumnosold');
 Route::get('/calendario/alumnos','calendarioController@indexalumnos');
@@ -130,6 +133,8 @@ Route::post('/alumnos/update','alumnosController@update'); //admin
 
 Route::post('/alumnos/delete','alumnosController@delete');
 
+Route::post('/alumnos/promover','alumnosController@promover');
+
 Route::get('/administrativos','administrativosController@show');
 Route::post('/administrativos/create','administrativosController@create');
 Route::post('/administrativos/update','administrativosController@update');
@@ -146,7 +151,7 @@ Route::post('/administradores/delete','administradoresController@delete');
 Route::get('/anotaciones','anotacionesController@index');
 
 Auth::routes();
-
+Route::get('prueba2','pdfController@horizontal');
 Route::get('/prueba',function(){
 	return view('prueba');
 });

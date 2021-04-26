@@ -4,7 +4,7 @@
 <div class="row">
     <div class="col offset-md-1">
     	<br>
-      <h3 style="color:#2c6aa0">Alumnos {{$curso->grado.' '.$curso->letra}} año {{date('Y')}}</h3>
+      <h3 style="color:#2c6aa0">Alumnos {{$curso->grado.' '.$curso->letra}} año {{$año}}</h3>
     </div>
     <div class="offset-md-1">
     </div>
@@ -29,17 +29,21 @@
 								        	</tr>
 								        </thead>
 								        <tbody>
-								      	@foreach($id_curso as $curso)
+								      	@foreach($id_curso as $cursos)
 								      		<tr>
-								      			<td>{{$curso->nombre_alumnos.' '.$curso->apellido_paterno.' '.$curso->apellido_materno}}</td>
-								      			<td>{{$curso->rut}}</td>
+								      			<td>{{$cursos->nombre_alumnos.' '.$cursos->apellido_paterno.' '.$cursos->apellido_materno}}</td>
+								      			<td>{{$cursos->rut}}</td>
 								      			<td><a href="/alumnos" type="button" class="btn btn-sm btn-info"><i class="fas fa-user"></i></a></td>
 								      		</tr>
 								      	@endforeach
 								      	</tbody>
+								    
 								    </table>
-								    <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#modal_create"><i class="fas fa-plus"></i></a></button>
-								    @include('profesores.modal_create')
+								    @if(date('m')<5)
+								    <label>Promover Curso</label>
+								    <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#modal_promovercurso-{{$curso->id_curso}}"><i class="fas fa-plus"></i></a></button>
+								    @include('alumnos.modal_promovercurso')
+								    @endif
 								</div>
 						</div>
 					</div>

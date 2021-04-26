@@ -30,7 +30,7 @@
   }
       $parciales = DB::table('notas')
                   ->join('ponderaciones','notas.id_ponderacion','ponderaciones.id_ponderacion')
-                  ->select('notas.id_notas','ponderaciones.id_ponderacion','ponderaciones.porcentaje','ponderaciones.descripcion_ponderacion','ponderaciones.cantidad','notas.descripcion','notas.created_at','notas.id_curso','notas.id_asignatura','notas.id_profesor','ponderaciones.id_ponderacion')
+                  ->select('notas.id_notas','ponderaciones.id_ponderacion','ponderaciones.porcentaje','ponderaciones.descripcion_ponderacion','ponderaciones.cantidad','notas.descripcion','notas.id_curso','notas.id_asignatura','notas.id_profesor','ponderaciones.id_ponderacion')
                   ->distinct()
                   ->where('notas.id_curso','=',$cursos)
                   ->where('notas.id_asignatura','=',$asignatura)
@@ -41,7 +41,8 @@
                   ->get();
 
       
-      $ponderaciones = DB::table('ponderaciones')->where('id_dicta',$dicta)->get();
+      $ponderaciones = DB::table('ponderaciones')->where('id_dicta',$dicta)->where('semestre',$semestre)->get();
+      $porcentaje = DB::table('ponderaciones')->where('id_dicta',$dicta)->sum('porcentaje');
       $totalporcentaje =0;
       $listo =0;
       foreach ($ponderaciones as $p) {
@@ -55,11 +56,8 @@
  ?>
 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
-<script>
-  $(document).ready( function () {
-    $('#example1').DataTable();
-} );
-</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+
 
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
 
@@ -150,7 +148,7 @@
               </tr>
               @endforeach
             </tbody>
-             @if($año ==date('Y'))
+             @if($año ==date('Y') && $porcentaje <100)
              <a type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal_createponderaciones-{{$dicta}}"><i class="fas fa-plus-circle" style="color: white;"></i></a>
                       @include('notas.modal_createponderaciones')
               @endif
@@ -171,16 +169,15 @@
               </tr>
             </thead>
               @foreach($ponderaciones as $a)
-              @for($i=0;$i<$a->cantidad;$i++)
               <tr>
                 <td>{{$a->cantidad}}</td>
                 <td>{{$a->descripcion_ponderacion}}</td>
-                <td>{{number_format($a->porcentaje/$a->cantidad,'1','.',',')}}%</td>
+                <td>{{number_format($a->porcentaje,'1','.',',')}}%</td>
+                <td></td>
               </tr>
-              @endfor
               @endforeach
             </tbody>
-             @if($año ==date('Y'))
+             @if($año ==date('Y') && $porcentaje <100)
              <a type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal_createponderaciones-{{$dicta}}"><i class="fas fa-plus-circle" style="color: white;"></i></a>
              @endif
                       @include('notas.modal_createponderaciones')
@@ -235,8 +232,6 @@
                           ->get();
 
                            $faltantes = Notas::where('id_alumno','=',$alumno->id_alumnos)->where('año',$año)->where('semestre',$semestre)->where('id_asignatura',$asignatura)->count();
-                           $promedio = Notas::where('id_alumno','=',$alumno->id_alumnos)->where('año',$año)->where('semestre',$semestre)->where('id_asignatura',$asignatura)->avg('nota');
-
                            $llegaral100 =0;
 
                          ?>
@@ -244,6 +239,7 @@
                             <tr>
                             <td>{{$alumno->nombre_alumnos}}</td>
                             @foreach($parciales as $a)
+                            @if($a->nota!='p')
                             <?php 
                               $porcentajeindividual = $a->porcentaje/$a->cantidad;
                               $nota = ($a->nota * $porcentajeindividual)/100;
@@ -254,6 +250,9 @@
                             <td><span class="pull-right badge bg-blue btn-block">{{$a->nota}}</span></td>
                             @else
                             <td><span class="pull-right badge bg-red btn-block">{{$a->nota}}</span></td>
+                            @endif
+                            @else
+                            <td><span class="pull-right badge bg-yellow btn-block">P</td>
                             @endif
                             @endforeach
                             <?php
@@ -295,6 +294,8 @@
                       <form action="/certificado/notas/curso" method="post" target="_blank">
                         @csrf
                         <input type="text" name="id_curso" value="{{$cursos}}" hidden>
+                        <input type="text" name="año" value="{{$año}}" hidden=>
+                        <input type="text" name="semestre" value="{{$semestre}}" hidden=>
                         <input type="text" name="id_asignatura" value="{{$asignatura}}" hidden>
                         <button type="submit" class="btn btn-info btn-sm"><i class="fas fa-file" style="color: white;"></i></button>
                       </form>

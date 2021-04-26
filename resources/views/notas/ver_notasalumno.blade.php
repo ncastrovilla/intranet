@@ -140,8 +140,10 @@
             <a type="button" class="small-box-footer" data-toggle="modal" data-target="#modal_verasistencia_alumnos-{{$a->id_alumnos}}-{{$a->id_asignatura}}">Asistencia <i class="fas fa-arrow-circle-right"></i></a>
             <form action="/material/alumnos" method="post">
               @csrf
-              <input type="text" name="id_curso" value="{{$curso->id_curso}}" hidden>
-              <input type="text" name="id_asignatura" value="{{$a->id_asignatura}}" hidden>
+              <input type="text" name="id_curso" value="{{$curso->id_curso}}"  hidden="">
+              <input type="text" name="id_asignatura" value="{{$a->id_asignatura}}"  hidden="">
+              <input type="text" name="año" value="{{$año}}" hidden="">
+              <input type="text" name="semestre" value="{{$semestre}}" hidden="">
               <button type="submit" class="btn btn-sm" style="color: white;">Documentos<i class="fas fa-file"></i></button>
             </form>
           </div>

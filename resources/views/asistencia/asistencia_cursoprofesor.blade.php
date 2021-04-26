@@ -1,6 +1,7 @@
 @extends('layouts.plantilla')
 @section('title', 'Notas Profesor')
 @section('contenido')
+
     <div class="page-header">
       @foreach($nombre_curso as $curso)
       <h3 style="color:#2c6aa0">Asistencia {{$curso->grado.' '.$curso->letra}}</h3>
@@ -34,7 +35,8 @@
                       $contador=1;
                       ?>
                       @foreach($asistencias as $a)
-                      <?php ++$contador; ?>
+                      <?php ++$contador; 
+                      ?>
                         <tr>
                           <td>{{date("d-m-Y", strtotime($a->fecha_asistencia))}}</td>
                           <td>
@@ -44,10 +46,10 @@
                           @if($año == date('Y'))
                           <td><a type="button" class="btn btn-info btn-sm btn-block" data-toggle="modal" data-target="#modal_modificarasistencia-{{$a->id_asistencia}}-{{$contador}}"><i class="fas fa-pen-square" style="color: white;"></i></a>
                         @include('asistencia.modal_modificarasistencia')
+                        <?php $contador++; ?>
                         @endif
                           </td>
                         </tr>
-                        <?php ++$contador; ?>
                         @endforeach
                         </tbody>
                     </table>
@@ -64,6 +66,7 @@
     </div>
   </div>
 </br>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 <script>
   $(function () {
     $("#profesor").DataTable({

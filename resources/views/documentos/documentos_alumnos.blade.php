@@ -35,7 +35,6 @@
             <thead>
                 <th width="20%"> Título</th>
                 <th width="25%"> Descripción</th>
-                <th width="20%"> Tipo</th>
                 <th width="10%"> Descargar</th>
             </thead>
             <tbody>
@@ -43,7 +42,6 @@
                 <tr>
                     <td>{{$documento->titulo_documento}}</td>
                     <td>{{$documento->descripcion_documento}}</td>
-                    <td>{{$documento->tipo_documento}}</td>
                     <td>
                         <div class="btn-group">
                             <form action="/material/alumnos/download" method="post">
@@ -66,7 +64,6 @@
                 <tr>
                     <th width="20%"> Título</th>
                     <th width="25%"> Descripción</th>
-                    <th width="20%">Tipo</th>
                     <th width="10%"> Descargar</th>
                 </tr>
             </thead>
@@ -75,7 +72,36 @@
                 <tr>
                     <td>{{$documento->titulo_documento}}</td>
                     <td>{{$documento->descripcion_documento}}</td>
-                    <td>{{$documento->tipo_documento}}</td>
+                    <td>
+                        <div class="btn-group">
+                            <form action="/material/alumnos/download" method="post">
+                                @csrf
+                                <input type="text" name="id_profesor" value="{{$profesor->id_profesor}}" hidden>
+                                <input type="text" name="id_file" value="{{$documento->id_documentos}}" hidden>
+                                <button class="btn btn-sm" type="submit"><i class="fa fa-download"></i></button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+    <div class="bs-callout bs-callout-info">
+        <label>Otros</label>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th width="20%"> Título</th>
+                    <th width="25%"> Descripción</th>
+                    <th width="10%"> Descargar</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($otros as $documento)
+                <tr>
+                    <td>{{$documento->titulo_documento}}</td>
+                    <td>{{$documento->descripcion_documento}}</td>
                     <td>
                         <div class="btn-group">
                             <form action="/material/alumnos/download" method="post">

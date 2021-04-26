@@ -24,13 +24,18 @@ class CursoController extends Controller
 	public function alumnoscurso(Request $request){
 		$request->flash();
 		$curso = Curso::where('id_curso',$request->input('id_curso'))->first();
+		if (date('m')<3) {
+			$año = date('Y')-1;
+		}else{
+			$año = date('Y');
+		}
 		$id_curso = DB::table('alumnos')
 					->join('pertenece','alumnos.id_alumnos','pertenece.id_alumno')
 					->where('pertenece.id_curso',$request->input('id_curso'))
-					->where('pertenece.año',date('Y'))
+					->where('pertenece.año',$año)
 					->get();
 
-		return view('curso.curso_alumnos',compact('id_curso','curso'));
+		return view('curso.curso_alumnos',compact('id_curso','curso','año'));
 
 	}
 	public function asignaturascurso(Request $request){

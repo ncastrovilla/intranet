@@ -87,7 +87,6 @@
                         <th scope="col">Notas</th>
                         <th scope="col">Promedios Rojo</th>
                         <th scope="col">Ver notas</th>
-                        <th scope="col">Asistencia</th>
                       </tr>
                       @foreach($asignaturas as $asignatura)
                         <tr>
@@ -125,12 +124,12 @@
                           <td> <a type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_notaspjefe-{{$asignatura->id_curso}}-{{$asignatura->id_asignatura}}">Notas <i class="fas fa-arrow-circle-right"></i></a>
                           	@include('profesores.modal_notaspjefe')
                           </td>
-                          <td><a type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#modal_asistenciapjefe-{{$asignatura->id_curso}}-{{$asignatura->id_asignatura}}"><i class="fas fa-calendar"></i></a>
-                            @include('asistencia.modal_asistenciapjefe')
-                          </td>
                         </tr>
                         @endforeach
                     </table>
+                    <label>Asistencia Curso</label>
+                    <a type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#modal_asistenciapjefe-{{$asignatura->id_curso}}-{{$semestre}}-{{$año}}"><i class="fas fa-calendar"></i></a>
+                            @include('asistencia.modal_asistenciapjefe')
                   </div>
                 </div>
             </div>

@@ -31,18 +31,17 @@ class AdministradoresController extends Controller
 	public function contraseña(Request $request){
 			$administrador = User::where('rut',auth()->user()->rut)->first();
 			$antigua1 = $request->input('contraseñaant');
-			$antigua = Hash::make($request->input('contraseñaant'));
 			$nueva = $request->input('contranueva');
 			$repite = $request->input('contranuevaagain');
 
 
 			if (Hash::check($antigua1, $administrador->password)) {
-				echo $administrador->password;
+				$administrador->password = Hash::make($nueva);
+				$administrador->update();
+				return Redirect('/')->withSuccess('Contraseña actualizada');
     		}else{
-    			echo $antigua1;
+    			return Redirect('/')->withErrors(['La contraseña antigua es incorrecta']);
     		}
-			/*
-			*/
 	}
 	public function show(){
 		$administradores = Administradores::all();

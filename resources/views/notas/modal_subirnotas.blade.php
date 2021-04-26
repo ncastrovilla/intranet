@@ -36,8 +36,10 @@
                             ->where('id_ponderacion',$p->id_ponderacion)
                             ->distinct('descripcion')
                             ->count();
+
+                            echo $cantidad;
                             ?>
-                        @if($cantidad < $p->cantidad && $cantidad==0)
+                        @if($cantidad < $p->cantidad || $cantidad==0)
                         <option value="{{$p->id_ponderacion}}">{{$p->descripcion_ponderacion}}</option>
                         @endif
                         @endforeach
@@ -62,7 +64,7 @@
                       @foreach($alumnos as $b)
                       <div class="form-group">
                         <label for="exampleInputEmail1">{{$b->nombre_alumnos}}</label>
-                        <input size="1" name="{{$b->id_alumnos}}" type="text" placeholder="Nota">
+                        <input size="2" name="{{$b->id_alumnos}}" type="text" placeholder="Nota" pattern="[1-7] | ">
                       </div>
                       @endforeach
                   </div>

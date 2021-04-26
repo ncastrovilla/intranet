@@ -6,6 +6,23 @@
 setlocale(LC_TIME, 'es_ES.UTF-8');
 
  ?><br>
+ @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                              <li>{{ $error }}</li>
+                            @endforeach
+                         </ul>
+                    </div>
+                  @endif
+                   @if (session('success'))
+                    <div class="alert alert-success">
+                        <ul>
+                              <li>{{ session('success') }}</li>
+                            
+                         </ul>
+                    </div>
+                  @endif
     <div class="page-header">
       <h3 style="color:#2c6aa0">Noticias</h3>
     </div>

@@ -15,23 +15,8 @@
 #menu input:checked ~ ul{display:block;}
 </style>
 <ul id="menu">
-   <li><input type="checkbox" name="list" id="nivel1-1"><label for="nivel1-1">Nivel 1</label>
+   <li><input type="checkbox" name="list" id="nivel1-1"><label for="nivel1-1">Año</label>
    <ul class="interior">
-         <li><input type="checkbox" name="list" id="nivel2-1"><label for="nivel2-1">Nivel 2</label>
-           <ul class="interior">
-             <li><a href="#r">Nivel 3</a></li>
-             <li><a href="#r">Nivel 3</a></li>
-            </ul>
-         </li>
-         <li><input type="checkbox" name="list" id="nivel2-2"><label for="nivel2-2">Nivel 2</label>
-           <ul class="interior">
-             <li><a href="#r">Nivel 3</a></li>
-             <li><a href="#r">Nivel 3</a></li>
-             <li><a href="#r">Nivel 3</a></li>
-             <li><a href="#r">Nivel 3</a></li>
-            </ul>
-         </li>
-         <li><a href="#r">Nivel 2</a></li>
       </ul>
    </li>
    <li><input type="checkbox" name="list" id="nivel1-2" checked=""><label for="nivel1-2">Nivel 1</label>

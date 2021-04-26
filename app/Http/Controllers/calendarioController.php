@@ -61,28 +61,28 @@ class CalendarioController extends Controller
 				->join('pertenece','pertenece.id_curso','=','calendario.id_curso')
 				->join('asignatura','asignatura.id_asignatura','=','calendario.id_asignatura')
 				->join('profesor','profesor.id_profesor','=','calendario.id_profesor')
-				->select('asignatura.nombre_asignatura','calendario.fecha_evaluacion','calendario.descripcion_evaluacion','profesor.nombres_profesor','profesor.apellido_paterno')
+				->select('asignatura.nombre_asignatura','calendario.fecha_evaluacion','calendario.descripcion_evaluacion','profesor.nombres_profesor','profesor.apellido_paterno','pertenece.id_curso','calendario.id_calendario','asignatura.id_asignatura')
 				->where('pertenece.id_alumno','=',$alumno->id_alumnos)
 				->where('pertenece.año','=',date('Y'))
 				->wheredate('calendario.fecha_evaluacion','>=',$date)
 				->orderBY('calendario.fecha_evaluacion')
 				->get();
-
+		echo $fechas;
 		foreach ($fechas as $f) {
-			$curso = Curso::where('id_curso',$agenda->id_curso)->first();
-			$asignatura = Asignatura::where('id_asignatura',$agenda->id_asignatura)->first();
+			$curso = Curso::where('id_curso',$f->id_curso)->first();
+			$asignatura = Asignatura::where('id_asignatura',$f->id_asignatura)->first();
 			$nueva_agenda []= [
-				"id" => $agenda->id_calendario,
-				"title" => $agenda->descripcion_evaluacion,
-				"start" => $agenda->fecha_evaluacion,
-				"end" => $agenda->fecha_evaluacion,
+				"id" => $f->id_calendario,
+				"title" => $f->descripcion_evaluacion,
+				"start" => $f->fecha_evaluacion,
+				"end" => $f->fecha_evaluacion,
 				"backgroundColor" => "#1f7904",
 				"textColor" => "#fff",
 				"extendedProps"=>[
-					"id_curso" => $agenda->id_curso,
+					"id_curso" => $f->id_curso,
 					"curso" => $curso->grado.' '.$curso->letra,
 					"asignatura" => $asignatura->nombre_asignatura,
-					"id_asignatura" => $agenda->id_asignatura
+					"id_asignatura" => $f->id_asignatura
 				]	
 			];
 		}

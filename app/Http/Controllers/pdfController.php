@@ -32,6 +32,7 @@ class PDFController extends Controller{
 	public function indexnotasa(){
 		$alumno = Alumnos::all()->where('rut',auth()->user()->rut);
 		return view('certificados.sacar_certificadonotas_alumno',compact('alumno'));
+		
 	}
 
 	public function notasalumno(Request $request){
@@ -50,12 +51,41 @@ class PDFController extends Controller{
 			
 	}
 
+	public function pjefe(Request $request){
+		$año = date('Y');
+		$alumno = Alumnos::where('id_alumnos',$request->input('id_alumnos'))->first();
+		$pertenece = Pertenece::where('id_alumno',$alumno->id_alumnos)->where('año',date('Y'))->first();
+		$curso = Curso::where('id_curso',$pertenece->id_curso)->first();
+		$asignatura = DB::table('cuenta')
+					  ->where('id_curso','=',$pertenece->id_curso)
+					  ->get();
+		$nasign = DB::table('cuenta')
+					  ->where('id_curso','=',$pertenece->id_curso)
+					  ->count();
+
+		$pdf = PDF::loadview('certificados.certificado_notaalumnopjefe',compact('alumno','curso','asignatura','año','nasign'));
+		$pdf->setPaper('A3', 'landscape');
+		for ($i=0; $i <2 ; $i++) {
+			
+		return $pdf->stream('Notas.pdf');
+		}
+			
+	}
+
 	public function notasasignaturas(Request $request){
 		$asignatura = $request->input('id_asignatura');
 		$curso = $request->input('id_curso');
+		$año = $request->input('año');
+		$semestre = $request->input('semestre');
 		
-		$pdf = PDF::loadview('certificados.certificado_notascurso',compact('asignatura','curso'));
+		$pdf = PDF::loadview('certificados.certificado_notascurso',compact('asignatura','curso','año','semestre'));
 		return $pdf->stream();
+	}
+
+	public function horizontal(){
+		$pdf = PDF::loadView('asistencia_prueba');
+    	$pdf->setPaper('A4', 'landscape');
+   		return $pdf->stream();
 	}
 }
 

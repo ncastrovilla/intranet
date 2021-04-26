@@ -30,7 +30,7 @@
                           <div class="form-group">
                               <select name="profesor" class="form-control">
                                 @foreach($profesores as $asignatura)
-                                <option value="{{$asignatura->id_profesor}}">{{$asignatura->nombres_profesor.' '.$profesor->apellido_paterno.' '.$profesor->apellido_materno}}</option>
+                                <option value="{{$asignatura->id_profesor}}">{{$asignatura->nombres_profesor.' '.$asignatura->apellido_paterno.' '.$asignatura->apellido_materno}}</option>
                                 @endforeach
                               </select>
                           </div>

@@ -1,4 +1,4 @@
-<div class="modal fade bd-example-modal-lg" data-backdrop="static" id="modal_subirasistencia-{{$id_curso}}-{{$asignatura}}-{{$profesor}}" role="dialog">
+<div class="modal fade bd-example-modal-lg" data-backdrop="static" id="modal_promovercurso-{{$curso->id_curso}}" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
         <style type="text/css">
@@ -26,7 +26,10 @@
     transition: .2s;
 }
 <?php 
-  for ($i=0; $i < 10000; $i++) { 
+
+use App\Curso;
+
+  for ($i=0; $i < 60; $i++) { 
   
 ?>
 #switch{{$i}}:checked + .lbl::after{
@@ -38,44 +41,40 @@
 #switch{{$i}}{
     display: none;
 }
-<?php }
-
-
-if ($semestre == 1) {
-  $min = date('Y-03-01');
-}else{
-  $min = date('Y-08-01');
-}
-?>
+<?php }?>
 </style>
+<?php 
+
+   $cursos = Curso::where('id_curso','!=',$curso->id_curso)->where('grado','!=',$curso->grado)->get();
+ ?>
         <div class="modal-content">
             <div class="modal-header">
               <h4 class="modal-title" align="center">
-                    Subir Asistencia
+                    Promover curso
                 </h4>
                 <button type="button" class="close" data-dismiss="modal"  
                 aria-label="Close">
                      <span aria-hidden="true"><i class="fa fa-times" aria-hidden="true"></i></span>
                 </button>
             </div>
-            <form action="/asistencia/create" method="POST">
+            <form action="/alumnos/promover" method="POST">
               @csrf
               <div class="modal-body">
                   <div class="box-body">
-                    <input type="text" name="id_curso"  value="{{$id_curso}}" hidden>
-                    <input type="text" name="id_asignatura"  value="{{$asignatura}}" hidden>
-                    <input type="text" name="id_profesor"  value="{{$profesor}}" hidden>
-                          <div class="form-group">
-                              <label for="exampleInputEmail1">
-                                  Fecha Clase
-                              </label>
-                              <input class="form-control" name="fecha" placeholder="nombres" type="date" min="{{$min}}" max="{{date('Y-m-d')}}" required>
-                              </input>
+                    <input type="text" name="id_curso"  value="{{$curso->id_curso}}" hidden>
+                    <div class="form-group">
+                              <select name="curso" class="form-control">
+                                @foreach($cursos as $c)
+                                
+                                  <option value="{{$c->id_curso}}">{{$c->grado.' '.$c->letra}}</option>
+                                
+                                @endforeach
+                              </select>
                           </div>
                           <?php
                               $alumnos = DB::table('alumnos')
                                         ->join('pertenece','pertenece.id_alumno','=','alumnos.id_alumnos')
-                                        ->where('pertenece.id_curso' ,'=',$id_curso)
+                                        ->where('pertenece.id_curso' ,'=',$curso->id_curso)
                                         ->where('pertenece.año',date('Y'))
                                         ->get();
                            ?>

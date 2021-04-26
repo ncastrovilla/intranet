@@ -191,22 +191,12 @@ class FileController extends Controller
 		$id_asignatura = $request->input('id_asignatura');
 		$cuenta = Cuenta::where('id_curso',$id_curso)->where('id_asignatura',$id_asignatura)->first();
 
-		$dicta = Dicta::where('id_cuenta',$cuenta->id_cuenta)->where('año',date('Y'))->first();	
+		$año = $request->input('año');
+		$semestre = $request->input('semestre');
+		$dicta = Dicta::where('id_cuenta',$cuenta->id_cuenta)->where('año',$año)->first();	
 
 		$profesor = Profesor::where('id_profesor',$dicta->id_profesor)->first();
 
-		if(date('m')<3){
-      $año = date('Y')-1;
-      $semestre = 2;
-    }else{
-      if(date('m')<=8){
-        $año = date('Y');
-        $semestre = 1;
-      }else{    
-        $año = date('Y');
-        $semestre = 2;
-      }
-    }
 
 
 		$documentos = DB::table('documentos')
@@ -225,7 +215,17 @@ class FileController extends Controller
 					 ->where('año',$año)
 					 ->get();
 
-		return view('documentos.documentos_alumnos',compact('documentos','evaluacion','id_curso','id_asignatura','profesor'));
+		$otros = DB::table('documentos')
+					 ->where('id_curso',$id_curso)
+					 ->where('id_asignatura',$id_asignatura)
+					 ->where('tipo_documento','Otro')
+					 ->where('semestre',$semestre)
+					 ->where('año',$año)
+					 ->get();
+
+
+
+		return view('documentos.documentos_alumnos',compact('documentos','evaluacion','id_curso','id_asignatura','profesor','otros'));
 		
 	}
 

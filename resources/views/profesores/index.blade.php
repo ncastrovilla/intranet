@@ -55,11 +55,9 @@ function myFunction() {
 								          		<th scope="col">Apellido Materno</th>
 								          		<th scope="col">Rut</th>
 								          		<th scope="col">Correo</th>
-								          		<th scope="col">Asignaturas</th>
+								          		<th scope="col">Asignaturas {{date('Y')}}</th>
 								          		<th scope="col">Modificar</th>
-								          		<th scope="col">Eliminar</th>
-								          		<th>Ver asignaturas</th>
-								          		<th scope="col">Asignar asigatura</th>
+								          		<th>Asignaturas dictadas</th>
 								        	</tr>
 								        </thead>
 								        <tbody>
@@ -72,6 +70,8 @@ function myFunction() {
                                        ->where('dicta.id_profesor','=',$p->id_profesor)
                                        ->where('dicta.año',date('Y'))
                                        ->get();
+                                       $i=1;
+                                       $e=2;
                                        ?>
 								      		<tr>
 								      			<td>{{$p->nombres_profesor}}</td>
@@ -84,13 +84,8 @@ function myFunction() {
 								      				@endforeach
 								      			</td>
 								      			<td><a type="button" class="btn btn-primary btn-sm btn-block " data-toggle="modal" data-target="#modal_edit-{{$p->id_profesor}}"><i class="fas fa-pen"></i></a></td>
-								      			<td><a type="button" class="btn btn-danger btn-sm btn-block " data-toggle="modal" data-target="#modal_delete-{{$p->id_profesor}}"><i class="fas fa-trash"></i></a></td>
-								      			<td><a type="button" class="btn btn-danger btn-sm btn-block " data-toggle="modal" data-target="#modal_verasignaturas-{{$p->id_profesor}}"><i class="fas fa-trash"></i></a>
+								      			<td><a type="button" class="btn btn-info btn-sm btn-block " data-toggle="modal" data-target="#modal_verasignaturas-{{$p->id_profesor}}"><i class="fas fa-info-circle"></i></a>
 								      		@include('profesores.modal_verasignaturas')
-								      			</td>
-								      			<td><a type="button" class="btn btn-info btn-sm btn-block " data-toggle="modal" data-target="#modal_asignarasignatura-{{$p->id_profesor}}"><i class="fas fa-book"></i></a>
-
-								      		@include('profesores.modal_asignarasignatura')
 								      			</td>
 								      		</tr>
 								      		@include('profesores.modal_edit')

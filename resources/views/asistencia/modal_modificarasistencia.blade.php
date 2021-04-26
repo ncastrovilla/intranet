@@ -1,4 +1,5 @@
 <div class="modal fade bd-example-modal-lg" data-backdrop="static" id="modal_modificarasistencia-{{$a->id_asistencia}}-{{$contador}}" role="dialog">
+  <?php $contador = $contador+1; ?>
     <div class="modal-dialog">
         <!-- Modal content-->
                 <style type="text/css">
@@ -26,7 +27,7 @@
     transition: .2s;
 }
 <?php 
-  for ($i=0; $i < 60; $i++) { 
+  for ($i=1; $i < 100; $i++) { 
   
 ?>
 #switch{{$contador + $i}}:checked + .lbl{{$contador}}::after{
@@ -79,10 +80,12 @@
                                   {{$alumno->nombre_alumnos.' '.$alumno->apellido_paterno}}
                               </label>
                               @if($alumno->presente_asistencia=='si' or $alumno->presente_asistencia=='Si')
-                              <input type="checkbox" id="switch{{$contador + $alumno->id_alumnos}}" name="{{$alumno->id_alumnos}}" checked>
+                              <input type="text" name="prueba" value="{{$contador + $alumno->id_alumnos}}">
+                              <input type="checkbox" id="switch{{$contador + $alumno->id_alumnos}}" name="{{$contador + $alumno->id_alumnos}}" checked>
                               <label for="switch{{$contador + $alumno->id_alumnos}}" class="lbl{{$contador}}"></label>
                               @else
-                              <input type="checkbox" id="switch{{$contador + $alumno->id_alumnos}}" name="{{$alumno->id_alumnos}}">
+                              <input type="text" name="prueba" value="{{$contador + $alumno->id_alumnos}}">
+                              <input type="checkbox" id="switch{{$contador + $alumno->id_alumnos}}" name="{{$contador + $alumno->id_alumnos}}">
                               <label for="switch{{$contador + $alumno->id_alumnos}}" class="lbl{{$contador}}"></label>
                               @endif
                               </input>
